@@ -1,0 +1,22 @@
+@use 'styles/variables/colors';
+
+.Container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    width: 100%;
+
+    .Balance {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: #{colors.$grey-lighter-2};
+        font-size: 0.75rem;
+
+        b {
+            font-size: 1.125rem;
+            color: #{colors.$text-primary};
+        }
+    }
+}
