@@ -1,0 +1,30 @@
+//@use 'styles/variables/colors';
+
+.Container {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    width: 100%;
+
+    .Balance {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        color: grey;
+        font-size: 0.75rem;
+
+        b {
+            font-size: 1.125rem;
+            color: grey;
+        }
+    }
+
+    // @TODO: proper error styling
+    .Error {
+        width: 100%;
+        padding: 1rem;
+        background: rgba(255, 0, 0, 0.2);
+        border-radius: 0.5rem;
+    }
+}
