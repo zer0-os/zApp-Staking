@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { ZFiSdkContext } from "../providers/ZFiSdkProvider";
+import { useContext } from 'react';
+import { ZFiSdkContext } from '../providers/ZFiSdkProvider';
 
 /**
  * Wraps useContext in a more specific wrapper.
@@ -7,5 +7,5 @@ import { ZFiSdkContext } from "../providers/ZFiSdkProvider";
  * @returns context from zFi SDK provider
  */
 export function useZfiSdk() {
-  return useContext(ZFiSdkContext);
+	return useContext(ZFiSdkContext);
 }

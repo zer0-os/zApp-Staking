@@ -1,7 +1,7 @@
-import DepositsTable from "../features/my-deposits/DepositsTable";
+import DepositsTable from '../features/my-deposits/DepositsTable';
 
 const Deposits = () => {
-  return <DepositsTable />;
+	return <DepositsTable />;
 };
 
 export default Deposits;

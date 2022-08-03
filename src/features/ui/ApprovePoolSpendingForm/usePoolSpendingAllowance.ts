@@ -1,6 +1,6 @@
-import { useQuery } from "react-query";
-import { BigNumber, providers } from "ethers";
-import { PoolInstance } from "@zero-tech/zfi-sdk";
+import { useQuery } from 'react-query';
+import { BigNumber, providers } from 'ethers';
+import { PoolInstance } from '@zero-tech/zfi-sdk';
 
 /**
  * Checks if a given user (provider) has approved
@@ -10,15 +10,15 @@ import { PoolInstance } from "@zero-tech/zfi-sdk";
  * @param poolInstance pool to check approval for
  */
 const usePoolSpendingAllowance = (
-  provider: providers.Web3Provider,
-  amountToApprove: number,
-  poolInstance: PoolInstance
+	provider: providers.Web3Provider,
+	amountToApprove: number,
+	poolInstance: PoolInstance,
 ) => {
-  // @TODO: include account number in the query ID
-  return useQuery(`check-approval-${poolInstance.address}`, async () => {
-    const allowance = await poolInstance.allowance(provider.getSigner());
-    return allowance.lt(BigNumber.from(amountToApprove));
-  });
+	// @TODO: include account number in the query ID
+	return useQuery(`check-approval-${poolInstance.address}`, async () => {
+		const allowance = await poolInstance.allowance(provider.getSigner());
+		return allowance.lt(BigNumber.from(amountToApprove));
+	});
 };
 
 export default usePoolSpendingAllowance;

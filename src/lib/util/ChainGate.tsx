@@ -1,24 +1,26 @@
-import { FC, ReactNode } from "react";
-import { Network } from "../constants/networks";
+import { FC, ReactNode } from 'react';
+import { Network } from '../constants/networks';
+import useWeb3 from '../hooks/useWeb3';
 
 interface ChainGateProps {
-  chainId: number;
-  children: ReactNode;
+	children: ReactNode;
 }
 
-const ChainGate: FC<ChainGateProps> = ({ chainId, children }) => {
-  const isSupportedNetwork = Object.values(Network).includes(chainId);
+const ChainGate: FC<ChainGateProps> = ({ children }) => {
+	const { chainId } = useWeb3();
 
-  if (!isSupportedNetwork) {
-    return (
-      <>
-        zFi dApp is not supported on this chain! Please switch to mainnet or
-        Rinkeby
-      </>
-    );
-  }
+	const isSupportedNetwork = Object.values(Network).includes(chainId);
 
-  return <>{children}</>;
+	if (!isSupportedNetwork) {
+		return (
+			<>
+				zFi dApp is not supported on this chain! Please switch to mainnet or
+				Rinkeby
+			</>
+		);
+	}
+
+	return <>{children}</>;
 };
 
 export default ChainGate;
