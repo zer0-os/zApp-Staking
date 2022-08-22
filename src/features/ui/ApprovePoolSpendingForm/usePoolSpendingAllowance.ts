@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 import { BigNumber, providers } from 'ethers';
 import { PoolInstance } from '@zero-tech/zfi-sdk';
+import { parseEther } from 'ethers/lib/utils';
 
 /**
  * Checks if a given user (provider) has approved
@@ -15,10 +16,14 @@ const usePoolSpendingAllowance = (
 	poolInstance: PoolInstance,
 ) => {
 	// @TODO: include account number in the query ID
-	return useQuery(`check-approval-${poolInstance.address}`, async () => {
-		const allowance = await poolInstance.allowance(provider.getSigner());
-		return allowance.lt(BigNumber.from(amountToApprove));
-	});
+	return useQuery(
+		`check-approval-${poolInstance.address}`,
+		async () => {
+			const allowance = await poolInstance.allowance(provider.getSigner());
+			return allowance.lt(amountToApprove);
+		},
+		{ refetchOnWindowFocus: false },
+	);
 };
 
 export default usePoolSpendingAllowance;

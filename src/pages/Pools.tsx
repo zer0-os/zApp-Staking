@@ -3,7 +3,7 @@ import { PoolTableData } from '../features/view-pools/Pools.helpers';
 import { POOL_METADATA } from '../lib/constants/pools';
 import { useZfiSdk } from '../lib/hooks/useZfiSdk';
 
-import Card from 'zero-ui/src/components/Card';
+import Card from '@zero-tech/zui/components/Card';
 
 import styles from './Pools.module.scss';
 
@@ -28,7 +28,6 @@ const Pools = () => {
 	return (
 		<>
 			<div className={styles.Stats}>
-				<Card title={'Total Amount Staked'} value={{ isLoading: true }} />
 				<Card title={'# Of Pools'} value={data.length} />
 			</div>
 			<PoolTable data={data} />

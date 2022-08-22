@@ -1,13 +1,22 @@
 import ViewPool, { ViewPoolProps } from '../ViewPool/ViewPool';
 import { FC, useState } from 'react';
 import styles from './FormInputs.module.scss';
-import Button from 'zero-ui/src/components/Button';
-import Skeleton from 'zero-ui/src/components/Skeleton';
+import Button from '@zero-tech/zui/components/Button';
+import Skeleton from '@zero-tech/zui/components/Skeleton';
+import NumberInput from '@zero-tech/zui/components/Input/NumberInput';
+import { BigNumber, ethers } from 'ethers';
+import { formatWei } from '../../../lib/util/format';
+import { formatEther } from 'ethers/lib/utils';
 
 export interface FormInputsBalance {
 	label: string;
-	value?: string;
+	value?: BigNumber;
 	isLoading: boolean;
+}
+
+interface Message {
+	text: string;
+	isError?: boolean;
 }
 
 interface FormInputsProps extends ViewPoolProps {
@@ -15,7 +24,7 @@ interface FormInputsProps extends ViewPoolProps {
 	balances?: FormInputsBalance[];
 	onSubmit: (amount: number) => void;
 	isTransactionPending?: boolean;
-	error?: string;
+	message?: Message;
 }
 
 const FormInputs: FC<FormInputsProps> = ({
@@ -25,10 +34,10 @@ const FormInputs: FC<FormInputsProps> = ({
 	balances,
 	onSubmit: onSubmitProps,
 	isTransactionPending,
-	error,
+	message,
 }) => {
 	const [amountInputValue, setAmountInputValue] = useState<
-		number | undefined
+		string | undefined
 	>();
 
 	const buttonLabel = amountInputValue
@@ -43,20 +52,35 @@ const FormInputs: FC<FormInputsProps> = ({
 		}
 	};
 
-	console.log('button:', buttonLabel);
+	const setMax = () => {
+		if (balances[0]?.value) {
+			setAmountInputValue(formatEther(balances[0].value));
+		}
+	};
 
 	return (
 		<div className={styles.Container}>
-			{error && <span className={styles.Error}>{error}</span>}
+			{message && <span className={styles.Error}>{message.text}</span>}
 			<ViewPool poolMetadata={poolMetadata} poolInstance={poolInstance} />
-			{action !== 'claim' && !isTransactionPending && (
-				<input
-					onChange={(evt: any) => setAmountInputValue(Number(evt.target.value))}
-					onKeyPress={(event) => {
-						if (!/[0-9]/.test(event.key)) {
-							event.preventDefault();
-						}
+			{action !== 'claim' && (
+				<NumberInput
+					value={amountInputValue.toLocaleString()}
+					onChange={(val: string) => {
+						console.log('change to ', val);
+						setAmountInputValue(val);
 					}}
+					isDisabled={isTransactionPending}
+					label={'Amount'}
+					placeholder={'Amount'}
+					endEnhancer={
+						<Button
+							isDisabled={!balances[0]?.value || isTransactionPending}
+							onPress={setMax}
+						>
+							MAX
+						</Button>
+					}
+					isBigNumber={true}
 				/>
 			)}
 			<Button
@@ -70,7 +94,13 @@ const FormInputs: FC<FormInputsProps> = ({
 				<div className={styles.Balance} key={b.label}>
 					<span>{b.label}</span>
 					<b>
-						{b.isLoading ? <Skeleton width={150} /> : b.value ? b.value : 'ERR'}
+						{b.isLoading ? (
+							<Skeleton width={150} />
+						) : b.value ? (
+							formatWei(b.value)
+						) : (
+							'ERR'
+						)}
 					</b>
 				</div>
 			))}

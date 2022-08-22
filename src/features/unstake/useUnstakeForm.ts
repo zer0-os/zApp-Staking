@@ -4,26 +4,23 @@
 
 import { useState } from 'react';
 import useWeb3 from '../../lib/hooks/useWeb3';
-import { PoolInstance } from '@zero-tech/zfi-sdk';
+import { Deposit, PoolInstance } from '@zero-tech/zfi-sdk';
 import { BigNumber } from 'ethers';
 
-export enum StakeFormStep {
-	CONNECT_WALLET,
+export enum UnstakeFormStep {
 	AMOUNT,
-	APPROVE,
+	CONFIRM,
 	WAITING_FOR_WALLET,
 	PROCESSING,
 	COMPLETE,
 }
 
-const useStakeForm = (poolInstance: PoolInstance) => {
-	const { provider, account } = useWeb3();
+const useUnstakeForm = (poolInstance: PoolInstance) => {
+	const { provider } = useWeb3();
 
 	const [amount, setAmount] = useState<number | undefined>();
 	const [error, setError] = useState<string | undefined>();
-	const [step, setStep] = useState<StakeFormStep>(
-		!account || !provider ? StakeFormStep.CONNECT_WALLET : StakeFormStep.AMOUNT,
-	);
+	const [step, setStep] = useState<UnstakeFormStep>(UnstakeFormStep.AMOUNT);
 
 	/**
 	 * Sets the stake amount and moves onto the approval step.
@@ -37,31 +34,31 @@ const useStakeForm = (poolInstance: PoolInstance) => {
 		 */
 		if (!isNaN(amount)) {
 			setAmount(amount);
-			setStep(StakeFormStep.APPROVE);
+			setStep(UnstakeFormStep.CONFIRM);
 		}
 	};
 
 	/**
 	 * Triggers the stake transaction with the amount stored in state
 	 */
-	const onStartTransaction = () => {
+	const onStartTransaction = (depositId: Deposit['depositId']) => {
 		const transaction = async () => {
 			try {
 				if (amount === undefined || amount === 0) {
 					// @TODO better error
 					throw new Error('Invalid amount - ' + amount);
 				}
-				setStep(StakeFormStep.WAITING_FOR_WALLET);
-				const tx = await poolInstance.stake(
+				setStep(UnstakeFormStep.WAITING_FOR_WALLET);
+				const tx = await poolInstance.unstake(
+					depositId,
 					amount.toString(),
-					BigNumber.from(0),
-					provider!.getSigner(),
+					provider.getSigner(),
 				);
-				setStep(StakeFormStep.PROCESSING);
+				setStep(UnstakeFormStep.PROCESSING);
 				await tx.wait();
-				setStep(StakeFormStep.COMPLETE);
+				setStep(UnstakeFormStep.COMPLETE);
 			} catch (e: any) {
-				setStep(StakeFormStep.AMOUNT);
+				setStep(UnstakeFormStep.AMOUNT);
 				setError(e.message ?? 'Transaction failed - please try again');
 			}
 		};
@@ -77,4 +74,4 @@ const useStakeForm = (poolInstance: PoolInstance) => {
 	};
 };
 
-export default useStakeForm;
+export default useUnstakeForm;

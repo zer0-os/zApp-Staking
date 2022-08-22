@@ -1,8 +1,10 @@
 .Cards {
 	display: flex;
+	align-items: flex-start;
 	gap: 1rem;
 
 	> * {
 		flex: 1;
+		width: 0;
 	}
 }

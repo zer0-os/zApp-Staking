@@ -76,7 +76,7 @@ const ApprovePoolSpendingForm: FC<ApprovePoolSpendingFormProps> = ({
 		return (
 			<>
 				<Segments.Header isApproving={false} />
-				<Segments.Checking />;
+				<Segments.Checking />
 			</>
 		);
 	}

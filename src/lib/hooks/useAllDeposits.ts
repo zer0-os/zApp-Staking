@@ -6,51 +6,112 @@
 import { useQuery } from 'react-query';
 import { POOL_METADATA, PoolMetadata } from '../constants/pools';
 import { useZfiSdk } from './useZfiSdk';
-import { Deposit, PoolInstance } from '@zero-tech/zfi-sdk';
-import { BigNumber } from 'ethers';
+import { Deposit, PoolInstance, Reward, UserValue } from '@zero-tech/zfi-sdk';
+import useWeb3 from './useWeb3';
 
-export interface DepositData extends Deposit {
+const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
+
+export interface DepositData {
+	key: string;
+	depositId?: string;
+	poolInstance: PoolInstance;
+	poolMetadata: PoolMetadata;
+	amount: string;
+	lockedFrom?: string;
+	lockedUntil?: string;
+	/** Is the selected deposit is a reward, rather than a staked deposit? */
+	isReward: boolean;
+}
+
+export interface DepositData2 extends Deposit {
 	poolInstance: PoolInstance;
 	poolMetadata: PoolMetadata;
 	key: string;
+	isReward: boolean;
 }
+
+/**
+ * Converts a Reward or Deposit into an easier to use data structure.
+ */
+const convertDeposit = (data: Reward | Deposit) => {
+	var d;
+
+	if ((data as Reward).for) {
+		const reward = data as Reward;
+		const timestamp = new Date(Number(reward.timestamp) * 1000);
+		const unlock = (
+			Number(
+				new Date(timestamp.setFullYear(timestamp.getFullYear() + 1)).getTime(),
+			) / 1000
+		).toString();
+		d = {
+			lockedFrom: reward.timestamp,
+			lockedUntil: unlock,
+			isReward: true,
+			key: reward.timestamp,
+		};
+	} else {
+		const deposit = data as Deposit;
+		d = {
+			lockedFrom: deposit.lockedFrom !== '0' ? deposit.lockedFrom : undefined,
+			lockedUntil:
+				deposit.lockedUntil !== '0' ? deposit.lockedUntil : undefined,
+			isReward: false,
+			depositId: deposit.depositId,
+			key: `${deposit.pool}-${deposit.depositId}`,
+		};
+	}
+	return {
+		...d,
+		amount: data.tokenAmount,
+	} as DepositData;
+};
 
 const useAllDeposits = (account: string) => {
 	const zfiSdk = useZfiSdk();
+	const { chainId } = useWeb3();
 
-	return useQuery(`deposits-${account}`, async () => {
+	return useQuery(`deposits-${account}-${chainId}`, async () => {
 		const data = await Promise.all([
 			zfiSdk.wildPool.getAllDeposits(account),
+			zfiSdk.wildPool.getAllRewards(account),
 			zfiSdk.liquidityPool.getAllDeposits(account),
+			zfiSdk.liquidityPool.getAllRewards(account),
 			zfiSdk.wildPool.userValueStaked(account),
 			zfiSdk.liquidityPool.userValueStaked(account),
 		]);
 
-		console.log(data[0], data[1], data[2], data[3]);
+		const wildDeposits = data
+			.slice(0, 2)
+			.flat()
+			.map((d) => convertDeposit(d as Deposit | Reward))
+			.map((d) => ({
+				...d,
+				poolInstance: zfiSdk.wildPool,
+				poolMetadata: POOL_METADATA.WILD_POOL,
+			}));
 
-		const wildDeposits: DepositData[] = data[0].map((d) => ({
-			...d,
-			key: POOL_METADATA.WILD_POOL.name + d.depositId,
-			poolInstance: zfiSdk.wildPool,
-			poolMetadata: POOL_METADATA.WILD_POOL,
-		}));
-		const liquidityDeposits: DepositData[] = data[1].map((d) => ({
-			...d,
-			key: POOL_METADATA.LP_POOL.name + d.depositId,
-			poolInstance: zfiSdk.liquidityPool,
-			poolMetadata: POOL_METADATA.LP_POOL,
-		}));
+		const lpDeposits = data
+			.slice(2, 4)
+			.flat()
+			.map((d) => convertDeposit(d as Deposit | Reward))
+			.map((d) => ({
+				...d,
+				poolInstance: zfiSdk.liquidityPool,
+				poolMetadata: POOL_METADATA.LP_POOL,
+			}));
 
-		const deposits = [...wildDeposits, ...liquidityDeposits];
+		const deposits = [...wildDeposits, ...lpDeposits];
+
+		const totalStaked = data.slice(4, 6).reduce((a, b) => {
+			const pool = b as UserValue;
+			return a + pool.userValueLockedUsd + pool.userValueUnlockedUsd;
+		}, 0);
 
 		return {
 			deposits,
-			numPools: Number(wildDeposits.length) + Number(liquidityDeposits.length),
-			totalStaked:
-				(data[2]?.userValueLockedUsd ?? 0) +
-				(data[2]?.userValueUnlockedUsd ?? 0) +
-				(data[3]?.userValueLockedUsd ?? 0) +
-				(data[3]?.userValueUnlockedUsd ?? 0),
+			numPools: [wildDeposits, lpDeposits].filter((a) => a.length !== 0).length,
+			totalStaked,
 		};
 	});
 };

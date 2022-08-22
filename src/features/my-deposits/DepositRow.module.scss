@@ -1,3 +1,18 @@
+@use '@zero-tech/zui/styles/colors';
+
+.Claimable {
+	> span {
+		display: block;
+		text-align: right;
+
+		&:nth-of-type(2) {
+			font-size: 0.75rem;
+			padding-top: 0.25rem;
+			color: colors.$grey;
+		}
+	}
+}
+
 .Right {
 	margin-left: auto;
 	text-align: right;

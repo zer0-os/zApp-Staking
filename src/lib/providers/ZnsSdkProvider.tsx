@@ -10,10 +10,10 @@ import {
 	NETWORK_CONFIGS,
 } from '../constants/networks';
 import { USER_ADDRESS } from '../constants/addresses';
+import useWeb3 from '../hooks/useWeb3';
 
 // @TODO: use proper provider typings from ethers instead of any
 interface ZnsSdkProviderProps {
-	provider?: providers.Web3Provider;
 	children: ReactNode;
 }
 
@@ -34,18 +34,19 @@ export const ZnsSdkContext = createContext(
 );
 
 const ZnsSdkProvider: FC<ZnsSdkProviderProps> = ({
-	provider: providerProps,
 	children,
 }: ZnsSdkProviderProps) => {
+	const { provider, chainId } = useWeb3();
+
 	const sdk = useMemo(() => {
-		const provider =
-			providerProps ??
+		const p =
+			provider ??
 			new providers.JsonRpcProvider(NETWORK_CONFIGS[DEFAULT_NETWORK].rpcUrl);
 
 		// We know that the chain ID will be a valid network because
 		// ChainGate will prevent this provider from rendering if
 		// the chain matches an unsupported network
-		const network: Network = provider?._network?.chainId ?? 4;
+		const network: Network = chainId ?? 4;
 
 		// Only supporting two networks so can use ternary
 		const znsConfig =
@@ -53,8 +54,8 @@ const ZnsSdkProvider: FC<ZnsSdkProviderProps> = ({
 				? zns.configuration.mainnetConfiguration
 				: zns.configuration.rinkebyConfiguration;
 
-		return zns.createInstance(znsConfig(provider));
-	}, [providerProps]);
+		return zns.createInstance(znsConfig(p));
+	}, [provider]);
 
 	return (
 		<ZnsSdkContext.Provider value={sdk}>{children}</ZnsSdkContext.Provider>

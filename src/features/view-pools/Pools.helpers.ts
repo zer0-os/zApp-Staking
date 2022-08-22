@@ -1,5 +1,5 @@
 import { PoolInstance } from '@zero-tech/zfi-sdk';
-import { Column } from 'zero-ui/src/components/AsyncTable';
+import { Column } from '@zero-tech/zui/components/AsyncTable';
 import { PoolMetadata } from '../../lib/constants/pools';
 
 export interface PoolTableData {

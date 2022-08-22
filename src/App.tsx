@@ -6,25 +6,27 @@
 import { FC } from 'react';
 import { AppProps } from './lib/types/app';
 
-import TabNav from 'zero-ui/src/components/TabNav';
+import { TabNav } from '@zero-tech/zui/components';
 
 import PoolsPage from './pages/Pools';
 import DepositsPage from './pages/Deposits';
 
+import styles from './App.module.scss';
+
 const App: FC<AppProps> = ({ provider, route }: AppProps) => {
 	return (
-		<main>
+		<main className={styles.Main}>
 			<TabNav
-				defaultValue={'Deposits'}
+				defaultValue={'Pools'}
 				tabs={[
 					{
 						text: 'Pools',
-						to: '/pools',
+						to: '/wilder/staking/pools',
 						content: <PoolsPage />,
 					},
 					{
 						text: 'Deposits',
-						to: '/deposits',
+						to: '/wilder/staking/deposits',
 						content: <DepositsPage />,
 					},
 				]}

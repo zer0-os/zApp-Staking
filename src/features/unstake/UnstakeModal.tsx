@@ -5,26 +5,21 @@
  */
 
 import { FC, ReactNode } from 'react';
-import styles from './StakeModal.module.scss';
-import StakeForm from './StakeForm';
-import { PoolInstance } from '@zero-tech/zfi-sdk';
-import { PoolMetadata } from '../../lib/constants/pools';
+import styles from './UnstakeModal.module.scss';
 import Modal from '@zero-tech/zui/components/Modal';
+import UnstakeForm, { UnstakeFormProps } from './UnstakeForm';
 
-interface StakeModalProps {
+interface StakeModalProps extends UnstakeFormProps {
 	open?: boolean;
 	trigger?: string | ReactNode;
-	poolInstance: PoolInstance;
-	poolMetadata: PoolMetadata;
 	onOpenChange?: (open: boolean) => void;
 }
 
 const StakeModal: FC<StakeModalProps> = ({
 	open,
 	trigger,
-	poolInstance,
-	poolMetadata,
 	onOpenChange,
+	...rest
 }) => (
 	<Modal
 		onOpenChange={onOpenChange}
@@ -32,7 +27,7 @@ const StakeModal: FC<StakeModalProps> = ({
 		open={open}
 		className={styles.Container}
 	>
-		<StakeForm poolInstance={poolInstance} poolMetadata={poolMetadata} />
+		<UnstakeForm {...rest} />
 	</Modal>
 );
 

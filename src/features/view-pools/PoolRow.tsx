@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Skeleton from 'zero-ui/src/components/Skeleton';
+import Skeleton from '@zero-tech/zui/components/Skeleton';
 
 import styles from './PoolRow.module.scss';
 
@@ -9,6 +9,7 @@ import PoolDetail from '../ui/PoolDetail/PoolDetail';
 import { PoolData } from '../../lib/util/pool';
 import usePoolData from '../../lib/hooks/usePoolData';
 import StakeButton from '../stake/StakeButton';
+import { formatFiat, formatPercentage } from '../../lib/util/format';
 
 interface PoolRowProps {
 	rowData: PoolTableData;
@@ -26,15 +27,10 @@ const PoolRow: FC<PoolRowProps> = ({ rowData }) => {
 		}
 		if (queryData) {
 			if (key === 'apr') {
-				// @TODO: better formatting
-				return Number(queryData.apr.toFixed(2)).toLocaleString() + '%';
+				return formatPercentage(queryData.apr);
 			}
 			if (key === 'tvl') {
-				// @TODO: better formatting
-				return (
-					'$' +
-					Number(queryData.tvl.valueOfTokensUSD.toFixed(2)).toLocaleString()
-				);
+				return '$' + formatFiat(queryData.tvl.valueOfTokensUSD);
 			}
 		}
 	};

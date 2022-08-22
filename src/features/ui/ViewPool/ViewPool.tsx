@@ -8,11 +8,13 @@ import { PoolInstance } from '@zero-tech/zfi-sdk';
 import { USER_ADDRESS } from '../../../lib/constants/addresses';
 
 /* NOTE: you will need to link zUI */
-import Card from 'zero-ui/src/components/Card';
+import Card from '@zero-tech/zui/components/Card';
 
 import PoolDetail from '../PoolDetail/PoolDetail';
 
 import styles from './ViewPool.module.scss';
+import { formatPercentage, formatWei } from '../../../lib/util/format';
+import useWeb3 from '../../../lib/hooks/useWeb3';
 
 export interface ViewPoolProps {
 	poolInstance: PoolInstance;
@@ -22,25 +24,21 @@ export interface ViewPoolProps {
 // TODO: use real wallet address
 
 const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
+	const { account } = useWeb3();
+
 	const { data: poolQueryData, isLoading: isLoadingPoolData } =
 		usePoolData(poolInstance);
 
 	const { data: userQueryData, isLoading: isLoadingUserData } = useUserPoolData(
 		poolInstance,
-		USER_ADDRESS,
+		account,
 	);
 
-	const [amt, setAmt] = useState<number>(0);
-
-	// @TODO: better formatting of values below
-
 	const aprAsString =
-		poolQueryData?.apr &&
-		Number(poolQueryData?.apr.toFixed(2)).toLocaleString() + '%';
+		poolQueryData?.apr && formatPercentage(poolQueryData?.apr);
 
 	const rewardsClaimableAsString =
-		userQueryData?.rewards &&
-		Number(Number(formatEther(userQueryData?.rewards))).toLocaleString();
+		userQueryData?.rewards && formatWei(userQueryData?.rewards);
 
 	return (
 		<>

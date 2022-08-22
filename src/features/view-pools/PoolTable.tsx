@@ -3,7 +3,7 @@ import { FC } from 'react';
 import PoolRow from './PoolRow';
 import { COLUMNS, PoolTableData } from './Pools.helpers';
 
-import AsyncTable from 'zero-ui/src/components/AsyncTable';
+import AsyncTable from '@zero-tech/zui/components/AsyncTable';
 
 interface PoolTableProps {
 	data: PoolTableData[];
