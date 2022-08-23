@@ -9,9 +9,6 @@ interface Web3ProviderProps {
 	children?: ReactNode;
 }
 
-const INFURA_MAINNET =
-	'https://mainnet.infura.io/v3/77c3d733140f4c12a77699e24cb30c27';
-
 export const Web3Context = createContext({
 	account: undefined as string | undefined,
 	provider: undefined as providers.Web3Provider | undefined,
@@ -19,6 +16,9 @@ export const Web3Context = createContext({
 	connectWallet: () => {},
 });
 
+/**
+ * Exposes wallet information received by zOS to all children.
+ */
 const Web3Provider: FC<Web3ProviderProps> = ({
 	account,
 	chainId,

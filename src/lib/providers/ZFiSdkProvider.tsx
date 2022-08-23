@@ -8,9 +8,8 @@ import {
 	Network,
 	NETWORK_CONFIGS,
 } from '../constants/networks';
-import { USER_ADDRESS } from '../constants/addresses';
+import useWeb3 from '../hooks/useWeb3';
 
-// @TODO: use proper provider typings from ethers instead of any
 interface ZFiSdkProviderProps {
 	provider?: providers.Web3Provider;
 	children: ReactNode;
@@ -30,12 +29,13 @@ export const ZFiSdkContext = createContext(
 );
 
 const ZFiSdkProvider: FC<ZFiSdkProviderProps> = ({
-	provider: providerProps,
 	children,
 }: ZFiSdkProviderProps) => {
+	const { provider: providerContext } = useWeb3();
+
 	const sdk = useMemo(() => {
 		const provider =
-			providerProps ??
+			providerContext ??
 			new providers.JsonRpcProvider(NETWORK_CONFIGS[DEFAULT_NETWORK].rpcUrl);
 
 		// We know that the chain ID will be a valid network because
@@ -50,7 +50,7 @@ const ZFiSdkProvider: FC<ZFiSdkProviderProps> = ({
 			provider,
 			subgraphUri: NETWORK_CONFIGS[network].subgraphUrl,
 		});
-	}, [providerProps]);
+	}, [providerContext]);
 
 	return (
 		<ZFiSdkContext.Provider value={sdk}>{children}</ZFiSdkContext.Provider>

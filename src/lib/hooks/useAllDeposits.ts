@@ -1,15 +1,8 @@
-/**
- * Just wraps a react-query query in a custom hook
- * for cleaner ui.
- */
-
+import useWeb3 from './useWeb3';
 import { useQuery } from 'react-query';
 import { POOL_METADATA, PoolMetadata } from '../constants/pools';
 import { useZfiSdk } from './useZfiSdk';
 import { Deposit, PoolInstance, Reward, UserValue } from '@zero-tech/zfi-sdk';
-import useWeb3 from './useWeb3';
-
-const SECONDS_PER_YEAR = 60 * 60 * 24 * 365;
 
 export interface DepositData {
 	key: string;
@@ -20,13 +13,6 @@ export interface DepositData {
 	lockedFrom?: string;
 	lockedUntil?: string;
 	/** Is the selected deposit is a reward, rather than a staked deposit? */
-	isReward: boolean;
-}
-
-export interface DepositData2 extends Deposit {
-	poolInstance: PoolInstance;
-	poolMetadata: PoolMetadata;
-	key: string;
 	isReward: boolean;
 }
 

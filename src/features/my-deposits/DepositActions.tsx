@@ -3,9 +3,9 @@ import { FC, useState } from 'react';
 import { DepositData } from '../../lib/hooks/useAllDeposits';
 
 import DropdownMenu from '@zero-tech/zui/components/DropdownMenu';
-import StakeModal from '../stake/StakeModal';
-import ClaimModal from '../claim-pool-rewards/ClaimModal';
-import UnstakeModal from '../unstake/UnstakeModal';
+import { StakeModal } from '../stake';
+import { UnstakeModal } from '../unstake';
+import { ClaimModal } from '../claim-pool-rewards';
 
 interface DepositActionProps {
 	rowData: DepositData;

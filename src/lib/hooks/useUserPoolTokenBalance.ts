@@ -1,7 +1,6 @@
 import { useQuery } from 'react-query';
 import useZnsSdk from './useZnsSdk';
 import { PoolInstance } from '@zero-tech/zfi-sdk';
-import { useZfiSdk } from './useZfiSdk';
 
 const useUserPoolTokenBalance = (
 	account: string,

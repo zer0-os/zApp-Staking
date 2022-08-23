@@ -1,10 +1,4 @@
-/**
- * NOTE: You will need to `npm link` zUI before this repo
- * will build or run.
- */
-
 import { FC } from 'react';
-import { AppProps } from './lib/types/app';
 
 import { TabNav } from '@zero-tech/zui/components';
 
@@ -13,7 +7,7 @@ import DepositsPage from './pages/Deposits';
 
 import styles from './App.module.scss';
 
-const App: FC<AppProps> = ({ provider, route }: AppProps) => {
+const App: FC = () => {
 	return (
 		<main className={styles.Main}>
 			<TabNav

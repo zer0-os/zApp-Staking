@@ -1,17 +1,17 @@
-import { ViewPoolProps } from '../ui/ViewPool/ViewPool';
 import { FC } from 'react';
 
-import FormInputs from '../ui/FormInputs/FormInputs';
 import useWeb3 from '../../lib/hooks/useWeb3';
-// import useStakeForm, { StakeFormStep as Step } from './useStakeForm';
-import { Deposit } from '@zero-tech/zfi-sdk';
 import useDeposit from '../../lib/hooks/useDeposit';
-import { BigNumber } from 'ethers';
 import useUnstakeForm, { UnstakeFormStep } from './useUnstakeForm';
-import { Wizard } from '@zero-tech/zui/components';
-import ConfirmUnstake from './ConfirmUnstake';
+import { PoolInfo } from '../../lib/types/pool';
+import { Deposit } from '@zero-tech/zfi-sdk';
+import { BigNumber } from 'ethers';
 
-export interface UnstakeFormProps extends ViewPoolProps {
+import ConfirmUnstake from './ConfirmUnstake';
+import { FormInputs } from '../ui/FormInputs';
+import { Wizard } from '@zero-tech/zui/components';
+
+export interface UnstakeFormProps extends PoolInfo {
 	depositId: Deposit['depositId'];
 }
 
@@ -28,7 +28,7 @@ const UnstakeFormProps: FC<UnstakeFormProps> = ({
 		depositId,
 	);
 
-	const { amount, step, error, onConfirmAmount, onStartTransaction } =
+	const { amount, step, onConfirmAmount, onStartTransaction } =
 		useUnstakeForm(poolInstance);
 
 	const shouldShowHeader =
@@ -66,6 +66,7 @@ const UnstakeFormProps: FC<UnstakeFormProps> = ({
 			);
 			break;
 		default:
+			// @TODO: handle
 			content = <>huh?</>;
 	}
 

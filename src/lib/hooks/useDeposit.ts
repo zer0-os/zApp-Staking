@@ -1,8 +1,6 @@
-import { PoolInstance } from '@zero-tech/zfi-sdk';
 import { useQuery } from 'react-query';
-import { getPoolData } from '../util/pool';
+import { PoolInstance } from '@zero-tech/zfi-sdk';
 import { Deposit } from '@zero-tech/zfi-sdk';
-import useWeb3 from './useWeb3';
 
 const useDeposit = (
 	account: string,

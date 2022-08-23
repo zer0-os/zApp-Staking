@@ -1,27 +1,31 @@
-import ViewPool, { ViewPoolProps } from '../ViewPool/ViewPool';
 import { FC, useState } from 'react';
-import styles from './FormInputs.module.scss';
+
+import { BigNumber } from 'ethers';
+import { formatWei } from '../../../lib/util/format';
+import { formatEther } from 'ethers/lib/utils';
+import { PoolInfo } from '../../../lib/types/pool';
+
+import { ViewPool } from '../ViewPool';
 import Button from '@zero-tech/zui/components/Button';
 import Skeleton from '@zero-tech/zui/components/Skeleton';
 import NumberInput from '@zero-tech/zui/components/Input/NumberInput';
-import { BigNumber, ethers } from 'ethers';
-import { formatWei } from '../../../lib/util/format';
-import { formatEther } from 'ethers/lib/utils';
 
-export interface FormInputsBalance {
+import styles from './FormInputs.module.scss';
+
+export interface Balance {
 	label: string;
 	value?: BigNumber;
 	isLoading: boolean;
 }
 
-interface Message {
+export interface Message {
 	text: string;
 	isError?: boolean;
 }
 
-interface FormInputsProps extends ViewPoolProps {
+export interface FormInputsProps extends PoolInfo {
 	action: 'stake' | 'unstake' | 'claim';
-	balances?: FormInputsBalance[];
+	balances?: Balance[];
 	onSubmit: (amount: number) => void;
 	isTransactionPending?: boolean;
 	message?: Message;
@@ -64,9 +68,8 @@ const FormInputs: FC<FormInputsProps> = ({
 			<ViewPool poolMetadata={poolMetadata} poolInstance={poolInstance} />
 			{action !== 'claim' && (
 				<NumberInput
-					value={amountInputValue.toLocaleString()}
+					value={amountInputValue?.toLocaleString()}
 					onChange={(val: string) => {
-						console.log('change to ', val);
 						setAmountInputValue(val);
 					}}
 					isDisabled={isTransactionPending}
@@ -80,7 +83,6 @@ const FormInputs: FC<FormInputsProps> = ({
 							MAX
 						</Button>
 					}
-					isBigNumber={true}
 				/>
 			)}
 			<Button

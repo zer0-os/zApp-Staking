@@ -1,9 +1,10 @@
 import { FC, useState } from 'react';
-import Segments from './segments';
+
 import { PoolInstance } from '@zero-tech/zfi-sdk';
-import { BigNumber, providers } from 'ethers';
-import { useQuery } from 'react-query';
+
+import Segments from './segments';
 import usePoolSpendingAllowance from './usePoolSpendingAllowance';
+import useWeb3 from '../../../lib/hooks/useWeb3';
 
 enum Step {
 	NEEDS_APPROVAL,
@@ -14,7 +15,6 @@ enum Step {
 
 interface ApprovePoolSpendingFormProps {
 	poolInstance: PoolInstance;
-	provider: providers.Web3Provider;
 	onCancel: () => void;
 	onComplete: () => void;
 	amountToApprove: number;
@@ -22,12 +22,11 @@ interface ApprovePoolSpendingFormProps {
 
 const ApprovePoolSpendingForm: FC<ApprovePoolSpendingFormProps> = ({
 	poolInstance,
-	provider,
 	onCancel,
 	onComplete,
 	amountToApprove,
 }) => {
-	// @TODO: add an error step
+	const { provider } = useWeb3();
 
 	/**
 	 * Checks whether or not a user needs to approve a greater

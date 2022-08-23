@@ -1,16 +1,15 @@
-import PoolTable from '../features/view-pools/PoolTable';
-import { PoolTableData } from '../features/view-pools/Pools.helpers';
 import { POOL_METADATA } from '../lib/constants/pools';
 import { useZfiSdk } from '../lib/hooks/useZfiSdk';
 
 import Card from '@zero-tech/zui/components/Card';
+import { PoolTable } from '../features/view-pools';
 
 import styles from './Pools.module.scss';
 
 const Pools = () => {
 	const zfiSdk = useZfiSdk();
 
-	const data: PoolTableData[] = [
+	const data = [
 		{
 			address: zfiSdk.wildPool.address,
 			instance: zfiSdk.wildPool,
@@ -22,8 +21,6 @@ const Pools = () => {
 			metadata: POOL_METADATA.LP_POOL,
 		},
 	];
-
-	// Stats for the top: number of pools, total amount staked
 
 	return (
 		<>

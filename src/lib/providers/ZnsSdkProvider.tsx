@@ -1,30 +1,23 @@
-import { providers } from 'ethers';
 import { createContext, FC, ReactNode, useMemo } from 'react';
 
-import * as zfi from '@zero-tech/zfi-sdk';
+import { providers } from 'ethers';
 import * as zns from '@zero-tech/zns-sdk';
-
+import useWeb3 from '../hooks/useWeb3';
 import {
 	DEFAULT_NETWORK,
 	Network,
 	NETWORK_CONFIGS,
 } from '../constants/networks';
-import { USER_ADDRESS } from '../constants/addresses';
-import useWeb3 from '../hooks/useWeb3';
 
-// @TODO: use proper provider typings from ethers instead of any
 interface ZnsSdkProviderProps {
 	children: ReactNode;
 }
 
-// const defaultConfig =
-//   DEFAULT_NETWORK === Network.MAINNET
-//     ? zns.configuration.mainnetConfiguration
-//     : zns.configuration.rinkebyConfiguration;
+const defaultConfig =
+	DEFAULT_NETWORK === Network.RINKEBY
+		? zns.configuration.mainnetConfiguration
+		: zns.configuration.rinkebyConfiguration;
 
-const defaultConfig = zns.configuration.rinkebyConfiguration;
-
-// @TODO: not sure if this is the best way to create default context
 export const ZnsSdkContext = createContext(
 	zns.createInstance(
 		defaultConfig(

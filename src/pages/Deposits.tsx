@@ -1,21 +1,41 @@
-import DepositsTable from '../features/my-deposits/DepositsTable';
 import useWeb3 from '../lib/hooks/useWeb3';
-import Button from '@zero-tech/zui/components/Button';
-import styles from './Deposits.module.scss';
-import ConnectWallet from '../features/ui/ConnectWallet/ConnectWallet';
+import { formatFiat } from '../lib/util/format';
+import useAllDeposits from '../lib/hooks/useAllDeposits';
+
+import Card from '@zero-tech/zui/components/Card';
+import { DepositsTable } from '../features/my-deposits';
+import { ConnectWallet } from '../features/ui/ConnectWallet';
+
+import poolStyles from './Pools.module.scss';
 
 const Deposits = () => {
-	const { account, connectWallet } = useWeb3();
+	const { account } = useWeb3();
+	const { data: queryData, isLoading } = useAllDeposits(account);
 
-	if (!account) {
-		return (
-			<ConnectWallet
-				message={'Connect a Web3 wallet to see your Staking data.'}
-			/>
-		);
-	} else {
-		return <DepositsTable account={account} />;
-	}
+	return (
+		<>
+			<div className={poolStyles.Stats}>
+				<Card
+					title={'Your Total Stake'}
+					value={{
+						isLoading,
+						text: '$' + formatFiat(queryData?.totalStaked),
+					}}
+				/>
+				<Card
+					title={'# Of Pools'}
+					value={{ isLoading, text: queryData?.numPools.toLocaleString() }}
+				/>
+			</div>
+			{account ? (
+				<DepositsTable account={account} />
+			) : (
+				<ConnectWallet
+					message={'Connect a Web3 wallet to see your Staking data.'}
+				/>
+			)}
+		</>
+	);
 };
 
 export default Deposits;

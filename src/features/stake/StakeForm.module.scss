@@ -1,9 +1,9 @@
-@use 'styles/variables/colors';
+@import '../../../node_modules/@zero-tech/zui/styles/_colors.scss';
 
 .Container {
 	display: flex;
 	flex-direction: column;
-	gap: 24px;
+	gap: 1.5rem;
 
 	width: 100%;
 
@@ -11,12 +11,12 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
-		color: #{colors.$grey-lighter-2};
+		color: #{$grey-lighter-2};
 		font-size: 0.75rem;
 
 		b {
 			font-size: 1.125rem;
-			color: #{colors.$text-primary};
+			color: #{$text-primary};
 		}
 	}
 }

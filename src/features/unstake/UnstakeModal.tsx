@@ -1,21 +1,19 @@
 /*
- * Wraps the stake modal to be used in different contexts:
- * - Triggered by a button (pool table row)
- * - Triggered by a dropdown menu item (deposit table row)
+ * Wraps the claim modal for easier use in other sibling components.
  */
 
-import { FC, ReactNode } from 'react';
-import styles from './UnstakeModal.module.scss';
+import { FC } from 'react';
+
+import { BasicModalProps } from '../../lib/types/ui';
+
 import Modal from '@zero-tech/zui/components/Modal';
 import UnstakeForm, { UnstakeFormProps } from './UnstakeForm';
 
-interface StakeModalProps extends UnstakeFormProps {
-	open?: boolean;
-	trigger?: string | ReactNode;
-	onOpenChange?: (open: boolean) => void;
-}
+import styles from './UnstakeModal.module.scss';
 
-const StakeModal: FC<StakeModalProps> = ({
+export interface UnstakeModalProps extends UnstakeFormProps, BasicModalProps {}
+
+const UnstakeModal: FC<UnstakeModalProps> = ({
 	open,
 	trigger,
 	onOpenChange,
@@ -31,4 +29,4 @@ const StakeModal: FC<StakeModalProps> = ({
 	</Modal>
 );
 
-export default StakeModal;
+export default UnstakeModal;

@@ -17,7 +17,7 @@ import ZUIProvider from '@zero-tech/zui/ZUIProvider';
 
 const queryClient = new QueryClient();
 
-const Index = ({ provider, route, web3 }: AppProps) => (
+const Index = ({ provider, web3 }: AppProps) => (
 	<QueryClientProvider client={queryClient}>
 		<Web3Provider
 			provider={provider}
@@ -27,9 +27,9 @@ const Index = ({ provider, route, web3 }: AppProps) => (
 		>
 			<ChainGate>
 				<ZnsSdkProvider>
-					<ZFiSdkProvider provider={provider}>
+					<ZFiSdkProvider>
 						<ZUIProvider>
-							<App provider={provider} route={route} web3={web3} />
+							<App />
 						</ZUIProvider>
 					</ZFiSdkProvider>
 				</ZnsSdkProvider>

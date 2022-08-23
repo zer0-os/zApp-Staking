@@ -4,34 +4,24 @@
  * - Triggered by a dropdown menu item (deposit table row)
  */
 
-import { FC, ReactNode } from 'react';
-import styles from './StakeModal.module.scss';
+import { FC } from 'react';
+
+import { BasicModalProps } from '../../lib/types/ui';
+import { PoolInfo } from '../../lib/types/pool';
+
 import StakeForm from './StakeForm';
-import { PoolInstance } from '@zero-tech/zfi-sdk';
-import { PoolMetadata } from '../../lib/constants/pools';
 import Modal from '@zero-tech/zui/components/Modal';
 
-interface StakeModalProps {
-	open?: boolean;
-	trigger?: string | ReactNode;
-	poolInstance: PoolInstance;
-	poolMetadata: PoolMetadata;
-	onOpenChange?: (open: boolean) => void;
-}
+import styles from './StakeModal.module.scss';
+
+export interface StakeModalProps extends PoolInfo, BasicModalProps {}
 
 const StakeModal: FC<StakeModalProps> = ({
-	open,
-	trigger,
 	poolInstance,
 	poolMetadata,
-	onOpenChange,
+	...modalProps
 }) => (
-	<Modal
-		onOpenChange={onOpenChange}
-		trigger={trigger}
-		open={open}
-		className={styles.Container}
-	>
+	<Modal {...modalProps} className={styles.Container}>
 		<StakeForm poolInstance={poolInstance} poolMetadata={poolMetadata} />
 	</Modal>
 );

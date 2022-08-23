@@ -1,18 +1,23 @@
-import { ViewPoolProps } from '../ui/ViewPool/ViewPool';
+/**
+ * @TODO: clean up hooks
+ */
+
 import { FC } from 'react';
 
-import FormInputs from '../ui/FormInputs/FormInputs';
-import useUserPoolTokenBalance from '../../lib/hooks/useUserPoolTokenBalance';
-import ApprovePoolSpendingForm from '../ui/ApprovePoolSpendingForm/ApprovePoolSpendingForm';
-import useWeb3 from '../../lib/hooks/useWeb3';
 import useStakeForm, { StakeFormStep as Step } from './useStakeForm';
-import Wizard from '@zero-tech/zui/components/Wizard';
-import ConnectWallet from '../ui/ConnectWallet/ConnectWallet';
+import useUserPoolTokenBalance from '../../lib/hooks/useUserPoolTokenBalance';
+import useWeb3 from '../../lib/hooks/useWeb3';
+import { PoolInfo } from '../../lib/types/pool';
 
-interface StakeFormProps extends ViewPoolProps {}
+import { FormInputs } from '../ui/FormInputs';
+import { ApprovePoolSpendingForm } from '../ui/ApprovePoolSpendingForm';
+import { ConnectWallet } from '../ui/ConnectWallet';
+import Wizard from '@zero-tech/zui/components/Wizard';
+
+interface StakeFormProps extends PoolInfo {}
 
 const StakeForm: FC<StakeFormProps> = (props) => {
-	const { provider, account } = useWeb3();
+	const { account } = useWeb3();
 
 	/**
 	 * Get user pool token balance
@@ -27,10 +32,7 @@ const StakeForm: FC<StakeFormProps> = (props) => {
 
 	const onCancel = () => {
 		// @TODO: implement cancel
-		console.log('cancel');
 	};
-
-	// @TODO: show Connect Wallet modal
 
 	let content;
 	switch (step) {
@@ -74,7 +76,6 @@ const StakeForm: FC<StakeFormProps> = (props) => {
 			content = (
 				<ApprovePoolSpendingForm
 					poolInstance={props.poolInstance}
-					provider={provider!}
 					onCancel={onCancel}
 					onComplete={onStartTransaction}
 					/* Asserting not null because form validation

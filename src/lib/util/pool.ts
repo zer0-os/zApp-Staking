@@ -1,9 +1,5 @@
 import { PoolInstance, TotalValueLocked } from '@zero-tech/zfi-sdk';
-
-export interface PoolData {
-	apr: number;
-	tvl: TotalValueLocked;
-}
+import { PoolData } from '../types/pool';
 
 export const getPoolData = async (
 	pool: PoolInstance,

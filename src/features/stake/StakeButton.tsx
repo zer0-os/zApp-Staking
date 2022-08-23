@@ -1,10 +1,8 @@
-import { ViewPoolProps } from '../ui/ViewPool/ViewPool';
+import { PoolInfo } from '../../lib/types/pool';
 import { FC } from 'react';
 import StakeModal from './StakeModal';
 
-interface StakeButtonProps extends ViewPoolProps {}
-
-const StakeButton: FC<StakeButtonProps> = ({ poolInstance, poolMetadata }) => (
+const StakeButton: FC<PoolInfo> = ({ poolInstance, poolMetadata }) => (
 	<StakeModal
 		poolInstance={poolInstance}
 		poolMetadata={poolMetadata}

@@ -1,44 +1,44 @@
-import AsyncTable from '@zero-tech/zui/components/AsyncTable';
-import useAllDeposits, { DepositData } from '../../lib/hooks/useAllDeposits';
-import poolStyles from '../../pages/Pools.module.scss';
-import styles from './DepositsTable.module.scss';
-import Card from '@zero-tech/zui/components/Card';
-import { COLUMNS } from './DepositsTable.constants';
-import DepositRow from './DepositRow';
-import { formatFiat } from '../../lib/util/format';
 import { FC } from 'react';
 import { Link } from 'react-router-dom';
+
+import useAllDeposits, { DepositData } from '../../lib/hooks/useAllDeposits';
 import { ROUTE_NAMES, ROUTES } from '../../lib/constants/routes';
 
-type DepositsTableProps = {
+import AsyncTable, { Column } from '@zero-tech/zui/components/AsyncTable';
+import DepositRow from './DepositRow';
+
+import styles from './DepositsTable.module.scss';
+
+/**
+ * Columns to render in the DepositsTable
+ */
+export const COLUMNS: Column[] = [
+	{ id: 'pool', header: 'Pool', alignment: 'left' },
+	{ id: 'claimed', header: 'Date Claimable', alignment: 'right' },
+	{ id: 'amount', header: 'Amount', alignment: 'right' },
+	{ id: 'action', header: '', alignment: 'right' },
+];
+
+export interface DepositsTableProps {
+	/*
+	 * Sending account as a string in case we need to show deposit
+	 * tables of accounts other than the one currently connected
+	 */
 	account: string;
-};
+}
 
 const DepositsTable: FC<DepositsTableProps> = ({ account }) => {
-	const { data: queryData, isLoading, error } = useAllDeposits(account);
+	const { data: queryData, isLoading } = useAllDeposits(account);
 
 	return (
 		<>
-			<div className={poolStyles.Stats}>
-				<Card
-					title={'Your Total Stake'}
-					value={{
-						isLoading,
-						text: '$' + formatFiat(queryData?.totalStaked),
-					}}
-				/>
-				<Card
-					title={'# Of Pools'}
-					value={{ isLoading, text: queryData?.numPools.toLocaleString() }}
-				/>
-			</div>
 			{!(!isLoading && (queryData.deposits.length === 0 || !queryData)) ? (
 				<AsyncTable
 					data={queryData?.deposits}
 					itemKey="key"
 					columns={COLUMNS}
 					rowComponent={(data: DepositData) => <DepositRow rowData={data} />}
-					gridComponent={(data: DepositData) => <></>}
+					gridComponent={() => <>UNHANDLED</>}
 					searchKey={{ key: 'key', name: 'message' }}
 					isLoading={isLoading}
 				/>
