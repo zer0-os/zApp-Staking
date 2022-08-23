@@ -1,7 +1,7 @@
 {
-  "name": "zapp-staking-test",
-  "version": "0.1.7",
-  "main": "dist/index.js",
+  "name": "@zero-tech/zapp-staking",
+  "version": "0.1.0",
+  "main": "index.js",
   "repository": "git@github.com:zer0-os/zApp-Staking.git",
   "scripts": {
     "build": "rimraf dist && npm run build:scripts && npm run build:styles && npm run build:assets && cp package.json dist/",
