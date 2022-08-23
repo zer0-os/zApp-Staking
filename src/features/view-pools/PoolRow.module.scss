@@ -1,0 +1,30 @@
+.Pool {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+
+	img {
+		height: 3rem;
+		width: 3rem;
+		border-radius: 0.5rem;
+	}
+}
+
+.Right {
+	margin-left: auto;
+	text-align: right;
+
+	> * {
+		margin-left: auto;
+		text-align: right;
+	}
+}
+
+.Center {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.Modal {
+	width: 640px;
+}
