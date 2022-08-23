@@ -1,2 +1,2 @@
-export { default as ClaimModal } from './ClaimForm';
-export type { ClaimModalProps } from './ClaimForm';
+export { default as ClaimModal } from './ClaimModal';
+export type { ClaimModalProps } from './ClaimModal';
