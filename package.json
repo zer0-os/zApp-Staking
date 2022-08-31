@@ -11,7 +11,7 @@
     "prettier": "prettier -w src/",
     "publish": "cd dist && npm publish",
     "start:watch": "tsc --watch && cp src/*.css dist/",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
     "test:watch": "jest --watch"
   },
   "author": "zer0-os",
