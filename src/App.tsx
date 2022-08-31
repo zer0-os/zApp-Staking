@@ -7,7 +7,7 @@ import DepositsPage from './pages/Deposits';
 
 import styles from './App.module.scss';
 
-const App: FC = () => {
+export const App: FC = () => {
 	return (
 		<main className={styles.Main}>
 			<TabNav
@@ -28,5 +28,3 @@ const App: FC = () => {
 		</main>
 	);
 };
-
-export default App;

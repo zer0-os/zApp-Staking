@@ -5,7 +5,7 @@
  */
 
 import { AppProps } from './lib/types/app';
-import App from './App';
+import { App } from './App';
 
 import { QueryClient, QueryClientProvider } from 'react-query';
 import ZFiSdkProvider from './lib/providers/ZFiSdkProvider';
@@ -17,7 +17,7 @@ import ZUIProvider from '@zero-tech/zui/ZUIProvider';
 
 const queryClient = new QueryClient();
 
-const Index = ({ provider, web3 }: AppProps) => (
+export const StakingZApp = ({ provider, web3 }: AppProps) => (
 	<QueryClientProvider client={queryClient}>
 		<Web3Provider
 			provider={provider}
@@ -37,5 +37,3 @@ const Index = ({ provider, web3 }: AppProps) => (
 		</Web3Provider>
 	</QueryClientProvider>
 );
-
-export default Index;
