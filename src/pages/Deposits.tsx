@@ -8,7 +8,7 @@ import { ConnectWallet } from '../features/ui/ConnectWallet';
 
 import poolStyles from './Pools.module.scss';
 
-const Deposits = () => {
+export const Deposits = () => {
 	const { account } = useWeb3();
 	const { data: queryData, isLoading } = useAllDeposits(account);
 
@@ -37,5 +37,3 @@ const Deposits = () => {
 		</>
 	);
 };
-
-export default Deposits;

@@ -1,1 +1,1 @@
-export { default as ApprovePoolSpendingForm } from './ApprovePoolSpendingForm';
+export * from './ApprovePoolSpendingForm';

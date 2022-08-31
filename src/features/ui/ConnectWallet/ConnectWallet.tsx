@@ -11,7 +11,10 @@ export interface ConnectWalletProps {
 	message: string;
 }
 
-const ConnectWallet: FC<ConnectWalletProps> = ({ buttonText, message }) => {
+export const ConnectWallet: FC<ConnectWalletProps> = ({
+	buttonText,
+	message,
+}) => {
 	const { connectWallet } = useWeb3();
 
 	return (
@@ -21,5 +24,3 @@ const ConnectWallet: FC<ConnectWalletProps> = ({ buttonText, message }) => {
 		</div>
 	);
 };
-
-export default ConnectWallet;

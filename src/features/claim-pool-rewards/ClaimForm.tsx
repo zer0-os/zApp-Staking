@@ -6,7 +6,7 @@ import useClaimForm, { ClaimFormStep as Step } from './useClaimForm';
 import { Confirm, Processing, WaitingForWallet } from './ClaimFormSteps';
 import { FormInputs } from '../ui/FormInputs';
 
-const ClaimForm: FC<PoolInfo> = (props) => {
+export const ClaimForm: FC<PoolInfo> = (props) => {
 	const { claimableAmount, step, onConfirmClaimAmount, onConfirmClaim } =
 		useClaimForm(props.poolInstance);
 
@@ -45,5 +45,3 @@ const ClaimForm: FC<PoolInfo> = (props) => {
 
 	return <form>{content}</form>;
 };
-
-export default ClaimForm;

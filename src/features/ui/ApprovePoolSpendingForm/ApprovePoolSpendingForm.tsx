@@ -20,7 +20,7 @@ interface ApprovePoolSpendingFormProps {
 	amountToApprove: number;
 }
 
-const ApprovePoolSpendingForm: FC<ApprovePoolSpendingFormProps> = ({
+export const ApprovePoolSpendingForm: FC<ApprovePoolSpendingFormProps> = ({
 	poolInstance,
 	onCancel,
 	onComplete,
@@ -108,5 +108,3 @@ const ApprovePoolSpendingForm: FC<ApprovePoolSpendingFormProps> = ({
 		</>
 	);
 };
-
-export default ApprovePoolSpendingForm;

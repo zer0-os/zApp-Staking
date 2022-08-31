@@ -7,7 +7,7 @@ import { PoolTableData } from './Pools.helpers';
 import { PoolDetail } from '../ui/PoolDetail';
 import { PoolData } from '../../lib/types/pool';
 import usePoolData from '../../lib/hooks/usePoolData';
-import StakeButton from '../stake/StakeButton';
+import { StakeButton } from '../stake';
 import { formatFiat, formatPercentage } from '../../lib/util/format';
 
 interface PoolRowProps {

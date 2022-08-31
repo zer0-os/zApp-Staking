@@ -16,7 +16,7 @@ import styles from './StakeModal.module.scss';
 
 export interface StakeModalProps extends PoolInfo, BasicModalProps {}
 
-const StakeModal: FC<StakeModalProps> = ({
+export const StakeModal: FC<StakeModalProps> = ({
 	poolInstance,
 	poolMetadata,
 	...modalProps
@@ -25,5 +25,3 @@ const StakeModal: FC<StakeModalProps> = ({
 		<StakeForm poolInstance={poolInstance} poolMetadata={poolMetadata} />
 	</Modal>
 );
-
-export default StakeModal;

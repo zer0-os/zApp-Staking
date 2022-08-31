@@ -13,7 +13,7 @@ import styles from './UnstakeModal.module.scss';
 
 export interface UnstakeModalProps extends UnstakeFormProps, BasicModalProps {}
 
-const UnstakeModal: FC<UnstakeModalProps> = ({
+export const UnstakeModal: FC<UnstakeModalProps> = ({
 	open,
 	trigger,
 	onOpenChange,
@@ -28,5 +28,3 @@ const UnstakeModal: FC<UnstakeModalProps> = ({
 		<UnstakeForm {...rest} />
 	</Modal>
 );
-
-export default UnstakeModal;

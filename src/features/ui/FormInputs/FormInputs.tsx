@@ -31,7 +31,7 @@ export interface FormInputsProps extends PoolInfo {
 	message?: Message;
 }
 
-const FormInputs: FC<FormInputsProps> = ({
+export const FormInputs: FC<FormInputsProps> = ({
 	action,
 	poolMetadata,
 	poolInstance,
@@ -109,5 +109,3 @@ const FormInputs: FC<FormInputsProps> = ({
 		</div>
 	);
 };
-
-export default FormInputs;

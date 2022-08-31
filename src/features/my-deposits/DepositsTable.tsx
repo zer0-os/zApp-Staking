@@ -5,7 +5,7 @@ import useAllDeposits, { DepositData } from '../../lib/hooks/useAllDeposits';
 import { ROUTE_NAMES, ROUTES } from '../../lib/constants/routes';
 
 import { AsyncTable, Column } from '@zero-tech/zui/components/AsyncTable';
-import DepositRow from './DepositRow';
+import { DepositRow } from './DepositRow';
 
 import styles from './DepositsTable.module.scss';
 
@@ -27,7 +27,7 @@ export interface DepositsTableProps {
 	account: string;
 }
 
-const DepositsTable: FC<DepositsTableProps> = ({ account }) => {
+export const DepositsTable: FC<DepositsTableProps> = ({ account }) => {
 	const { data: queryData, isLoading } = useAllDeposits(account);
 
 	return (
@@ -57,5 +57,3 @@ const DepositsTable: FC<DepositsTableProps> = ({ account }) => {
 		</>
 	);
 };
-
-export default DepositsTable;

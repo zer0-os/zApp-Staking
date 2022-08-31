@@ -2,8 +2,8 @@ import { FC } from 'react';
 
 import { TabNav } from '@zero-tech/zui/components';
 
-import PoolsPage from './pages/Pools';
-import DepositsPage from './pages/Deposits';
+import { Pools as PoolsPage } from './pages/Pools';
+import { Deposits as DepositsPage } from './pages/Deposits';
 
 import styles from './App.module.scss';
 

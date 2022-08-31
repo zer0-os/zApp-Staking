@@ -6,7 +6,7 @@ import { PoolTable } from '../features/view-pools';
 
 import styles from './Pools.module.scss';
 
-const Pools = () => {
+export const Pools = () => {
 	const zfiSdk = useZfiSdk();
 
 	const data = [
@@ -31,5 +31,3 @@ const Pools = () => {
 		</>
 	);
 };
-
-export default Pools;
