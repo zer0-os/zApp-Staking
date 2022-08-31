@@ -6,9 +6,9 @@ import { formatEther } from 'ethers/lib/utils';
 import { PoolInfo } from '../../../lib/types/pool';
 
 import { ViewPool } from '../ViewPool';
-import Button from '@zero-tech/zui/components/Button';
-import Skeleton from '@zero-tech/zui/components/Skeleton';
-import NumberInput from '@zero-tech/zui/components/Input/NumberInput';
+import { Button } from '@zero-tech/zui/components/Button';
+import { Skeleton } from '@zero-tech/zui/components/Skeleton';
+import { NumberInput } from '@zero-tech/zui/components/Input/NumberInput';
 
 import styles from './FormInputs.module.scss';
 

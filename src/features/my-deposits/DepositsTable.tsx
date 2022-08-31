@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import useAllDeposits, { DepositData } from '../../lib/hooks/useAllDeposits';
 import { ROUTE_NAMES, ROUTES } from '../../lib/constants/routes';
 
-import AsyncTable, { Column } from '@zero-tech/zui/components/AsyncTable';
+import { AsyncTable, Column } from '@zero-tech/zui/components/AsyncTable';
 import DepositRow from './DepositRow';
 
 import styles from './DepositsTable.module.scss';

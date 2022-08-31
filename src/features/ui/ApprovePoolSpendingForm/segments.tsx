@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Wizard from '@zero-tech/zui/components/Wizard';
+import { Wizard } from '@zero-tech/zui/components/Wizard';
 
 const NEEDS_APPROVAL_MESSAGE =
 	'Before you can stake in this pool, your wallet needs to approve pool spending. You will only need to do this once per pool. This will cost gas.';

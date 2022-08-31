@@ -13,7 +13,7 @@ import ChainGate from './lib/util/ChainGate';
 import Web3Provider from './lib/providers/Web3Provider';
 import ZnsSdkProvider from './lib/providers/ZnsSdkProvider';
 
-import ZUIProvider from '@zero-tech/zui/ZUIProvider';
+import { ZUIProvider } from '@zero-tech/zui/ZUIProvider';
 
 const queryClient = new QueryClient();
 

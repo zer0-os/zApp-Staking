@@ -2,7 +2,7 @@ import { FC, useState } from 'react';
 
 import { DepositData } from '../../lib/hooks/useAllDeposits';
 
-import DropdownMenu from '@zero-tech/zui/components/DropdownMenu';
+import { DropdownMenu } from '@zero-tech/zui/components/DropdownMenu';
 import { StakeModal } from '../stake';
 import { UnstakeModal } from '../unstake';
 import { ClaimModal } from '../claim-pool-rewards';
