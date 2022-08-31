@@ -9,7 +9,7 @@ export interface PoolTableProps {
 	data: PoolTableData[];
 }
 
-const PoolTable: FC<PoolTableProps> = ({ data }) => (
+export const PoolTable: FC<PoolTableProps> = ({ data }) => (
 	<AsyncTable
 		data={data}
 		itemKey="address"
@@ -20,5 +20,3 @@ const PoolTable: FC<PoolTableProps> = ({ data }) => (
 		searchKey={{ key: 'address', name: 'message' }}
 	/>
 );
-
-export default PoolTable;

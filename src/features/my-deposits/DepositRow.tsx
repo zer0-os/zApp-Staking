@@ -4,7 +4,7 @@ import { DepositData } from '../../lib/hooks/useAllDeposits';
 import { formatTimestamp, formatWei } from '../../lib/util/format';
 
 import { PoolDetail } from '../ui/PoolDetail';
-import DepositActions from './DepositActions';
+import { DepositActions } from './DepositActions';
 import classNames from 'classnames';
 
 import styles from './DepositRow.module.scss';
@@ -13,7 +13,7 @@ interface DepositRowProps {
 	rowData: DepositData;
 }
 
-const DepositRow: FC<DepositRowProps> = ({ rowData }) => (
+export const DepositRow: FC<DepositRowProps> = ({ rowData }) => (
 	<tr>
 		<td>
 			<PoolDetail
@@ -37,5 +37,3 @@ const DepositRow: FC<DepositRowProps> = ({ rowData }) => (
 		</td>
 	</tr>
 );
-
-export default DepositRow;

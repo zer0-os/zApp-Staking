@@ -17,7 +17,7 @@ type Action = 'unstake' | 'claim' | 'stake';
 /**
  * Wraps the shared functionality of the "..." button on Deposit rows and cards.
  */
-const DepositActions: FC<DepositActionProps> = ({ rowData }) => {
+export const DepositActions: FC<DepositActionProps> = ({ rowData }) => {
 	// Destructure row data for easier use
 	const { isReward, lockedUntil, poolInstance, poolMetadata, depositId } =
 		rowData;
@@ -91,5 +91,3 @@ const DepositActions: FC<DepositActionProps> = ({ rowData }) => {
 		</>
 	);
 };
-
-export default DepositActions;

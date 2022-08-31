@@ -13,7 +13,7 @@ import styles from './ViewPool.module.scss';
 
 export interface ViewPoolProps extends PoolInfo {}
 
-const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
+export const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
 	const { account } = useWeb3();
 
 	const { data: poolQueryData, isLoading: isLoadingPoolData } =
@@ -55,5 +55,3 @@ const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
 		</>
 	);
 };
-
-export default ViewPool;
