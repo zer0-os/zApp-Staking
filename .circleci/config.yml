@@ -1,0 +1,56 @@
+version: 2.1
+
+orbs:
+  node: circleci/node@4.7.0
+
+defaults: &defaults
+  working_directory: ~/repo
+  docker:
+    - image: circleci/node:14.17.5
+
+jobs:
+  test:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: npm run test
+      - persist_to_workspace:
+          root: ~/repo
+          paths: .
+  build:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run: npm run build
+  publish:
+    <<: *defaults
+    steps:
+      - attach_workspace:
+          at: ~/repo
+      - run:
+          name: Publish to NPM
+          command: npm run publish
+
+workflows:
+  version: 2
+  production:
+    jobs:
+      - test:
+          filters:
+            &filters-production # this yaml anchor is setting these values to "filters-production"
+            branches:
+              ignore: /.*/
+            tags:
+              only: /^v.*/
+      - build:
+          requires:
+              - test
+          filters:
+            <<: *filters-production # this is calling the previously set yaml anchor
+      - publish:
+          context: NPM_Publish
+          requires:
+            - build
+          filters:
+            <<: *filters-production # this is calling the previously set yaml anchor
