@@ -1,4 +1,4 @@
-import Wizard from '@zero-tech/zui/components/Wizard';
+import { Wizard } from '@zero-tech/zui/components/Wizard';
 import { FC } from 'react';
 import { formatFiat } from '../../lib/util/format';
 

@@ -6,7 +6,7 @@ import { FC } from 'react';
 
 import { BasicModalProps } from '../../lib/types/ui';
 
-import Modal from '@zero-tech/zui/components/Modal';
+import { Modal } from '@zero-tech/zui/components/Modal';
 import UnstakeForm, { UnstakeFormProps } from './UnstakeForm';
 
 import styles from './UnstakeModal.module.scss';

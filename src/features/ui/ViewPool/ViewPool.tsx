@@ -7,7 +7,7 @@ import { formatPercentage, formatWei } from '../../../lib/util/format';
 import { PoolInfo } from '../../../lib/types/pool';
 
 import { PoolDetail } from '../PoolDetail';
-import Card from '@zero-tech/zui/components/Card';
+import { Card } from '@zero-tech/zui/components/Card';
 
 import styles from './ViewPool.module.scss';
 

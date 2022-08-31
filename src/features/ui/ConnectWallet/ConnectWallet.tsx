@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import useWeb3 from '../../../lib/hooks/useWeb3';
 
-import Button from '@zero-tech/zui/components/Button';
+import { Button } from '@zero-tech/zui/components/Button';
 
 import styles from './ConnectWallet.module.scss';
 

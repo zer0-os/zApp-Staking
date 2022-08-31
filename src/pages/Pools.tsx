@@ -1,7 +1,7 @@
 import { POOL_METADATA } from '../lib/constants/pools';
 import { useZfiSdk } from '../lib/hooks/useZfiSdk';
 
-import Card from '@zero-tech/zui/components/Card';
+import { Card } from '@zero-tech/zui/components/Card';
 import { PoolTable } from '../features/view-pools';
 
 import styles from './Pools.module.scss';

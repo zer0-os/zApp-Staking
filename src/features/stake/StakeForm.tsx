@@ -12,7 +12,7 @@ import { PoolInfo } from '../../lib/types/pool';
 import { FormInputs } from '../ui/FormInputs';
 import { ApprovePoolSpendingForm } from '../ui/ApprovePoolSpendingForm';
 import { ConnectWallet } from '../ui/ConnectWallet';
-import Wizard from '@zero-tech/zui/components/Wizard';
+import { Wizard } from '@zero-tech/zui/components/Wizard';
 
 interface StakeFormProps extends PoolInfo {}
 

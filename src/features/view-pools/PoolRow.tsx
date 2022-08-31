@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Skeleton from '@zero-tech/zui/components/Skeleton';
+import { Skeleton } from '@zero-tech/zui/components/Skeleton';
 
 import styles from './PoolRow.module.scss';
 

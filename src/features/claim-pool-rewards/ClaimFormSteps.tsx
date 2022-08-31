@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import Wizard from '@zero-tech/zui/components/Wizard';
+import { Wizard } from '@zero-tech/zui/components/Wizard';
 
 interface ClaimTextProps {
 	amount: number;

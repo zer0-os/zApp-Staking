@@ -10,7 +10,7 @@ import { BasicModalProps } from '../../lib/types/ui';
 import { PoolInfo } from '../../lib/types/pool';
 
 import StakeForm from './StakeForm';
-import Modal from '@zero-tech/zui/components/Modal';
+import { Modal } from '@zero-tech/zui/components/Modal';
 
 import styles from './StakeModal.module.scss';
 
