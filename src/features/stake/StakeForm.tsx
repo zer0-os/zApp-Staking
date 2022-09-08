@@ -13,6 +13,7 @@ import { FormInputs } from '../ui/FormInputs';
 import { ApprovePoolSpendingForm } from '../ui/ApprovePoolSpendingForm';
 import { ConnectWallet } from '../ui/ConnectWallet';
 import { Wizard } from '@zero-tech/zui/components/Wizard';
+import { formatWei } from '../../lib/util/format';
 
 interface StakeFormProps extends PoolInfo {}
 
@@ -51,9 +52,15 @@ const StakeForm: FC<StakeFormProps> = (props) => {
 					message={
 						step === Step.COMPLETE
 							? {
-									text: `Successfully staked ${amount} ${props.poolMetadata.tokenTicker}`,
+									text: `${formatWei(amount, props.poolMetadata.tokenUnits)} ${
+										props.poolMetadata.tokenTicker
+									} staked successfully`,
+									isError: false,
 							  }
-							: error && { text: error, isError: true }
+							: error && {
+									text: 'Failed to process transaction.',
+									isError: true,
+							  }
 					}
 					onSubmit={onConfirmAmount}
 					isTransactionPending={step !== Step.AMOUNT}

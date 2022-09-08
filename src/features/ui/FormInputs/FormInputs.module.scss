@@ -20,11 +20,18 @@
 		}
 	}
 
-	// @TODO: proper error styling
-	.Error {
+	.Message {
 		width: 100%;
 		padding: 1rem;
-		background: rgba(255, 0, 0, 0.2);
 		border-radius: 0.5rem;
+		box-sizing: border-box;
+	}
+
+	.Success {
+		background: #232323;
+	}
+
+	.Error {
+		background: rgba(255, 0, 0, 0.2);
 	}
 }

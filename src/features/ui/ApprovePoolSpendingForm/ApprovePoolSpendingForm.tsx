@@ -37,7 +37,7 @@ export const ApprovePoolSpendingForm: FC<ApprovePoolSpendingFormProps> = ({
 	 * allowance to spend the amount they are attempting to spend.
 	 */
 	const { data: needsApproval, isLoading: isCheckingAllowance } =
-		usePoolSpendingAllowance(provider, amountToApprove, poolInstance);
+		usePoolSpendingAllowance(amountToApprove, poolInstance);
 
 	const [step, setStep] = useState<Step>(Step.NEEDS_APPROVAL);
 	const [error, setError] = useState<string | undefined>();
