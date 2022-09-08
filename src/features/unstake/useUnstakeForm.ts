@@ -6,6 +6,7 @@ import { useState } from 'react';
 import useWeb3 from '../../lib/hooks/useWeb3';
 import { Deposit, PoolInstance } from '@zero-tech/zfi-sdk';
 import { BigNumber } from 'ethers';
+import { useQueryClient } from 'react-query';
 
 export enum UnstakeFormStep {
 	AMOUNT,
@@ -17,6 +18,7 @@ export enum UnstakeFormStep {
 
 const useUnstakeForm = (poolInstance: PoolInstance) => {
 	const { provider } = useWeb3();
+	const queryClient = useQueryClient();
 
 	const [amount, setAmount] = useState<BigNumber | undefined>();
 	const [error, setError] = useState<string | undefined>();
@@ -51,6 +53,8 @@ const useUnstakeForm = (poolInstance: PoolInstance) => {
 				setStep(UnstakeFormStep.PROCESSING);
 				await tx.wait();
 				setStep(UnstakeFormStep.COMPLETE);
+				await queryClient.invalidateQueries('balance');
+				await queryClient.invalidateQueries('allowance');
 			} catch (e: any) {
 				setStep(UnstakeFormStep.AMOUNT);
 				setError(e.message ?? 'Transaction failed - please try again');

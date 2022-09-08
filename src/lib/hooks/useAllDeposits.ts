@@ -57,7 +57,7 @@ const useAllDeposits = (account: string) => {
 	const zfiSdk = useZfiSdk();
 	const { chainId } = useWeb3();
 
-	return useQuery(`deposits-${account}-${chainId}`, async () => {
+	return useQuery(['deposits', { account, chainId }], async () => {
 		const data = await Promise.all([
 			zfiSdk.wildPool.getAllDeposits(account),
 			zfiSdk.wildPool.getAllRewards(account),

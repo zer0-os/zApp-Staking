@@ -6,6 +6,7 @@ import { useState } from 'react';
 import useWeb3 from '../../lib/hooks/useWeb3';
 import { PoolInstance } from '@zero-tech/zfi-sdk';
 import { BigNumber } from 'ethers';
+import { useQueryClient } from 'react-query';
 
 export enum StakeFormStep {
 	CONNECT_WALLET,
@@ -18,6 +19,7 @@ export enum StakeFormStep {
 
 const useStakeForm = (poolInstance: PoolInstance) => {
 	const { provider, account } = useWeb3();
+	const queryClient = useQueryClient();
 
 	const [amount, setAmount] = useState<BigNumber | undefined>();
 	const [error, setError] = useState<string | undefined>();
@@ -52,6 +54,8 @@ const useStakeForm = (poolInstance: PoolInstance) => {
 				);
 				setStep(StakeFormStep.PROCESSING);
 				await tx.wait();
+				await queryClient.invalidateQueries('balance');
+				await queryClient.invalidateQueries('allowance');
 				setStep(StakeFormStep.COMPLETE);
 			} catch (e: any) {
 				setStep(StakeFormStep.AMOUNT);

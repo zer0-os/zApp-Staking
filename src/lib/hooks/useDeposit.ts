@@ -8,7 +8,7 @@ const useDeposit = (
 	depositId: Deposit['depositId'],
 ) => {
 	return useQuery(
-		`deposit-${account}-${poolInstance.address}-${depositId}`,
+		['deposits', { account, poolAddress: poolInstance.address, depositId }],
 		async () => {
 			const deposits = await poolInstance.getAllDeposits(account);
 			return deposits.filter((d) => d.depositId === depositId)[0];

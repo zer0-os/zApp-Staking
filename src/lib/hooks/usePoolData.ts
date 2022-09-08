@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { getPoolData } from '../util/pool';
 
 const usePoolData = (poolInstance: PoolInstance) => {
-	return useQuery(`pool-${poolInstance.address}`, async () =>
+	return useQuery(['pools', { poolAddress: poolInstance.address }], async () =>
 		getPoolData(poolInstance),
 	);
 };
