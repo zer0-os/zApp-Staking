@@ -5,6 +5,7 @@ import { PoolInstance } from '@zero-tech/zfi-sdk';
 import Segments from './segments';
 import usePoolSpendingAllowance from './usePoolSpendingAllowance';
 import useWeb3 from '../../../lib/hooks/useWeb3';
+import { BigNumber } from 'ethers';
 
 enum Step {
 	NEEDS_APPROVAL,
@@ -17,13 +18,16 @@ interface ApprovePoolSpendingFormProps {
 	poolInstance: PoolInstance;
 	onCancel: () => void;
 	onComplete: () => void;
-	amountToApprove: number;
+	amountToApprove: BigNumber;
 }
 
 export const ApprovePoolSpendingForm: FC<ApprovePoolSpendingFormProps> = ({
 	poolInstance,
 	onCancel,
 	onComplete,
+	/**
+	 * Amount in wei
+	 */
 	amountToApprove,
 }) => {
 	const { provider } = useWeb3();

@@ -18,7 +18,7 @@ export enum UnstakeFormStep {
 const useUnstakeForm = (poolInstance: PoolInstance) => {
 	const { provider } = useWeb3();
 
-	const [amount, setAmount] = useState<number | undefined>();
+	const [amount, setAmount] = useState<BigNumber | undefined>();
 	const [error, setError] = useState<string | undefined>();
 	const [step, setStep] = useState<UnstakeFormStep>(UnstakeFormStep.AMOUNT);
 
@@ -26,16 +26,10 @@ const useUnstakeForm = (poolInstance: PoolInstance) => {
 	 * Sets the stake amount and moves onto the approval step.
 	 * @param amount amount of tokens to check allowance and stake
 	 */
-	const onConfirmAmount = (amount: number) => {
+	const onConfirmAmount = (amount: BigNumber) => {
 		setError(undefined);
-		/*
-		 * Approval is handled by a different component.
-		 * We just need to pass onApproved to that component.
-		 */
-		if (!isNaN(amount)) {
-			setAmount(amount);
-			setStep(UnstakeFormStep.CONFIRM);
-		}
+		setAmount(amount);
+		setStep(UnstakeFormStep.CONFIRM);
 	};
 
 	/**
@@ -44,7 +38,7 @@ const useUnstakeForm = (poolInstance: PoolInstance) => {
 	const onStartTransaction = (depositId: Deposit['depositId']) => {
 		const transaction = async () => {
 			try {
-				if (amount === undefined || amount === 0) {
+				if (amount === undefined || amount.lte(0)) {
 					// @TODO better error
 					throw new Error('Invalid amount - ' + amount);
 				}

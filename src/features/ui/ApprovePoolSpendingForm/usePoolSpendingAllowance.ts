@@ -1,7 +1,6 @@
 import { useQuery } from 'react-query';
 import { BigNumber, providers } from 'ethers';
 import { PoolInstance } from '@zero-tech/zfi-sdk';
-import { parseEther } from 'ethers/lib/utils';
 
 /**
  * Checks if a given user (provider) has approved
@@ -12,7 +11,7 @@ import { parseEther } from 'ethers/lib/utils';
  */
 const usePoolSpendingAllowance = (
 	provider: providers.Web3Provider,
-	amountToApprove: number,
+	amountToApprove: BigNumber,
 	poolInstance: PoolInstance,
 ) => {
 	// @TODO: include account number in the query ID

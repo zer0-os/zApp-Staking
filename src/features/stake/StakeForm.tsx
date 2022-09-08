@@ -78,9 +78,7 @@ const StakeForm: FC<StakeFormProps> = (props) => {
 					poolInstance={props.poolInstance}
 					onCancel={onCancel}
 					onComplete={onStartTransaction}
-					/* Asserting not null because form validation
-                     prevents us from getting this far if amount === undefined */
-					amountToApprove={amount!}
+					amountToApprove={amount}
 				/>
 			);
 	}

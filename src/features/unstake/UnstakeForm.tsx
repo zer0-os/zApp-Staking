@@ -10,15 +10,18 @@ import { BigNumber } from 'ethers';
 import ConfirmUnstake from './ConfirmUnstake';
 import { FormInputs } from '../ui/FormInputs';
 import { Wizard } from '@zero-tech/zui/components';
+import { formatWei } from '../../lib/util/format';
 
 export interface UnstakeFormProps extends PoolInfo {
 	depositId: Deposit['depositId'];
+	onComplete?: () => void;
 }
 
 const UnstakeFormProps: FC<UnstakeFormProps> = ({
 	poolMetadata,
 	poolInstance,
 	depositId,
+	onComplete,
 }) => {
 	const { account } = useWeb3();
 
@@ -31,14 +34,16 @@ const UnstakeFormProps: FC<UnstakeFormProps> = ({
 	const { amount, step, onConfirmAmount, onStartTransaction } =
 		useUnstakeForm(poolInstance);
 
-	const shouldShowHeader =
-		step === UnstakeFormStep.CONFIRM ||
-		step == UnstakeFormStep.WAITING_FOR_WALLET;
+	const shouldShowHeader = [
+		UnstakeFormStep.CONFIRM,
+		UnstakeFormStep.PROCESSING,
+		UnstakeFormStep.COMPLETE,
+	].includes(step);
 
 	let content;
 	switch (step) {
 		case UnstakeFormStep.AMOUNT:
-		case UnstakeFormStep.PROCESSING:
+		case UnstakeFormStep.WAITING_FOR_WALLET:
 			content = (
 				<FormInputs
 					action={'unstake'}
@@ -52,22 +57,40 @@ const UnstakeFormProps: FC<UnstakeFormProps> = ({
 					]}
 					poolMetadata={poolMetadata}
 					poolInstance={poolInstance}
-					isTransactionPending={step === UnstakeFormStep.PROCESSING}
+					isTransactionPending={step === UnstakeFormStep.WAITING_FOR_WALLET}
 				/>
 			);
 			break;
 		case UnstakeFormStep.CONFIRM:
 			content = (
 				<ConfirmUnstake
-					amount={amount}
+					amountAsString={formatWei(amount, poolMetadata.tokenUnits)}
 					tokenTicker={poolMetadata.tokenTicker}
 					onConfirm={() => onStartTransaction(depositId)}
 				/>
 			);
 			break;
-		default:
-			// @TODO: handle
-			content = <>huh?</>;
+		case UnstakeFormStep.PROCESSING:
+			content = (
+				<Wizard.Loading message={'Your transaction is being processed...'} />
+			);
+			break;
+		case UnstakeFormStep.COMPLETE:
+			content = (
+				<Wizard.Confirmation
+					message={
+						<>
+							<b>
+								{formatWei(amount, poolMetadata.tokenUnits)}{' '}
+								{poolMetadata.tokenTicker}
+							</b>{' '}
+							unstaked successfully.
+						</>
+					}
+					isPrimaryButtonActive={true}
+					onClickPrimaryButton={onComplete}
+				/>
+			);
 	}
 
 	return (

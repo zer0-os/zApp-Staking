@@ -25,6 +25,6 @@ export const UnstakeModal: FC<UnstakeModalProps> = ({
 		open={open}
 		className={styles.Container}
 	>
-		<UnstakeForm {...rest} />
+		<UnstakeForm {...rest} onComplete={() => onOpenChange(false)} />
 	</Modal>
 );

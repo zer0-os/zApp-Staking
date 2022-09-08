@@ -2,13 +2,13 @@ import { FC, useState } from 'react';
 
 import { BigNumber } from 'ethers';
 import { formatWei } from '../../../lib/util/format';
-import { formatEther } from 'ethers/lib/utils';
+import { formatUnits, parseUnits } from 'ethers/lib/utils';
 import { PoolInfo } from '../../../lib/types/pool';
 
 import { ViewPool } from '../ViewPool';
 import { Button } from '@zero-tech/zui/components/Button';
 import { Skeleton } from '@zero-tech/zui/components/Skeleton';
-import { NumberInput } from '@zero-tech/zui/components/Input/NumberInput';
+import { Input } from '@zero-tech/zui/components/Input';
 
 import styles from './FormInputs.module.scss';
 
@@ -26,7 +26,7 @@ export interface Message {
 export interface FormInputsProps extends PoolInfo {
 	action: 'stake' | 'unstake' | 'claim';
 	balances?: Balance[];
-	onSubmit: (amount: number) => void;
+	onSubmit: (amount: BigNumber) => void;
 	isTransactionPending?: boolean;
 	message?: Message;
 }
@@ -40,9 +40,7 @@ export const FormInputs: FC<FormInputsProps> = ({
 	isTransactionPending,
 	message,
 }) => {
-	const [amountInputValue, setAmountInputValue] = useState<
-		string | undefined
-	>();
+	const [amountInputValue, setAmountInputValue] = useState<string>('');
 
 	const buttonLabel = amountInputValue
 		? `${action} ${amountInputValue.toLocaleString()} ${
@@ -51,14 +49,14 @@ export const FormInputs: FC<FormInputsProps> = ({
 		: action;
 
 	const onSubmit = () => {
-		if (!isNaN(Number(amountInputValue))) {
-			onSubmitProps(Number(amountInputValue));
-		}
+		onSubmitProps(parseUnits(amountInputValue, poolMetadata.tokenUnits));
 	};
 
 	const setMax = () => {
 		if (balances[0]?.value) {
-			setAmountInputValue(formatEther(balances[0].value));
+			setAmountInputValue(
+				formatUnits(balances[0].value, poolMetadata.tokenUnits),
+			);
 		}
 	};
 
@@ -67,11 +65,10 @@ export const FormInputs: FC<FormInputsProps> = ({
 			{message && <span className={styles.Error}>{message.text}</span>}
 			<ViewPool poolMetadata={poolMetadata} poolInstance={poolInstance} />
 			{action !== 'claim' && (
-				<NumberInput
-					value={amountInputValue?.toLocaleString()}
-					onChange={(val: string) => {
-						setAmountInputValue(val);
-					}}
+				<Input
+					type="number"
+					value={amountInputValue}
+					onChange={setAmountInputValue}
 					isDisabled={isTransactionPending}
 					label={'Amount'}
 					placeholder={'Amount'}

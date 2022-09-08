@@ -1,19 +1,17 @@
 import { Wizard } from '@zero-tech/zui/components/Wizard';
 import { FC } from 'react';
-import { formatFiat } from '../../lib/util/format';
 
 interface ConfirmUnstakeProps {
-	amount: number;
+	amountAsString: string;
 	tokenTicker: string;
 	onConfirm: () => void;
 }
 
 const ConfirmUnstake: FC<ConfirmUnstakeProps> = ({
-	amount,
+	amountAsString,
 	tokenTicker,
 	onConfirm,
 }) => {
-	const convertedAmount = formatFiat(amount);
 	return (
 		<Wizard.Confirmation
 			message={
@@ -27,11 +25,11 @@ const ConfirmUnstake: FC<ConfirmUnstakeProps> = ({
 					<p>
 						Are you sure you want to claim{' '}
 						<b>
-							{convertedAmount} {tokenTicker}
+							{amountAsString} {tokenTicker}
 						</b>{' '}
 						in pool rewards and unstake{' '}
 						<b>
-							{amount} {tokenTicker}
+							{amountAsString} {tokenTicker}
 						</b>
 						? This will happen in one transaction.
 					</p>
