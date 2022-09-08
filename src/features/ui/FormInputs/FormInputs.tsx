@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { useState } from 'react';
 
 import { BigNumber } from 'ethers';
 import { formatWei } from '../../../lib/util/format';
@@ -32,7 +32,7 @@ export interface FormInputsProps extends PoolInfo {
 	message?: Message;
 }
 
-export const FormInputs: FC<FormInputsProps> = ({
+export const FormInputs = ({
 	action,
 	poolMetadata,
 	poolInstance,
@@ -40,7 +40,7 @@ export const FormInputs: FC<FormInputsProps> = ({
 	onSubmit: onSubmitProps,
 	isTransactionPending,
 	message,
-}) => {
+}: FormInputsProps) => {
 	const [amountInputValue, setAmountInputValue] = useState<string>('');
 
 	const amountAsWei =
@@ -53,27 +53,25 @@ export const FormInputs: FC<FormInputsProps> = ({
 		  }`
 		: action;
 
+	const isValidAmount =
+		!amountInputValue ||
+		!userBalance ||
+		amountAsWei.lte(0) ||
+		amountAsWei.gt(userBalance) ||
+		isTransactionPending;
+
 	const onSubmit = () => {
 		onSubmitProps(amountAsWei);
 	};
 
 	const setMax = () => {
-		if (userBalance) {
-			setAmountInputValue(formatUnits(userBalance, poolMetadata.tokenUnits));
-		}
+		setAmountInputValue(formatUnits(userBalance, poolMetadata.tokenUnits));
 	};
 
 	return (
 		<div className={styles.Container}>
 			{message && (
-				<span
-					className={classNames(
-						styles.Message,
-						message.isError ? styles.Error : styles.Success,
-					)}
-				>
-					{message.text}
-				</span>
+				<StatusMessage isError={message.isError} text={message.text} />
 			)}
 			<ViewPool poolMetadata={poolMetadata} poolInstance={poolInstance} />
 			{action !== 'claim' && (
@@ -96,31 +94,42 @@ export const FormInputs: FC<FormInputsProps> = ({
 			)}
 			<Button
 				isLoading={isTransactionPending}
-				isDisabled={
-					!amountInputValue ||
-					!userBalance ||
-					amountAsWei.lte(0) ||
-					amountAsWei.gt(userBalance) ||
-					isTransactionPending
-				}
+				isDisabled={isValidAmount}
 				onPress={onSubmit}
 			>
 				{buttonLabel}
 			</Button>
-			{balances?.map((b) => (
-				<div className={styles.Balance} key={b.label}>
-					<span>{b.label}</span>
-					<b>
-						{b.isLoading ? (
-							<Skeleton width={150} />
-						) : b.value ? (
-							formatWei(b.value)
-						) : (
-							'ERR'
-						)}
-					</b>
-				</div>
-			))}
+			<BalanceList balances={balances} />
 		</div>
 	);
 };
+
+const StatusMessage = (props: { isError: boolean; text: string }) => (
+	<span
+		className={classNames(
+			styles.Message,
+			props.isError ? styles.Error : styles.Success,
+		)}
+	>
+		{props.text}
+	</span>
+);
+
+const BalanceList = (props: { balances: Balance[] }) => (
+	<ul>
+		{props.balances?.map((b) => (
+			<li className={styles.Balance} key={b.label}>
+				<span>{b.label}</span>
+				<b>
+					{b.isLoading ? (
+						<Skeleton width={150} />
+					) : b.value ? (
+						formatWei(b.value)
+					) : (
+						'ERR'
+					)}
+				</b>
+			</li>
+		))}
+	</ul>
+);
