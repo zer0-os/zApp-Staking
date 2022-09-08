@@ -100,7 +100,7 @@ export const FormInputs: FC<FormInputsProps> = ({
 					!amountInputValue ||
 					!userBalance ||
 					amountAsWei.lte(0) ||
-					amountAsWei.gte(userBalance) ||
+					amountAsWei.gt(userBalance) ||
 					isTransactionPending
 				}
 				onPress={onSubmit}
