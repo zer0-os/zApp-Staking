@@ -7,8 +7,9 @@ import { PoolTableData } from './Pools.helpers';
 import { PoolDetail } from '../ui/PoolDetail';
 import { PoolData } from '../../lib/types/pool';
 import usePoolData from '../../lib/hooks/usePoolData';
-import { StakeButton, StakeModal } from '../stake';
+import { StakeModal } from '../stake';
 import { formatFiat, formatPercentage } from '../../lib/util/format';
+import { Button } from '@zero-tech/zui/components/Button';
 
 interface PoolRowProps {
 	rowData: PoolTableData;
@@ -36,6 +37,10 @@ const PoolRow: FC<PoolRowProps> = ({ rowData }) => {
 		}
 	};
 
+	const onClickRow = () => {
+		setIsModalOpen(true);
+	};
+
 	// @TODO: alignments based on Column data
 
 	return (
@@ -44,9 +49,9 @@ const PoolRow: FC<PoolRowProps> = ({ rowData }) => {
 				poolInstance={rowData.instance}
 				poolMetadata={rowData.metadata}
 				open={isModalOpen}
-				onOpenChange={() => setIsModalOpen(false)}
+				onOpenChange={(isOpen) => setIsModalOpen(isOpen)}
 			/>
-			<tr className={styles.Container} onClick={() => setIsModalOpen(true)}>
+			<tr className={styles.Container} onClick={onClickRow}>
 				<td className={styles.Pool}>
 					<PoolDetail
 						imageUrl={rowData.metadata.icon}
@@ -56,10 +61,7 @@ const PoolRow: FC<PoolRowProps> = ({ rowData }) => {
 				<td className={styles.Right}>{getAsyncColumn('apr')}</td>
 				<td className={styles.Right}>{getAsyncColumn('tvl')}</td>
 				<td className={styles.Right}>
-					<StakeButton
-						poolInstance={rowData.instance}
-						poolMetadata={rowData.metadata}
-					/>
+					<Button onPress={onClickRow}>Stake</Button>
 				</td>
 			</tr>
 		</>
