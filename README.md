@@ -1,7 +1,5 @@
 # zFi dApp
 
-This is the zFi dApp, ported from zNS-dapp's "Staking" app.
-
 ## Running Locally
 
 This zApp is designed to run in the context of [zOS](https://github.com/zer0-os/zOS).
