@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 
 const useUserPoolData = (poolInstance: PoolInstance, account: string) => {
 	return useQuery(
-		`user-pool-data-${poolInstance.address}-${account}`,
+		['user', { account, poolAddress: poolInstance.address }],
 		async () => {
 			const [deposits, rewards] = await Promise.all([
 				poolInstance.getAllDeposits(account),

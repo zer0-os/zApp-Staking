@@ -1,7 +1,7 @@
 import { providers } from 'ethers';
 import { FC, createContext, ReactNode } from 'react';
 
-interface Web3ProviderProps {
+export interface Web3ProviderProps {
 	account?: string;
 	chainId?: number;
 	connectWallet?: () => void;

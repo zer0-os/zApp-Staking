@@ -1,3 +1,9 @@
 .Main {
-	margin-top: 100px;
+	margin: 100px auto 0 auto;
+
+	> * {
+		width: 100%;
+		max-width: 736px;
+		margin: 0 auto;
+	}
 }

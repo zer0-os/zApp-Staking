@@ -8,13 +8,16 @@ const useUserPoolTokenBalance = (
 ) => {
 	const znsSdk = useZnsSdk();
 
-	return useQuery(`pool-${account}-${poolInstance.address}`, async () => {
-		const tokenAddress = await poolInstance.getPoolToken();
-		return await znsSdk.zauction.getUserBalanceForPaymentToken(
-			account,
-			tokenAddress,
-		);
-	});
+	return useQuery(
+		['user', 'balance', { account, poolAddress: poolInstance.address }],
+		async () => {
+			const tokenAddress = await poolInstance.getPoolToken();
+			return await znsSdk.zauction.getUserBalanceForPaymentToken(
+				account,
+				tokenAddress,
+			);
+		},
+	);
 };
 
 export default useUserPoolTokenBalance;

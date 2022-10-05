@@ -1,6 +1,7 @@
 import { FC, useState } from 'react';
 
 import { PoolInstance } from '@zero-tech/zfi-sdk';
+import { BigNumber } from 'ethers';
 
 import Segments from './segments';
 import usePoolSpendingAllowance from './usePoolSpendingAllowance';
@@ -17,7 +18,7 @@ interface ApprovePoolSpendingFormProps {
 	poolInstance: PoolInstance;
 	onCancel: () => void;
 	onComplete: () => void;
-	amountToApprove: number;
+	amountToApprove: BigNumber;
 }
 
 export const ApprovePoolSpendingForm: FC<ApprovePoolSpendingFormProps> = ({
@@ -33,7 +34,7 @@ export const ApprovePoolSpendingForm: FC<ApprovePoolSpendingFormProps> = ({
 	 * allowance to spend the amount they are attempting to spend.
 	 */
 	const { data: needsApproval, isLoading: isCheckingAllowance } =
-		usePoolSpendingAllowance(provider, amountToApprove, poolInstance);
+		usePoolSpendingAllowance(amountToApprove, poolInstance);
 
 	const [step, setStep] = useState<Step>(Step.NEEDS_APPROVAL);
 	const [error, setError] = useState<string | undefined>();

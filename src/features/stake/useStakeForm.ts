@@ -1,11 +1,9 @@
-/**
- * @TODO: tests
- */
-
 import { useState } from 'react';
-import useWeb3 from '../../lib/hooks/useWeb3';
-import { PoolInstance } from '@zero-tech/zfi-sdk';
 import { BigNumber } from 'ethers';
+import { PoolInstance } from '@zero-tech/zfi-sdk';
+import useWeb3 from '../../lib/hooks/useWeb3';
+import { useStake } from './useStake';
+import useUserPoolTokenBalance from '../../lib/hooks/useUserPoolTokenBalance';
 
 export enum StakeFormStep {
 	CONNECT_WALLET,
@@ -16,27 +14,50 @@ export enum StakeFormStep {
 	COMPLETE,
 }
 
+/**
+ * Drives the stake form UI.
+ */
 const useStakeForm = (poolInstance: PoolInstance) => {
 	const { provider, account } = useWeb3();
 
-	const [amount, setAmount] = useState<number | undefined>();
+	const initialStep =
+		!account || !provider ? StakeFormStep.CONNECT_WALLET : StakeFormStep.AMOUNT;
+
+	const {
+		data: userPoolTokenBalance,
+		isLoading: isLoadingUserPoolTokenBalance,
+	} = useUserPoolTokenBalance(account, poolInstance);
+
+	const [amountWei, setAmountWei] = useState<BigNumber | undefined>();
 	const [error, setError] = useState<string | undefined>();
-	const [step, setStep] = useState<StakeFormStep>(
-		!account || !provider ? StakeFormStep.CONNECT_WALLET : StakeFormStep.AMOUNT,
-	);
+	const [step, setStep] = useState<StakeFormStep>(initialStep);
+
+	const { stake } = useStake({
+		onStart: () => {
+			setStep(StakeFormStep.WAITING_FOR_WALLET);
+			setError(undefined);
+		},
+		onProcessing: () => setStep(StakeFormStep.PROCESSING),
+		onSuccess: () => setStep(StakeFormStep.COMPLETE),
+		onError: (error: Error) => {
+			setStep(StakeFormStep.AMOUNT);
+			setError(error.message);
+			console.error('Failed to stake in pool!', {
+				error,
+				account,
+				pool: poolInstance.address,
+			});
+		},
+	});
 
 	/**
 	 * Sets the stake amount and moves onto the approval step.
-	 * @param amount amount of tokens to check allowance and stake
+	 * @param amount amount of tokens in wei
 	 */
-	const onConfirmAmount = (amount: number) => {
+	const onConfirmAmount = (amount: BigNumber) => {
 		setError(undefined);
-		/*
-		 * Approval is handled by a different component.
-		 * We just need to pass onApproved to that component.
-		 */
-		if (!isNaN(amount)) {
-			setAmount(amount);
+		if (amount._isBigNumber && amount.gt(0)) {
+			setAmountWei(amount);
 			setStep(StakeFormStep.APPROVE);
 		}
 	};
@@ -45,31 +66,17 @@ const useStakeForm = (poolInstance: PoolInstance) => {
 	 * Triggers the stake transaction with the amount stored in state
 	 */
 	const onStartTransaction = () => {
-		const transaction = async () => {
-			try {
-				if (amount === undefined || amount === 0) {
-					// @TODO better error
-					throw new Error('Invalid amount - ' + amount);
-				}
-				setStep(StakeFormStep.WAITING_FOR_WALLET);
-				const tx = await poolInstance.stake(
-					amount.toString(),
-					BigNumber.from(0),
-					provider!.getSigner(),
-				);
-				setStep(StakeFormStep.PROCESSING);
-				await tx.wait();
-				setStep(StakeFormStep.COMPLETE);
-			} catch (e: any) {
-				setStep(StakeFormStep.AMOUNT);
-				setError(e.message ?? 'Transaction failed - please try again');
+		(async () => {
+			if (amountWei !== undefined && poolInstance !== undefined) {
+				stake(amountWei, poolInstance);
 			}
-		};
-		transaction();
+		})();
 	};
 
 	return {
-		amount,
+		amountWei,
+		userPoolTokenBalance,
+		isLoadingUserPoolTokenBalance,
 		step,
 		error,
 		onConfirmAmount,
