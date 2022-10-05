@@ -66,9 +66,7 @@ export const useFormInputs = ({
 	};
 
 	const handleOnSubmit = () => {
-		if (isValidAmount) {
-			onSubmit(amountWei);
-		}
+		onSubmit(amountWei);
 	};
 
 	return {

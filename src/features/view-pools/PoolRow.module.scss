@@ -1,3 +1,10 @@
+.Container {
+	&:hover {
+		background: #1a1022;
+		cursor: pointer;
+	}
+}
+
 .Pool {
 	display: flex;
 	align-items: center;

@@ -1,14 +1,7 @@
-import { FC, useMemo, useState } from 'react';
+import { FC } from 'react';
 
-import { BigNumber, BigNumberish } from 'ethers';
-import { startCase, toLower } from 'lodash';
+import { BigNumber } from 'ethers';
 import { formatWei } from '../../../lib/util/format';
-import {
-	formatEther,
-	formatUnits,
-	parseEther,
-	parseUnits,
-} from 'ethers/lib/utils';
 import { PoolInfo } from '../../../lib/types/pool';
 
 import { useFormInputs } from './useFormInputs';
@@ -19,6 +12,9 @@ import { Skeleton } from '@zero-tech/zui/components/Skeleton';
 import { NumberInput } from '@zero-tech/zui/components/Input/NumberInput';
 
 import styles from './FormInputs.module.scss';
+import classNames from 'classnames/bind';
+
+const cx = classNames.bind(styles);
 
 export interface Balance {
 	label: string;
@@ -57,7 +53,7 @@ export const FormInputs: FC<FormInputsProps> = ({
 		isValidAmount,
 		isReadyForInput,
 	} = useFormInputs({
-		maxAmount: balances[0].value,
+		maxAmount: balances?.[0]?.value,
 		tokenDecimalPlaces: poolMetadata.tokenDecimals,
 		onSubmit,
 	});
@@ -65,46 +61,41 @@ export const FormInputs: FC<FormInputsProps> = ({
 	const isInputDisabled = isTransactionPending || !isReadyForInput;
 
 	const submitButtonLabel =
-		amountStringLocale && poolMetadata.tokenTicker
-			? `${action} ${amountStringLocale} ${poolMetadata.tokenTicker}`
-			: '';
-
-	const SubmitButton = () => (
-		<Button
-			isLoading={isTransactionPending}
-			isDisabled={!isValidAmount}
-			onPress={handleOnSubmit}
-		>
-			{submitButtonLabel}
-		</Button>
-	);
-
-	const BigNumberInput = () => (
-		<NumberInput
-			value={amountString}
-			onChange={handleOnAmountChange}
-			isDisabled={isInputDisabled}
-			label={'Amount'}
-			placeholder={'Amount'}
-			endEnhancer={
-				<Button
-					isDisabled={!balances[0]?.value || isInputDisabled}
-					onPress={handleOnMax}
-					variant="text"
-				>
-					MAX
-				</Button>
-			}
-		/>
-	);
+		action +
+		(amountStringLocale && poolMetadata.tokenTicker
+			? ` ${amountStringLocale} ${poolMetadata.tokenTicker}`
+			: '');
 
 	return (
 		<div className={styles.Container}>
 			{message && <MessageBanner {...message} />}
 			<ViewPool poolMetadata={poolMetadata} poolInstance={poolInstance} />
-			{action !== 'claim' && <BigNumberInput />}
-			<SubmitButton />
-			<Balances balances={balances} />
+			{action !== 'claim' && (
+				<NumberInput
+					value={amountString}
+					onChange={handleOnAmountChange}
+					isDisabled={isInputDisabled}
+					label={'Amount'}
+					placeholder={'Amount'}
+					endEnhancer={
+						<Button
+							isDisabled={!balances[0]?.value || isInputDisabled}
+							onPress={handleOnMax}
+							variant="text"
+						>
+							MAX
+						</Button>
+					}
+				/>
+			)}
+			<Button
+				isLoading={isTransactionPending}
+				isDisabled={action !== 'claim' && !isValidAmount}
+				onPress={handleOnSubmit}
+			>
+				{submitButtonLabel}
+			</Button>
+			{balances && <Balances balances={balances} />}
 		</div>
 	);
 };
@@ -114,7 +105,7 @@ export const FormInputs: FC<FormInputsProps> = ({
  *****************/
 
 const MessageBanner = ({ text, isError }: Message) => (
-	<span className={isError ? styles.Error : styles.Message}>{text}</span>
+	<span className={cx(styles.Message, { Error: isError })}>{text}</span>
 );
 
 const Balances = ({ balances }: { balances: Balance[] }) => (

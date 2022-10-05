@@ -1,5 +1,3 @@
-//@use 'styles/variables/colors';
-
 .Container {
 	display: flex;
 	flex-direction: column;
@@ -7,29 +5,29 @@
 
 	width: 100%;
 
-	.Balances {
-		padding: 0;
-		list-style: none;
+	.Balance {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: grey;
+		font-size: 0.75rem;
 
-		.Balance {
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
+		b {
+			font-size: 1.125rem;
 			color: grey;
-			font-size: 0.75rem;
-
-			b {
-				font-size: 1.125rem;
-				color: grey;
-			}
 		}
 	}
 
-	// @TODO: proper error styling
-	.Error {
+	.Message {
 		width: 100%;
 		padding: 1rem;
-		background: rgba(255, 0, 0, 0.2);
 		border-radius: 0.5rem;
+		box-sizing: border-box;
+
+		background: rgba(0, 255, 0, 0.2);
+	}
+
+	.Error {
+		background: rgba(255, 0, 0, 0.2);
 	}
 }

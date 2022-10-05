@@ -1,8 +1,5 @@
 import { FC } from 'react';
-
-import useWeb3 from '../../lib/hooks/useWeb3';
-import useDeposit from '../../lib/hooks/useDeposit';
-import useUnstakeForm, { UnstakeFormStep } from './useUnstakeForm';
+import { UnstakeFormStep as Step, useUnstakeForm } from './useUnstakeForm';
 import { PoolInfo } from '../../lib/types/pool';
 import { Deposit } from '@zero-tech/zfi-sdk';
 import { BigNumber } from 'ethers';
@@ -10,39 +7,47 @@ import { BigNumber } from 'ethers';
 import ConfirmUnstake from './ConfirmUnstake';
 import { FormInputs } from '../ui/FormInputs';
 import { Wizard } from '@zero-tech/zui/components';
+import { ApprovePoolSpendingForm } from '../ui/ApprovePoolSpendingForm';
+import { commify, formatEther } from 'ethers/lib/utils';
 
 export interface UnstakeFormProps extends PoolInfo {
 	depositId: Deposit['depositId'];
+	onFinish: () => void;
 }
 
-const UnstakeFormProps: FC<UnstakeFormProps> = ({
+const UnstakeForm: FC<UnstakeFormProps> = ({
 	poolMetadata,
 	poolInstance,
 	depositId,
+	onFinish,
 }) => {
-	const { account } = useWeb3();
-
-	const { data: deposit, isLoading } = useDeposit(
-		account,
+	const {
+		amountWei,
+		deposit,
+		isLoading,
+		error,
+		step,
+		onConfirmAmount,
+		onStartTransaction,
+		handleOnBack,
+		handleOnApproved,
+	} = useUnstakeForm({
 		poolInstance,
 		depositId,
-	);
-
-	const { amount, step, onConfirmAmount, onStartTransaction } =
-		useUnstakeForm(poolInstance);
+	});
 
 	const shouldShowHeader =
-		step === UnstakeFormStep.CONFIRM ||
-		step == UnstakeFormStep.WAITING_FOR_WALLET;
+		step === Step.CONFIRM || step == Step.PROCESSING || step === Step.COMPLETE;
 
 	let content;
 	switch (step) {
-		case UnstakeFormStep.AMOUNT:
-		case UnstakeFormStep.PROCESSING:
+		case Step.AMOUNT:
+		case Step.WAITING_FOR_WALLET:
 			content = (
 				<FormInputs
 					action={'unstake'}
 					onSubmit={onConfirmAmount}
+					message={error && { text: error, isError: true }}
 					balances={[
 						{
 							label: `Amount Staked in This Deposit (${poolMetadata.tokenTicker})`,
@@ -52,22 +57,56 @@ const UnstakeFormProps: FC<UnstakeFormProps> = ({
 					]}
 					poolMetadata={poolMetadata}
 					poolInstance={poolInstance}
-					isTransactionPending={step === UnstakeFormStep.PROCESSING}
+					isTransactionPending={step == Step.WAITING_FOR_WALLET}
 				/>
 			);
 			break;
-		case UnstakeFormStep.CONFIRM:
+		case Step.PROCESSING:
+			content = (
+				<Wizard.Loading message={'Your transaction is being processed...'} />
+			);
+			break;
+		case Step.APPROVE:
+			content = (
+				<ApprovePoolSpendingForm
+					poolInstance={poolInstance}
+					onCancel={handleOnBack}
+					onComplete={handleOnApproved}
+					/* Asserting not null because form validation
+                     prevents us from getting this far if amount === undefined */
+					amountToApprove={amountWei!}
+				/>
+			);
+			break;
+		case Step.CONFIRM:
 			content = (
 				<ConfirmUnstake
-					amount={amount}
+					amountWei={amountWei}
 					tokenTicker={poolMetadata.tokenTicker}
-					onConfirm={() => onStartTransaction(depositId)}
+					onConfirm={onStartTransaction}
 				/>
 			);
 			break;
-		default:
-			// @TODO: handle
-			content = <>huh?</>;
+		case Step.COMPLETE:
+			content = (
+				<Wizard.Confirmation
+					message={
+						<>
+							<p>
+								You have successfully unstaked{' '}
+								<b>
+									{commify(formatEther(amountWei))} {poolMetadata.tokenTicker}
+								</b>
+								!
+							</p>
+							<p>This may take a few minutes to reflect in My Deposits.</p>
+						</>
+					}
+					isPrimaryButtonActive={true}
+					primaryButtonText={'Finish'}
+					onClickPrimaryButton={onFinish}
+				/>
+			);
 	}
 
 	return (
@@ -79,4 +118,4 @@ const UnstakeFormProps: FC<UnstakeFormProps> = ({
 	);
 };
 
-export default UnstakeFormProps;
+export default UnstakeForm;

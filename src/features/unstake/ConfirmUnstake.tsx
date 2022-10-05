@@ -1,19 +1,21 @@
 import { Wizard } from '@zero-tech/zui/components/Wizard';
 import { FC } from 'react';
-import { formatFiat } from '../../lib/util/format';
+import { formatBigNumberString, formatFiat } from '../../lib/util/format';
+import { BigNumber } from 'ethers';
+import { commify, formatEther } from 'ethers/lib/utils';
 
 interface ConfirmUnstakeProps {
-	amount: number;
+	amountWei: BigNumber;
 	tokenTicker: string;
 	onConfirm: () => void;
 }
 
 const ConfirmUnstake: FC<ConfirmUnstakeProps> = ({
-	amount,
+	amountWei,
 	tokenTicker,
 	onConfirm,
 }) => {
-	const convertedAmount = formatFiat(amount);
+	const convertedAmount = commify(formatEther(amountWei));
 	return (
 		<Wizard.Confirmation
 			message={
@@ -31,7 +33,7 @@ const ConfirmUnstake: FC<ConfirmUnstakeProps> = ({
 						</b>{' '}
 						in pool rewards and unstake{' '}
 						<b>
-							{amount} {tokenTicker}
+							{convertedAmount} {tokenTicker}
 						</b>
 						? This will happen in one transaction.
 					</p>

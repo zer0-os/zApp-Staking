@@ -2,9 +2,11 @@ import { useState } from 'react';
 
 import useWeb3 from '../../lib/hooks/useWeb3';
 import useUserPoolData from '../../lib/hooks/useUserPoolData';
-import { PoolInstance } from '@zero-tech/zfi-sdk';
+import { Deposit, PoolInstance } from '@zero-tech/zfi-sdk';
 import { TransactionErrors } from '../../lib/constants/messages';
 import { formatEther } from 'ethers/lib/utils';
+import { BigNumber } from 'ethers';
+import { useTransaction } from '../../lib/useTransaction';
 
 export enum ClaimFormStep {
 	AMOUNT,
@@ -19,6 +21,7 @@ export enum ClaimFormStep {
  */
 const useClaimForm = (poolInstance: PoolInstance) => {
 	const { provider, account } = useWeb3();
+	const { executeTransaction } = useTransaction();
 
 	const { data, isLoading, isRefetching, refetch } = useUserPoolData(
 		poolInstance,
@@ -38,43 +41,32 @@ const useClaimForm = (poolInstance: PoolInstance) => {
 		}
 	};
 
-	/**
-	 * Triggers a series of wallet confirmations, and progresses steps accordingly.
-	 */
-	const onConfirmClaim = () => {
-		(async () => {
-			try {
-				let tx;
-				setStep(ClaimFormStep.WAITING_FOR_WALLET);
-				try {
-					tx = await poolInstance.processRewards(provider.getSigner());
-				} catch {
-					throw TransactionErrors.PRE_WALLET;
-				}
-				setStep(ClaimFormStep.PROCESSING);
-				try {
-					await tx.wait();
-				} catch {
-					throw TransactionErrors.POST_WALLET;
-				}
-				setStep(ClaimFormStep.COMPLETE);
-				refetch(); // refetch user data
-			} catch (e: any) {
-				setError(e.message);
-				setStep(ClaimFormStep.AMOUNT);
-			}
-		})();
+	const claim = () => {
+		return executeTransaction(
+			poolInstance.processRewards,
+			[provider.getSigner()],
+			{
+				onStart: () => setStep(ClaimFormStep.WAITING_FOR_WALLET),
+				onProcessing: () => setStep(ClaimFormStep.PROCESSING),
+				onSuccess: () => setStep(ClaimFormStep.COMPLETE),
+				onError: (error) => {
+					setError(error.message);
+					setStep(ClaimFormStep.AMOUNT);
+				},
+				invalidationKeys: [
+					['user', { account, poolAddress: poolInstance.address }],
+				],
+			},
+		);
 	};
 
 	return {
 		isLoadingUserData: isLoading || isRefetching,
-		claimableAmount: data?.rewards
-			? Number(formatEther(data.rewards))
-			: undefined,
+		amountWei: data.rewards,
 		step,
 		error,
 		onConfirmClaimAmount,
-		onConfirmClaim,
+		claim,
 	};
 };
 

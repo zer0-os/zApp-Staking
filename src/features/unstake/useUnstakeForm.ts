@@ -6,72 +6,98 @@ import { useState } from 'react';
 import useWeb3 from '../../lib/hooks/useWeb3';
 import { Deposit, PoolInstance } from '@zero-tech/zfi-sdk';
 import { BigNumber } from 'ethers';
+import useDeposit from '../../lib/hooks/useDeposit';
+import { StakeFormStep } from '../stake/useStakeForm';
+import { useStake } from '../stake/useStake';
+import { useUnstake } from './useUnstake';
 
 export enum UnstakeFormStep {
 	AMOUNT,
+	APPROVE,
 	CONFIRM,
 	WAITING_FOR_WALLET,
 	PROCESSING,
 	COMPLETE,
 }
 
-const useUnstakeForm = (poolInstance: PoolInstance) => {
-	const { provider } = useWeb3();
+interface UseUnstakeFormParams {
+	poolInstance: PoolInstance;
+	depositId: Deposit['depositId'];
+}
 
-	const [amount, setAmount] = useState<number | undefined>();
+export const useUnstakeForm = ({
+	poolInstance,
+	depositId,
+}: UseUnstakeFormParams) => {
+	const { account } = useWeb3();
+
+	const [amountWei, setAmountWei] = useState<BigNumber | undefined>();
 	const [error, setError] = useState<string | undefined>();
 	const [step, setStep] = useState<UnstakeFormStep>(UnstakeFormStep.AMOUNT);
 
-	/**
-	 * Sets the stake amount and moves onto the approval step.
-	 * @param amount amount of tokens to check allowance and stake
-	 */
-	const onConfirmAmount = (amount: number) => {
+	const { data: deposit, isLoading: isLoadingDeposit } = useDeposit(
+		account,
+		poolInstance,
+		depositId,
+	);
+
+	const { unstake } = useUnstake({
+		onStart: () => {
+			setStep(UnstakeFormStep.WAITING_FOR_WALLET);
+			setError(undefined);
+		},
+		onProcessing: () => setStep(UnstakeFormStep.PROCESSING),
+		onSuccess: () => setStep(UnstakeFormStep.COMPLETE),
+		onError: (error: Error) => {
+			setStep(UnstakeFormStep.AMOUNT);
+			setError(error.message);
+			console.error('Failed to unstake from	 pool!', {
+				error,
+				account,
+				amountWei,
+				deposit,
+				pool: poolInstance.address,
+			});
+		},
+	});
+
+	const onConfirmAmount = (amount: BigNumber) => {
 		setError(undefined);
-		/*
-		 * Approval is handled by a different component.
-		 * We just need to pass onApproved to that component.
-		 */
-		if (!isNaN(amount)) {
-			setAmount(amount);
-			setStep(UnstakeFormStep.CONFIRM);
+		if (amount._isBigNumber && amount.gt(0)) {
+			setAmountWei(amount);
+			setStep(UnstakeFormStep.APPROVE);
 		}
+	};
+
+	const handleOnApproved = () => {
+		setStep(UnstakeFormStep.CONFIRM);
 	};
 
 	/**
 	 * Triggers the stake transaction with the amount stored in state
 	 */
-	const onStartTransaction = (depositId: Deposit['depositId']) => {
-		const transaction = async () => {
-			try {
-				if (amount === undefined || amount === 0) {
-					// @TODO better error
-					throw new Error('Invalid amount - ' + amount);
-				}
-				setStep(UnstakeFormStep.WAITING_FOR_WALLET);
-				const tx = await poolInstance.unstake(
-					depositId,
-					amount.toString(),
-					provider.getSigner(),
-				);
-				setStep(UnstakeFormStep.PROCESSING);
-				await tx.wait();
-				setStep(UnstakeFormStep.COMPLETE);
-			} catch (e: any) {
-				setStep(UnstakeFormStep.AMOUNT);
-				setError(e.message ?? 'Transaction failed - please try again');
+	const onStartTransaction = () => {
+		(async () => {
+			if (amountWei && poolInstance && deposit?.depositId !== undefined) {
+				unstake(amountWei, deposit.depositId, poolInstance);
 			}
-		};
-		transaction();
+		})();
+	};
+
+	const handleOnBack = () => {
+		setStep(UnstakeFormStep.AMOUNT);
+		setError(undefined);
 	};
 
 	return {
-		amount,
+		amountWei,
 		step,
 		error,
 		onConfirmAmount,
 		onStartTransaction,
+		deposit: deposit,
+		isLoading: isLoadingDeposit,
+		handleOnBack,
+		handleOnApproved,
 	};
 };
-
-export default useUnstakeForm;

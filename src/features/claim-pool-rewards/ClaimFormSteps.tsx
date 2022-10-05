@@ -1,12 +1,14 @@
 import { FC } from 'react';
 import { Wizard } from '@zero-tech/zui/components/Wizard';
+import { commify, formatEther } from 'ethers/lib/utils';
+import { BigNumber } from 'ethers';
 
 interface ClaimTextProps {
-	amount: number;
+	amountWei: BigNumber;
 	tokenTicker: string;
 }
 
-export const ClaimText: FC<ClaimTextProps> = ({ amount, tokenTicker }) => (
+export const ClaimText: FC<ClaimTextProps> = ({ amountWei, tokenTicker }) => (
 	<div>
 		<p>
 			When you claim pool rewards, they are staked in the WILD pool and can be
@@ -15,7 +17,7 @@ export const ClaimText: FC<ClaimTextProps> = ({ amount, tokenTicker }) => (
 		<p>
 			Are you sure you want to claim{' '}
 			<b>
-				{amount} {tokenTicker}
+				{commify(formatEther(amountWei))} {tokenTicker}
 			</b>{' '}
 			in pool rewards?
 		</p>
@@ -27,27 +29,18 @@ interface ConfirmStepProps extends ClaimTextProps {
 }
 
 export const Confirm: FC<ConfirmStepProps> = ({ onConfirm, ...rest }) => (
-	<>
-		<Wizard.Header header={'Claim Pool Rewards'} />
-		<Wizard.Confirmation
-			onClickPrimaryButton={onConfirm}
-			primaryButtonText={'Confirm Claim'}
-			isPrimaryButtonActive={true}
-			message={<ClaimText {...rest} />}
-		/>
-	</>
+	<Wizard.Confirmation
+		onClickPrimaryButton={onConfirm}
+		primaryButtonText={'Confirm Claim'}
+		isPrimaryButtonActive={true}
+		message={<ClaimText {...rest} />}
+	/>
 );
 
 export const WaitingForWallet: FC<ClaimTextProps> = (props) => (
-	<>
-		<Wizard.Header header={'Claim Pool Rewards'} />
-		<Wizard.Loading message={<ClaimText {...props} />} />
-	</>
+	<Wizard.Loading message={<ClaimText {...props} />} />
 );
 
 export const Processing = () => (
-	<>
-		<Wizard.Header header={'Processing Transaction'} />
-		<Wizard.Loading message={'Your transaction is being processed...'} />
-	</>
+	<Wizard.Loading message={'Your transaction is being processed...'} />
 );

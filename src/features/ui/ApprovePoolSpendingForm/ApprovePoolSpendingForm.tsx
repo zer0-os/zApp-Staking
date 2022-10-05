@@ -6,6 +6,7 @@ import { BigNumber } from 'ethers';
 import Segments from './segments';
 import usePoolSpendingAllowance from './usePoolSpendingAllowance';
 import useWeb3 from '../../../lib/hooks/useWeb3';
+import { useTransaction } from '../../../lib/useTransaction';
 
 enum Step {
 	NEEDS_APPROVAL,
@@ -27,7 +28,8 @@ export const ApprovePoolSpendingForm: FC<ApprovePoolSpendingFormProps> = ({
 	onComplete,
 	amountToApprove,
 }) => {
-	const { provider } = useWeb3();
+	const { account, provider } = useWeb3();
+	const { executeTransaction } = useTransaction();
 
 	/**
 	 * Checks whether or not a user needs to approve a greater
@@ -39,24 +41,19 @@ export const ApprovePoolSpendingForm: FC<ApprovePoolSpendingFormProps> = ({
 	const [step, setStep] = useState<Step>(Step.NEEDS_APPROVAL);
 	const [error, setError] = useState<string | undefined>();
 
-	/**
-	 * Steps the user through the process of approving
-	 * pool spending.
-	 */
-	const approvePoolSpending = async () => {
-		try {
-			setError(undefined);
-			setStep(Step.WAITING_FOR_WALLET);
-			const tx = await poolInstance.approve(provider.getSigner());
-			setStep(Step.APPROVING);
-			await tx.wait();
-			onComplete();
-			setStep(Step.APPROVED);
-		} catch (e) {
-			console.error(e);
-			setStep(Step.NEEDS_APPROVAL);
-			setError('failed');
-		}
+	const approvePoolSpending = () => {
+		return executeTransaction(poolInstance.approve, [provider.getSigner()], {
+			onStart: () => setStep(Step.WAITING_FOR_WALLET),
+			onProcessing: () => setStep(Step.APPROVING),
+			onSuccess: () => setStep(Step.APPROVED),
+			onError: (error) => {
+				setError(error.message);
+				setStep(Step.NEEDS_APPROVAL);
+			},
+			invalidationKeys: [
+				['user', { account, poolAddress: poolInstance.address }],
+			],
+		});
 	};
 
 	/**

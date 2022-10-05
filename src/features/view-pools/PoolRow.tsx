@@ -1,4 +1,4 @@
-import { FC } from 'react';
+import { FC, ReactNode, useState } from 'react';
 import { Skeleton } from '@zero-tech/zui/components/Skeleton';
 
 import styles from './PoolRow.module.scss';
@@ -7,8 +7,9 @@ import { PoolTableData } from './Pools.helpers';
 import { PoolDetail } from '../ui/PoolDetail';
 import { PoolData } from '../../lib/types/pool';
 import usePoolData from '../../lib/hooks/usePoolData';
-import { StakeButton } from '../stake';
+import { StakeModal } from '../stake';
 import { formatFiat, formatPercentage } from '../../lib/util/format';
+import { Button } from '@zero-tech/zui/components/Button';
 
 interface PoolRowProps {
 	rowData: PoolTableData;
@@ -16,6 +17,8 @@ interface PoolRowProps {
 
 const PoolRow: FC<PoolRowProps> = ({ rowData }) => {
 	const { data: queryData, isLoading, isError } = usePoolData(rowData.instance);
+
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
 	const getAsyncColumn = (key: keyof PoolData) => {
 		if (isLoading) {
@@ -34,26 +37,37 @@ const PoolRow: FC<PoolRowProps> = ({ rowData }) => {
 		}
 	};
 
-	// @TODO: alignments based on Column data
+	const onClickRow = () => {
+		setIsModalOpen(true);
+	};
 
 	return (
-		<tr>
-			<td className={styles.Pool}>
-				<PoolDetail
-					imageUrl={rowData.metadata.icon}
-					name={rowData.metadata.name}
+		<>
+			<StakeModal
+				poolInstance={rowData.instance}
+				poolMetadata={rowData.metadata}
+				open={isModalOpen}
+				onOpenChange={(isOpen) => setIsModalOpen(isOpen)}
+			/>
+			<tr className={styles.Container} onClick={onClickRow}>
+				<td className={styles.Pool}>
+					<PoolDetail
+						imageUrl={rowData.metadata.icon}
+						name={rowData.metadata.name}
+					/>
+				</td>
+				<RightAlignedColumn content={getAsyncColumn('apr')} />
+				<RightAlignedColumn content={getAsyncColumn('tvl')} />
+				<RightAlignedColumn
+					content={<Button onPress={onClickRow}>Stake</Button>}
 				/>
-			</td>
-			<td className={styles.Right}>{getAsyncColumn('apr')}</td>
-			<td className={styles.Right}>{getAsyncColumn('tvl')}</td>
-			<td className={styles.Right}>
-				<StakeButton
-					poolInstance={rowData.instance}
-					poolMetadata={rowData.metadata}
-				/>
-			</td>
-		</tr>
+			</tr>
+		</>
 	);
 };
+
+const RightAlignedColumn = ({ content }: { content: ReactNode }) => (
+	<td className={styles.Right}>{content}</td>
+);
 
 export default PoolRow;

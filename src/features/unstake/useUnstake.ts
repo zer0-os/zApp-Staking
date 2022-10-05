@@ -1,62 +1,31 @@
-import { useMutation, useQueryClient } from 'react-query';
 import { BigNumber } from 'ethers';
 import { Deposit, PoolInstance } from '@zero-tech/zfi-sdk';
 
 import useWeb3 from '../../lib/hooks/useWeb3';
+import { TransactionOptions, useTransaction } from '../../lib/useTransaction';
 
-interface UnstakeParams {
-	amountWei: BigNumber;
-	depositId: Deposit['depositId'];
-	poolInstance: PoolInstance;
-}
+export const useUnstake = ({ ...callbacks }: TransactionOptions) => {
+	const { executeTransaction } = useTransaction();
+	const { account, provider } = useWeb3();
 
-interface UseUnstakeParams {
-	onStart?: () => void;
-	onProcessing?: () => void;
-	onSuccess?: () => void;
-	onError?: (error: Error) => void;
-}
-
-export const useUnstake = ({
-	onStart,
-	onProcessing,
-	onError,
-	onSuccess,
-}: UseUnstakeParams) => {
-	const { provider, account } = useWeb3();
-	const queryClient = useQueryClient();
-
-	const stakeMutation = async ({
-		amountWei,
-		depositId,
-		poolInstance,
-	}: UnstakeParams) => {
-		if (!account || !provider) {
-			throw new Error('No account or provider');
-		}
-		onStart?.();
-		const tx = await poolInstance.unstake(
-			depositId,
-			amountWei.toString(),
-			provider.getSigner(),
-		);
-		onProcessing?.();
-		return tx.wait();
+	const unstake = (
+		amountWei: BigNumber,
+		depositId: Deposit['depositId'],
+		poolInstance: PoolInstance,
+	) => {
+		(async () => {
+			await executeTransaction(
+				poolInstance.unstake,
+				[depositId, amountWei.toString(), provider.getSigner()],
+				{
+					...callbacks,
+					invalidationKeys: [
+						['user', { account, poolAddress: poolInstance.address }],
+					],
+				},
+			);
+		})();
 	};
 
-	const { mutateAsync: unstake } = useMutation(stakeMutation, {
-		onSuccess: async (_, { poolInstance }) => {
-			// invalidate all user data for pool address
-			await queryClient.invalidateQueries([
-				'user',
-				{ account, poolAddress: poolInstance.address },
-			]);
-			onSuccess?.();
-		},
-		onError,
-	});
-
-	return {
-		unstake,
-	};
+	return { unstake };
 };
