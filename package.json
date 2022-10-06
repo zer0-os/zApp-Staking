@@ -69,7 +69,7 @@
     "@ethersproject/units": "^5.6.1",
     "@zero-tech/zfi-sdk": "0.2.1",
     "@zero-tech/zns-sdk": "0.6.1",
-    "@zero-tech/zui": "0.6.3",
+    "@zero-tech/zui": "0.7.0",
     "classnames": "^2.3.1",
     "lodash": "^4.17.21",
     "react-query": "^3.39.1"

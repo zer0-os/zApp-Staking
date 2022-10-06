@@ -2,10 +2,7 @@ import { useState } from 'react';
 
 import useWeb3 from '../../lib/hooks/useWeb3';
 import useUserPoolData from '../../lib/hooks/useUserPoolData';
-import { Deposit, PoolInstance } from '@zero-tech/zfi-sdk';
-import { TransactionErrors } from '../../lib/constants/messages';
-import { formatEther } from 'ethers/lib/utils';
-import { BigNumber } from 'ethers';
+import { PoolInstance } from '@zero-tech/zfi-sdk';
 import { useTransaction } from '../../lib/useTransaction';
 
 export enum ClaimFormStep {
@@ -23,7 +20,7 @@ const useClaimForm = (poolInstance: PoolInstance) => {
 	const { provider, account } = useWeb3();
 	const { executeTransaction } = useTransaction();
 
-	const { data, isLoading, isRefetching, refetch } = useUserPoolData(
+	const { data, isLoading, isRefetching } = useUserPoolData(
 		poolInstance,
 		account,
 	);
@@ -62,7 +59,7 @@ const useClaimForm = (poolInstance: PoolInstance) => {
 
 	return {
 		isLoadingUserData: isLoading || isRefetching,
-		amountWei: data.rewards,
+		amountWei: data?.rewards,
 		step,
 		error,
 		onConfirmClaimAmount,

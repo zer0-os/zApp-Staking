@@ -3,7 +3,7 @@ export enum Network {
 	RINKEBY = 4,
 }
 
-export const DEFAULT_NETWORK = Network.RINKEBY;
+export const DEFAULT_NETWORK = Network.MAINNET;
 
 interface NetworkConfig {
 	rpcUrl: string;

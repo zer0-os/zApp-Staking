@@ -13,15 +13,10 @@ interface ZnsSdkProviderProps {
 	children: ReactNode;
 }
 
-const defaultConfig =
-	DEFAULT_NETWORK === Network.RINKEBY
-		? zns.configuration.mainnetConfiguration
-		: zns.configuration.rinkebyConfiguration;
-
 export const ZnsSdkContext = createContext(
 	zns.createInstance(
-		defaultConfig(
-			new providers.JsonRpcProvider(NETWORK_CONFIGS[DEFAULT_NETWORK].rpcUrl),
+		zns.configuration.mainnetConfiguration(
+			new providers.JsonRpcProvider(NETWORK_CONFIGS[Network.MAINNET].rpcUrl),
 		),
 	),
 );

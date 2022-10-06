@@ -16,15 +16,18 @@ export const Deposits = () => {
 		<>
 			<div className={poolStyles.Stats}>
 				<Card
-					title={'Your Total Stake'}
-					value={{
+					label={'Your Total Stake'}
+					primaryText={{
 						isLoading,
-						text: '$' + formatFiat(queryData?.totalStaked),
+						text: '$' + formatFiat(queryData?.totalStaked ?? 0),
 					}}
 				/>
 				<Card
-					title={'# Of Pools'}
-					value={{ isLoading, text: queryData?.numPools.toLocaleString() }}
+					label={'# Of Pools'}
+					primaryText={{
+						isLoading,
+						text: queryData?.numPools.toLocaleString(),
+					}}
 				/>
 			</div>
 			{account ? (

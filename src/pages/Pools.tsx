@@ -25,7 +25,7 @@ export const Pools = () => {
 	return (
 		<>
 			<div className={styles.Stats}>
-				<Card title={'# Of Pools'} value={data.length} />
+				<Card label="# Of Pools" primaryText={data.length.toString()} />
 			</div>
 			<PoolTable data={data} />
 		</>

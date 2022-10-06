@@ -36,8 +36,8 @@ export const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
 			<div className={styles.Cards}>
 				{/* APR card */}
 				<Card
-					title={'APR'}
-					value={{
+					label={'APR'}
+					primaryText={{
 						text: aprAsString,
 						isLoading: isLoadingPoolData,
 					}}
@@ -45,8 +45,8 @@ export const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
 
 				{/* Rewards Claimable card */}
 				<Card
-					title={`Your Pool Rewards Claimable (${poolMetadata.tokenTicker})`}
-					value={{
+					label={`Your Pool Rewards Claimable (${poolMetadata.tokenTicker})`}
+					primaryText={{
 						text: rewardsClaimableAsString,
 						isLoading: isLoadingUserData,
 					}}
