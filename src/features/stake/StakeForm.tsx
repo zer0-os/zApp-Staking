@@ -13,22 +13,20 @@ import { FormInputs } from '../ui/FormInputs';
 import { ApprovePoolSpendingForm } from '../ui/ApprovePoolSpendingForm';
 import { ConnectWallet } from '../ui/ConnectWallet';
 import { Wizard } from '@zero-tech/zui/components/Wizard';
+import { commify, formatEther } from 'ethers/lib/utils';
 
 interface StakeFormProps extends PoolInfo {}
 
 const StakeForm: FC<StakeFormProps> = (props) => {
-	const { account } = useWeb3();
-
-	/**
-	 * Get user pool token balance
-	 */
-	const { data: queryData, isLoading } = useUserPoolTokenBalance(
-		account,
-		props.poolInstance,
-	);
-
-	const { amount, step, onConfirmAmount, onStartTransaction, error } =
-		useStakeForm(props.poolInstance);
+	const {
+		amountWei,
+		step,
+		onConfirmAmount,
+		onStartTransaction,
+		error,
+		userPoolTokenBalance,
+		isLoadingUserPoolTokenBalance,
+	} = useStakeForm(props.poolInstance);
 
 	const onCancel = () => {
 		// @TODO: implement cancel
@@ -51,17 +49,19 @@ const StakeForm: FC<StakeFormProps> = (props) => {
 					message={
 						step === Step.COMPLETE
 							? {
-									text: `Successfully staked ${amount} ${props.poolMetadata.tokenTicker}`,
+									text: `Successfully staked ${commify(
+										formatEther(amountWei),
+									)} ${props.poolMetadata.tokenTicker}`,
 							  }
 							: error && { text: error, isError: true }
 					}
 					onSubmit={onConfirmAmount}
-					isTransactionPending={step !== Step.AMOUNT}
+					isTransactionPending={step !== Step.AMOUNT && step !== Step.COMPLETE}
 					balances={[
 						{
 							label: `Your Balance (${props.poolMetadata.tokenTicker})`,
-							isLoading,
-							value: queryData,
+							isLoading: isLoadingUserPoolTokenBalance,
+							value: userPoolTokenBalance,
 						},
 					]}
 				/>
@@ -80,7 +80,7 @@ const StakeForm: FC<StakeFormProps> = (props) => {
 					onComplete={onStartTransaction}
 					/* Asserting not null because form validation
                      prevents us from getting this far if amount === undefined */
-					amountToApprove={amount!}
+					amountToApprove={amountWei!}
 				/>
 			);
 	}

@@ -32,7 +32,7 @@ export const DepositsTable: FC<DepositsTableProps> = ({ account }) => {
 
 	return (
 		<>
-			{!(!isLoading && (queryData.deposits.length === 0 || !queryData)) ? (
+			{!(!isLoading && (!queryData || queryData.deposits.length === 0)) ? (
 				<AsyncTable
 					data={queryData?.deposits}
 					itemKey="key"

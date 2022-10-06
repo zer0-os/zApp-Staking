@@ -2,27 +2,28 @@ import { useQuery } from 'react-query';
 import { BigNumber, providers } from 'ethers';
 import { PoolInstance } from '@zero-tech/zfi-sdk';
 import { parseEther } from 'ethers/lib/utils';
+import useWeb3 from '../../../lib/hooks/useWeb3';
 
 /**
  * Checks if a given user (provider) has approved
  * pool spending over the specified amount.
- * @param provider of the account to check
  * @param amountToApprove number of tokens to check allowance against
  * @param poolInstance pool to check approval for
  */
 const usePoolSpendingAllowance = (
-	provider: providers.Web3Provider,
-	amountToApprove: number,
+	amountToApprove: BigNumber,
 	poolInstance: PoolInstance,
 ) => {
+	const { account, provider } = useWeb3();
+
 	// @TODO: include account number in the query ID
 	return useQuery(
-		`check-approval-${poolInstance.address}`,
+		['user', 'allowance', { account, poolAddress: poolInstance.address }],
 		async () => {
 			const allowance = await poolInstance.allowance(provider.getSigner());
-			return allowance.lt(amountToApprove);
+			return allowance.lte(amountToApprove);
 		},
-		{ refetchOnWindowFocus: false },
+		{ refetchOnWindowFocus: false, enabled: provider && account !== undefined },
 	);
 };
 

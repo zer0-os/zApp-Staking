@@ -54,6 +54,8 @@ export const DepositActions: FC<DepositActionProps> = ({ rowData }) => {
 		});
 	}
 
+	const handleClose = () => setAction(undefined);
+
 	return (
 		<>
 			<StakeModal
@@ -81,6 +83,7 @@ export const DepositActions: FC<DepositActionProps> = ({ rowData }) => {
 				poolInstance={poolInstance}
 				poolMetadata={poolMetadata}
 				depositId={depositId}
+				onFinish={handleClose}
 				onOpenChange={(open: boolean) => {
 					if (!open) {
 						setAction(undefined);

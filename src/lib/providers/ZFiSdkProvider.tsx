@@ -3,11 +3,7 @@ import { createContext, FC, ReactNode, useMemo } from 'react';
 
 import * as zfi from '@zero-tech/zfi-sdk';
 
-import {
-	DEFAULT_NETWORK,
-	Network,
-	NETWORK_CONFIGS,
-} from '../constants/networks';
+import { Network, NETWORK_CONFIGS } from '../constants/networks';
 import useWeb3 from '../hooks/useWeb3';
 
 interface ZFiSdkProviderProps {
@@ -18,13 +14,13 @@ interface ZFiSdkProviderProps {
 // @TODO: not sure if this is the best way to create default context
 export const ZFiSdkContext = createContext(
 	zfi.createInstance({
-		wildPoolAddress: NETWORK_CONFIGS[DEFAULT_NETWORK].wildStakingPool,
-		lpTokenPoolAddress: NETWORK_CONFIGS[DEFAULT_NETWORK].lpStakingPool,
-		factoryAddress: NETWORK_CONFIGS[DEFAULT_NETWORK].stakeFactory,
+		wildPoolAddress: NETWORK_CONFIGS[Network.MAINNET].wildStakingPool,
+		lpTokenPoolAddress: NETWORK_CONFIGS[Network.MAINNET].lpStakingPool,
+		factoryAddress: NETWORK_CONFIGS[Network.MAINNET].stakeFactory,
 		provider: new providers.JsonRpcProvider(
-			NETWORK_CONFIGS[DEFAULT_NETWORK].rpcUrl,
+			NETWORK_CONFIGS[Network.MAINNET].rpcUrl,
 		),
-		subgraphUri: NETWORK_CONFIGS[DEFAULT_NETWORK].subgraphUrl,
+		subgraphUri: NETWORK_CONFIGS[Network.MAINNET].subgraphUrl,
 	}),
 );
 
@@ -36,7 +32,7 @@ const ZFiSdkProvider: FC<ZFiSdkProviderProps> = ({
 	const sdk = useMemo(() => {
 		const provider =
 			providerContext ??
-			new providers.JsonRpcProvider(NETWORK_CONFIGS[DEFAULT_NETWORK].rpcUrl);
+			new providers.JsonRpcProvider(NETWORK_CONFIGS[Network.MAINNET].rpcUrl);
 
 		// We know that the chain ID will be a valid network because
 		// ChainGate will prevent this provider from rendering if
