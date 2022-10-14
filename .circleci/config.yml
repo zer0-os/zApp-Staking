@@ -14,8 +14,8 @@ jobs:
     steps:
       - checkout
       - node/install-packages:
-          pkg-manager: yarn
-      - run: yarn build
+          pkg-manager: npm
+      - run: npm run build
       - persist_to_workspace:
           root: ~/repo
           paths: .
@@ -26,7 +26,7 @@ jobs:
           at: ~/repo
       - run:
           name: Publish to NPM
-          command: yarn publish:components --access public --non-interactive
+          command: npm run publish --access public --non-interactive
 workflows:
   version: 2
   build:
