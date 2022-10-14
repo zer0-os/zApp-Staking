@@ -3,7 +3,7 @@
  * - Wraps out App in necessary context providers
  * - Exports the root component
  */
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { AppProps } from './lib/types/app';
 import { App } from './App';
@@ -16,6 +16,11 @@ import Web3Provider from './lib/providers/Web3Provider';
 import ZnsSdkProvider from './lib/providers/ZnsSdkProvider';
 
 import { ZUIProvider } from '@zero-tech/zui/ZUIProvider';
+import {
+	AppContent,
+	AppContextPanel,
+	AppLayout,
+} from '@zer0-os/zos-component-library';
 
 const queryClient = new QueryClient();
 
@@ -32,7 +37,12 @@ export const StakingZApp = ({ provider, web3 }: AppProps) => {
 					<ZnsSdkProvider>
 						<ZFiSdkProvider>
 							<ZUIProvider>
-								<App />
+								<AppLayout>
+									<AppContextPanel>howdy</AppContextPanel>
+									<AppContent>
+										<App />
+									</AppContent>
+								</AppLayout>
 							</ZUIProvider>
 						</ZFiSdkProvider>
 					</ZnsSdkProvider>
