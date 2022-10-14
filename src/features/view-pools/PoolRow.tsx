@@ -61,7 +61,9 @@ const PoolRow: FC<PoolRowProps> = ({ rowData }) => {
 				<TableData alignment={'right'}>{getAsyncColumn('apr')}</TableData>
 				<TableData alignment={'right'}>{getAsyncColumn('tvl')}</TableData>
 				<TableData alignment={'right'}>
-					<Button onPress={onClickRow}>Stake</Button>
+					<Button className={styles.Action} onPress={onClickRow}>
+						Stake
+					</Button>
 				</TableData>
 			</tr>
 		</>
