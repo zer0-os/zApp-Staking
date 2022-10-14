@@ -17,18 +17,18 @@
 	}
 }
 
-.Right {
-	margin-left: auto;
-	text-align: right;
+/*
+ * Note: something funky is going on with these styles - they can't be removed without
+ * the pool element growing... Very odd!
+ */
 
+.Right {
 	> * {
-		margin-left: auto;
 		text-align: right;
 	}
 }
 
 .Center {
-	margin: 0 auto;
 	text-align: center;
 }
 

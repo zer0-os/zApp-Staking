@@ -1,4 +1,4 @@
-import { FC, ReactNode, useState } from 'react';
+import { FC, useState } from 'react';
 import { Skeleton } from '@zero-tech/zui/components/Skeleton';
 
 import styles from './PoolRow.module.scss';
@@ -10,6 +10,8 @@ import usePoolData from '../../lib/hooks/usePoolData';
 import { StakeModal } from '../stake';
 import { formatFiat, formatPercentage } from '../../lib/util/format';
 import { Button } from '@zero-tech/zui/components/Button';
+
+import { TableData } from '@zero-tech/zui/components/AsyncTable';
 
 interface PoolRowProps {
 	rowData: PoolTableData;
@@ -50,24 +52,20 @@ const PoolRow: FC<PoolRowProps> = ({ rowData }) => {
 				onOpenChange={(isOpen) => setIsModalOpen(isOpen)}
 			/>
 			<tr className={styles.Container} onClick={onClickRow}>
-				<td className={styles.Pool}>
+				<TableData alignment={'left'} className={styles.Pool}>
 					<PoolDetail
 						imageUrl={rowData.metadata.icon}
 						name={rowData.metadata.name}
 					/>
-				</td>
-				<RightAlignedColumn content={getAsyncColumn('apr')} />
-				<RightAlignedColumn content={getAsyncColumn('tvl')} />
-				<RightAlignedColumn
-					content={<Button onPress={onClickRow}>Stake</Button>}
-				/>
+				</TableData>
+				<TableData alignment={'right'}>{getAsyncColumn('apr')}</TableData>
+				<TableData alignment={'right'}>{getAsyncColumn('tvl')}</TableData>
+				<TableData alignment={'right'}>
+					<Button onPress={onClickRow}>Stake</Button>
+				</TableData>
 			</tr>
 		</>
 	);
 };
-
-const RightAlignedColumn = ({ content }: { content: ReactNode }) => (
-	<td className={styles.Right}>{content}</td>
-);
 
 export default PoolRow;
