@@ -7,14 +7,10 @@ import { PoolInfo } from '../../../lib/types/pool';
 import { useFormInputs } from './useFormInputs';
 
 import { ViewPool } from '../ViewPool';
-import { Button } from '@zero-tech/zui/components/Button';
-import { Skeleton } from '@zero-tech/zui/components/Skeleton';
+import { Alert, Button, Skeleton } from '@zero-tech/zui/components';
 import { NumberInput } from '@zero-tech/zui/components/Input/NumberInput';
 
 import styles from './FormInputs.module.scss';
-import classNames from 'classnames/bind';
-
-const cx = classNames.bind(styles);
 
 export interface Balance {
 	label: string;
@@ -75,7 +71,6 @@ export const FormInputs: FC<FormInputsProps> = ({
 					value={amountString}
 					onChange={handleOnAmountChange}
 					isDisabled={isInputDisabled}
-					label={'Amount'}
 					placeholder={'Amount'}
 					endEnhancer={
 						<Button
@@ -105,7 +100,7 @@ export const FormInputs: FC<FormInputsProps> = ({
  *****************/
 
 const MessageBanner = ({ text, isError }: Message) => (
-	<span className={cx(styles.Message, { Error: isError })}>{text}</span>
+	<Alert variant={isError ? 'error' : 'success'}>{text}</Alert>
 );
 
 const Balances = ({ balances }: { balances: Balance[] }) => (

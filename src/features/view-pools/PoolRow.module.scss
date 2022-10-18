@@ -7,6 +7,16 @@
 	.Action {
 		margin-left: auto;
 	}
+
+	td:not(:first-of-type) {
+		max-width: 80px;
+		width: 80px;
+	}
+
+	.Last {
+		max-width: 120px !important;
+		width: 120px !important;
+	}
 }
 
 .Pool {
