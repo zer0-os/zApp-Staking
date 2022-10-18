@@ -10,7 +10,7 @@
     "build:styles": "sass src:dist",
     "build:assets": "copyfiles -u 1 src/assets/* dist",
     "watch": "npm-run-all clean watch:all",
-    "watch:all": "concurrently --kill-others --names \"babel,sass,assets,config\" -c \"bgBlue.bold,bgGreen.bold,bgRed.bold,bgMagenta.bold\" \"npm run watch:scripts\" \"npm run watch:styles\" \"npm run watch:assets\" \"npm run watch:config\"",
+    "watch:all": "concurrently --kill-others --names \"babel,sass,assets,config\" -c \"bgBlue.bold,bgGreen.bold,bgRed.bold,bgMagenta.bold\" \"npm run watch:scripts\" \"npm run watch:styles\" \"npm run watch:assets\"",
     "watch:scripts": "npm run build:scripts -- --watch",
     "watch:styles": "npm run build:styles -- --watch",
     "watch:assets": "npm run build:assets && onchange 'src/**/*.{jpg,jpeg,svg,png}' -- npm run build:assets",
