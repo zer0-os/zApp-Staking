@@ -1,7 +1,7 @@
 {
   "name": "@zero-tech/zapp-staking",
   "version": "0.4.1",
-  "main": "index.js",
+  "main": "dist/index.js",
   "repository": "git@github.com:zer0-os/zApp-Staking.git",
   "scripts": {
     "clean": "rimraf dist && npx mkdirp dist",
@@ -19,9 +19,11 @@
     "test": "jest --passWithNoTests",
     "test:watch": "jest --watch",
     "link": "bash .scripts/link.sh",
-    "prettier": "prettier -w src/",
-    "publish": "cd dist && npm publish"
+    "prettier": "prettier -w src/"
   },
+  "files": [
+    "dist"
+  ],
   "author": "zer0-os",
   "license": "ISC",
   "devDependencies": {
