@@ -38,9 +38,9 @@ export const DepositsTable: FC<DepositsTableProps> = ({ account }) => {
 					itemKey="key"
 					columns={COLUMNS}
 					rowComponent={(data: DepositData) => <DepositRow rowData={data} />}
-					gridComponent={() => <>UNHANDLED</>}
-					searchKey={{ key: 'key', name: 'message' }}
 					isLoading={isLoading}
+					showControls={false}
+					isGridViewByDefault={false}
 				/>
 			) : (
 				<p className={styles.Empty}>

@@ -8,7 +8,7 @@ import { PoolDetail } from '../ui/PoolDetail';
 import { PoolData } from '../../lib/types/pool';
 import usePoolData from '../../lib/hooks/usePoolData';
 import { StakeModal } from '../stake';
-import { formatFiat, formatPercentage } from '../../lib/util/format';
+import { formatPercentage, millifyNumber } from '../../lib/util/format';
 import { Button } from '@zero-tech/zui/components/Button';
 
 import { TableData } from '@zero-tech/zui/components/AsyncTable';
@@ -24,7 +24,7 @@ const PoolRow: FC<PoolRowProps> = ({ rowData }) => {
 
 	const getAsyncColumn = (key: keyof PoolData) => {
 		if (isLoading) {
-			return <Skeleton width={100} />;
+			return <Skeleton width={'100%'} />;
 		}
 		if (isError) {
 			return <>ERR</>;
@@ -34,7 +34,7 @@ const PoolRow: FC<PoolRowProps> = ({ rowData }) => {
 				return formatPercentage(queryData.apr);
 			}
 			if (key === 'tvl') {
-				return '$' + formatFiat(queryData.tvl.valueOfTokensUSD);
+				return '$' + millifyNumber(queryData.tvl.valueOfTokensUSD);
 			}
 		}
 	};
@@ -60,7 +60,7 @@ const PoolRow: FC<PoolRowProps> = ({ rowData }) => {
 				</TableData>
 				<TableData alignment={'right'}>{getAsyncColumn('apr')}</TableData>
 				<TableData alignment={'right'}>{getAsyncColumn('tvl')}</TableData>
-				<TableData alignment={'right'}>
+				<TableData className={styles.Last} alignment={'right'}>
 					<Button className={styles.Action} onPress={onClickRow}>
 						Stake
 					</Button>

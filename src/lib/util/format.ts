@@ -1,3 +1,4 @@
+import millify from 'millify';
 import { BigNumber } from 'ethers';
 import { formatUnits } from 'ethers/lib/utils';
 
@@ -24,4 +25,11 @@ export const formatPercentage = (percentage: number | string) => {
 
 export const formatTimestamp = (timestamp: string) => {
 	return new Date(Number(timestamp)).toLocaleDateString();
+};
+
+export const millifyNumber = (num: number) => {
+	if (num < 10000) {
+		return num;
+	}
+	return millify(num, { precision: 2 });
 };

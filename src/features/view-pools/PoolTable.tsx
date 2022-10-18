@@ -15,8 +15,8 @@ export const PoolTable: FC<PoolTableProps> = ({ data }) => (
 		itemKey="address"
 		columns={COLUMNS}
 		rowComponent={(data) => <PoolRow rowData={data} />}
-		// @TODO: handle grid component
 		gridComponent={() => <>UNHANDLED</>}
-		searchKey={{ key: 'address', name: 'message' }}
+		isGridViewByDefault={false}
+		showControls={false}
 	/>
 );

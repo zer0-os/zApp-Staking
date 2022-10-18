@@ -71,9 +71,10 @@
     "@zer0-os/zos-component-library": "0.15.3",
     "@zero-tech/zfi-sdk": "0.2.1",
     "@zero-tech/zns-sdk": "0.6.1",
-    "@zero-tech/zui": "0.8.0",
+    "@zero-tech/zui": "0.10.0",
     "classnames": "^2.3.1",
     "lodash": "^4.17.21",
+    "millify": "^5.0.1",
     "react-query": "^3.39.1"
   }
 }
