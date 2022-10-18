@@ -3,7 +3,7 @@
  * - Wraps out App in necessary context providers
  * - Exports the root component
  */
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { AppProps } from './lib/types/app';
 import { App } from './App';
