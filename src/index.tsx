@@ -16,11 +16,6 @@ import Web3Provider from './lib/providers/Web3Provider';
 import ZnsSdkProvider from './lib/providers/ZnsSdkProvider';
 
 import { ZUIProvider } from '@zero-tech/zui/ZUIProvider';
-import {
-	AppContent,
-	AppContextPanel,
-	AppLayout,
-} from '@zer0-os/zos-component-library';
 
 const queryClient = new QueryClient();
 
@@ -37,12 +32,7 @@ export const StakingZApp = ({ provider, web3 }: AppProps) => {
 					<ZnsSdkProvider>
 						<ZFiSdkProvider>
 							<ZUIProvider>
-								<AppLayout>
-									<AppContextPanel>howdy</AppContextPanel>
-									<AppContent>
-										<App />
-									</AppContent>
-								</AppLayout>
+								<App />
 							</ZUIProvider>
 						</ZFiSdkProvider>
 					</ZnsSdkProvider>

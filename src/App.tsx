@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import React, { useMemo } from 'react';
 import {
 	Switch,
 	Route,
@@ -13,6 +13,11 @@ import { Pools as PoolsPage } from './pages/Pools';
 import { Deposits as DepositsPage } from './pages/Deposits';
 
 import styles from './App.module.scss';
+import {
+	AppContent,
+	AppContextPanel,
+	AppLayout,
+} from '@zer0-os/zos-component-library';
 
 export const App = () => {
 	const { pathname } = useLocation();
@@ -27,15 +32,26 @@ export const App = () => {
 	);
 
 	return (
-		<main className={styles.Main}>
-			<TabsNav tabs={TABS} location={pathname} />
-			<Switch>
-				<Route path={baseUrl + '/pools'} component={PoolsPage} />
-				<Route path={baseUrl + '/deposits'} component={DepositsPage} />
-				<Route path={baseUrl} exact>
-					<Redirect to={baseUrl + '/pools'} />
-				</Route>
-			</Switch>
-		</main>
+		<AppLayout>
+			<AppContextPanel>
+				<ul className={styles.DummyContext}>
+					<li>#placeholder</li>
+					<li>#staking</li>
+					<li>#pools</li>
+				</ul>
+			</AppContextPanel>
+			<AppContent>
+				<main className={styles.Main}>
+					<TabsNav tabs={TABS} location={pathname} />
+					<Switch>
+						<Route path={baseUrl + '/pools'} component={PoolsPage} />
+						<Route path={baseUrl + '/deposits'} component={DepositsPage} />
+						<Route path={baseUrl} exact>
+							<Redirect to={baseUrl + '/pools'} />
+						</Route>
+					</Switch>
+				</main>
+			</AppContent>
+		</AppLayout>
 	);
 };
