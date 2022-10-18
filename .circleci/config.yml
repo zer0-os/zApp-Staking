@@ -25,6 +25,7 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
+      - run: echo "//registry.npmjs.org/:_authToken=${GIT_PACKAGE_READ}" > ~/.npmrc
       - run: 
           name: NPM Publish
           command: npm run publish --access public --non-interactive
