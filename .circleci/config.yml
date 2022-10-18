@@ -25,11 +25,9 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/repo
-      - run: cd ./dist
-      - run: echo "//registry.npmjs.org/:_authToken=${NPM_AUTH_TOKEN}" > .npmrc
       - run: 
           name: NPM Publish
-          command: npm publish --access public --non-interactive
+          command: npm run publish --access public --non-interactive
 workflows:
   version: 2
   build:
