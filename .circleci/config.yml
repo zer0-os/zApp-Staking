@@ -12,8 +12,9 @@ jobs:
   build:
     <<: *defaults
     dependencies:
+      pre:
+        - echo "//npm.pkg.github.com/:_authToken=${GIT_PACKAGE_READ}" > ~/.npmrc
     steps:
-      - echo "//npm.pkg.github.com/:_authToken=${GIT_PACKAGE_READ}" > ~/.npmrc
       - checkout
       - node/install-packages:
           pkg-manager: npm
