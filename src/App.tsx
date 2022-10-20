@@ -35,9 +35,9 @@ export const App = () => {
 		<AppLayout>
 			<AppContextPanel>
 				<ul className={styles.DummyContext}>
-					<li>#placeholder</li>
-					<li>#staking</li>
-					<li>#pools</li>
+					<li># placeholder</li>
+					<li># staking</li>
+					<li># pools</li>
 				</ul>
 			</AppContextPanel>
 			<AppContent>

@@ -27,17 +27,13 @@ export const ZFiSdkContext = createContext(
 const ZFiSdkProvider: FC<ZFiSdkProviderProps> = ({
 	children,
 }: ZFiSdkProviderProps) => {
-	const { provider: providerContext } = useWeb3();
+	const { provider } = useWeb3();
 
 	const sdk = useMemo(() => {
-		const provider =
-			providerContext ??
-			new providers.JsonRpcProvider(NETWORK_CONFIGS[Network.MAINNET].rpcUrl);
-
 		// We know that the chain ID will be a valid network because
 		// ChainGate will prevent this provider from rendering if
 		// the chain matches an unsupported network
-		const network: Network = provider?._network?.chainId ?? 4;
+		const network: Network = provider._network?.chainId ?? 1;
 
 		return zfi.createInstance({
 			wildPoolAddress: NETWORK_CONFIGS[network].wildStakingPool,
@@ -46,7 +42,7 @@ const ZFiSdkProvider: FC<ZFiSdkProviderProps> = ({
 			provider,
 			subgraphUri: NETWORK_CONFIGS[network].subgraphUrl,
 		});
-	}, [providerContext]);
+	}, [provider]);
 
 	return (
 		<ZFiSdkContext.Provider value={sdk}>{children}</ZFiSdkContext.Provider>

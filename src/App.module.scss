@@ -2,9 +2,29 @@
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
-	padding: 1rem;
+	padding: 0;
 
 	list-style: none;
+
+	li {
+		position: relative;
+		padding: 0.625rem 1.25rem; // 10px 20px
+
+		&:first-child {
+			background: var(--actionable-active-background);
+			font-weight: bold;
+
+			&::after {
+				position: absolute;
+				content: ' ';
+				width: 0.25rem;
+				left: 0;
+				top: 0;
+				bottom: 0;
+				background-color: var(--accent-color);
+			}
+		}
+	}
 }
 
 .Main {
