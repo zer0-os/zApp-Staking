@@ -18,14 +18,14 @@ export interface PoolMetadata {
 export const POOL_METADATA = {
 	WILD_POOL: {
 		name: 'Stake WILD',
-		icon: wildPoolIcon,
+		icon: location.origin + wildPoolIcon,
 		tokenTicker: 'WILD',
 		tokenPurchaseUrl: 'https://zer0.io/', // @TODO: get real token purchase URL
 		tokenDecimals: 18,
 	},
 	LP_POOL: {
 		name: 'Farm WILD - WETH LP',
-		icon: lpPoolIcon,
+		icon: location.origin + lpPoolIcon,
 		tokenTicker: 'LP',
 		tokenPurchaseUrl: 'https://zer0.io/', // @TODO: get real token purchase URL
 		tokenDecimals: 18,

@@ -18,34 +18,3 @@
 		width: 120px !important;
 	}
 }
-
-.Pool {
-	display: flex;
-	align-items: center;
-	gap: 16px;
-
-	img {
-		height: 3rem;
-		width: 3rem;
-		border-radius: 0.5rem;
-	}
-}
-
-/*
- * Note: something funky is going on with these styles - they can't be removed without
- * the pool element growing... Very odd!
- */
-
-.Right {
-	> * {
-		text-align: right;
-	}
-}
-
-.Center {
-	text-align: center;
-}
-
-.Modal {
-	width: 640px;
-}
