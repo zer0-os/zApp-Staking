@@ -27,11 +27,17 @@
 	}
 }
 
-.Main {
-	margin: 100px auto 0 auto;
-	max-width: 46rem; // 46 rem = 736px
+.Container {
+	height: 100%;
+	width: 100%;
 
-	> *:first-child {
-		margin-bottom: 1rem;
+	.Main {
+		margin: 100px auto 0 auto;
+		max-width: 46rem; // 46 rem = 736px
+		overflow: scroll;
+
+		> *:first-child {
+			margin-bottom: 1rem;
+		}
 	}
 }

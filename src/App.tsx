@@ -41,16 +41,18 @@ export const App = () => {
 				</ul>
 			</AppContextPanel>
 			<AppContent>
-				<main className={styles.Main}>
-					<TabsNav tabs={TABS} location={pathname} />
-					<Switch>
-						<Route path={baseUrl + '/pools'} component={PoolsPage} />
-						<Route path={baseUrl + '/deposits'} component={DepositsPage} />
-						<Route path={baseUrl} exact>
-							<Redirect to={baseUrl + '/pools'} />
-						</Route>
-					</Switch>
-				</main>
+				<div className={styles.Container}>
+					<main className={styles.Main}>
+						<TabsNav tabs={TABS} location={pathname} />
+						<Switch>
+							<Route path={baseUrl + '/pools'} component={PoolsPage} />
+							<Route path={baseUrl + '/deposits'} component={DepositsPage} />
+							<Route path={baseUrl} exact>
+								<Redirect to={baseUrl + '/pools'} />
+							</Route>
+						</Switch>
+					</main>
+				</div>
 			</AppContent>
 		</AppLayout>
 	);
