@@ -7,6 +7,7 @@ import {
 	useLocation,
 } from 'react-router-dom';
 
+import { ZAppContent } from '@zero-tech/zapp-utils/components';
 import { TabsNav } from '@zero-tech/zui/components';
 
 import { Pools as PoolsPage } from './pages/Pools';
@@ -35,13 +36,11 @@ export const App = () => {
 		<AppLayout>
 			<AppContextPanel>
 				<ul className={styles.DummyContext}>
-					<li># placeholder</li>
-					<li># staking</li>
-					<li># pools</li>
+					<li># Everything</li>
 				</ul>
 			</AppContextPanel>
 			<AppContent>
-				<div className={styles.Container}>
+				<ZAppContent>
 					<main className={styles.Main}>
 						<TabsNav tabs={TABS} location={pathname} />
 						<Switch>
@@ -52,7 +51,7 @@ export const App = () => {
 							</Route>
 						</Switch>
 					</main>
-				</div>
+				</ZAppContent>
 			</AppContent>
 		</AppLayout>
 	);
