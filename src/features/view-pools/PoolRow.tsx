@@ -27,7 +27,7 @@ const PoolRow: FC<PoolRowProps> = ({ rowData }) => {
 			return <Skeleton width={'100%'} />;
 		}
 		if (isError) {
-			return <>ERR</>;
+			return <>-</>;
 		}
 		if (queryData) {
 			if (key === 'apr') {
