@@ -17,8 +17,6 @@ const ChainGate: FC<ChainGateProps> = ({ children }) => {
 	const isSupportedNetwork =
 		!Boolean(chainId) || Object.values(Network).includes(chainId);
 
-	console.log('is supported', isSupportedNetwork, chainId);
-
 	if (!isSupportedNetwork) {
 		return (
 			<>
