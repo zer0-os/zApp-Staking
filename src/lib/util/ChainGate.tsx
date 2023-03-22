@@ -14,7 +14,10 @@ interface ChainGateProps {
 const ChainGate: FC<ChainGateProps> = ({ children }) => {
 	const { chainId } = useWeb3();
 
-	const isSupportedNetwork = Object.values(Network).includes(chainId);
+	const isSupportedNetwork =
+		!Boolean(chainId) || Object.values(Network).includes(chainId);
+
+	console.log('is supported', isSupportedNetwork, chainId);
 
 	if (!isSupportedNetwork) {
 		return (
