@@ -20,6 +20,7 @@ import { ZUIProvider } from '@zero-tech/zui/ZUIProvider';
 const queryClient = new QueryClient();
 
 export const StakingZApp = ({ provider, web3 }: AppProps) => {
+	console.log('web3', web3);
 	return (
 		<QueryClientProvider client={queryClient}>
 			<Web3Provider
