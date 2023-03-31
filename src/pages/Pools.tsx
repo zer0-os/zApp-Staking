@@ -5,7 +5,7 @@ import { Card } from '@zero-tech/zui/components/Card';
 import { PoolTable } from '../features/view-pools';
 
 import styles from './Pools.module.scss';
-import usePoolData from '../lib/hooks/usePoolData';
+import { usePoolData } from '../lib/hooks/usePoolData';
 import { formatFiat } from '../lib/util/format';
 
 export const Pools = () => {

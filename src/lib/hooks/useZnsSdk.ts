@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import { ZnsSdkContext } from '../providers/ZnsSdkProvider';
 
-export function useZnsSdk() {
+export const useZnsSdk = () => {
 	return useContext(ZnsSdkContext);
-}
-export default useZnsSdk;
+};

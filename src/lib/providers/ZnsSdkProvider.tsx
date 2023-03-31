@@ -2,7 +2,7 @@ import { createContext, FC, ReactNode, useMemo } from 'react';
 
 import { providers } from 'ethers';
 import * as zns from '@zero-tech/zns-sdk';
-import useWeb3 from '../hooks/useWeb3';
+import { useWeb3 } from '../hooks/useWeb3';
 import {
 	DEFAULT_NETWORK,
 	Network,

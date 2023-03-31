@@ -1,6 +1,6 @@
-import useWeb3 from '../lib/hooks/useWeb3';
+import { useWeb3 } from '../lib/hooks/useWeb3';
 import { formatFiat } from '../lib/util/format';
-import useAllDeposits from '../lib/hooks/useAllDeposits';
+import { useAllDeposits } from '../lib/hooks/useAllDeposits';
 
 import { Card } from '@zero-tech/zui/components/Card';
 import { DepositsTable } from '../features/my-deposits';

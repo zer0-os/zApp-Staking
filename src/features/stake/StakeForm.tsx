@@ -4,9 +4,9 @@
 
 import { FC } from 'react';
 
-import useStakeForm, { StakeFormStep as Step } from './useStakeForm';
-import useUserPoolTokenBalance from '../../lib/hooks/useUserPoolTokenBalance';
-import useWeb3 from '../../lib/hooks/useWeb3';
+import { useStakeForm, StakeFormStep as Step } from './useStakeForm';
+import { useUserPoolTokenBalance } from '../../lib/hooks/useUserPoolTokenBalance';
+import { useWeb3 } from '../../lib/hooks/useWeb3';
 import { PoolInfo } from '../../lib/types/pool';
 
 import { FormInputs } from '../ui/FormInputs';

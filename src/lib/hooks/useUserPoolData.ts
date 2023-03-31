@@ -1,7 +1,10 @@
 import { PoolInstance } from '@zero-tech/zfi-sdk';
 import { useQuery } from 'react-query';
 
-const useUserPoolData = (poolInstance: PoolInstance, account: string) => {
+export const useUserPoolData = (
+	poolInstance: PoolInstance,
+	account: string,
+) => {
 	return useQuery(
 		['user', { account, poolAddress: poolInstance.address }],
 		async () => {
@@ -11,7 +14,9 @@ const useUserPoolData = (poolInstance: PoolInstance, account: string) => {
 			]);
 			return { deposits, rewards };
 		},
+		{
+			enabled: Boolean(account),
+			refetchOnWindowFocus: false,
+		},
 	);
 };
-
-export default useUserPoolData;

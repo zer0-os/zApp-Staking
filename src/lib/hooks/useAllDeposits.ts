@@ -1,4 +1,3 @@
-import useWeb3 from './useWeb3';
 import { useQuery } from 'react-query';
 import { POOL_METADATA, PoolMetadata } from '../constants/pools';
 import { useZfiSdk } from './useZfiSdk';
@@ -53,53 +52,58 @@ const convertDeposit = (data: Reward | Deposit) => {
 	} as DepositData;
 };
 
-const useAllDeposits = (account: string) => {
+export const useAllDeposits = (account: string) => {
 	const zfiSdk = useZfiSdk();
-	const { chainId } = useWeb3();
 
-	return useQuery(['user', 'deposits', { account }], async () => {
-		const data = await Promise.all([
-			zfiSdk.wildPool.getAllDeposits(account),
-			zfiSdk.wildPool.getAllRewards(account),
-			zfiSdk.liquidityPool.getAllDeposits(account),
-			zfiSdk.liquidityPool.getAllRewards(account),
-			zfiSdk.wildPool.userValueStaked(account),
-			zfiSdk.liquidityPool.userValueStaked(account),
-		]);
+	return useQuery(
+		['user', 'deposits', { account }],
+		async () => {
+			const data = await Promise.all([
+				zfiSdk.wildPool.getAllDeposits(account),
+				zfiSdk.wildPool.getAllRewards(account),
+				zfiSdk.liquidityPool.getAllDeposits(account),
+				zfiSdk.liquidityPool.getAllRewards(account),
+				zfiSdk.wildPool.userValueStaked(account),
+				zfiSdk.liquidityPool.userValueStaked(account),
+			]);
 
-		const wildDeposits = data
-			.slice(0, 2)
-			.flat()
-			.map((d) => convertDeposit(d as Deposit | Reward))
-			.map((d) => ({
-				...d,
-				poolInstance: zfiSdk.wildPool,
-				poolMetadata: POOL_METADATA.WILD_POOL,
-			}));
+			const wildDeposits = data
+				.slice(0, 2)
+				.flat()
+				.map((d) => convertDeposit(d as Deposit | Reward))
+				.map((d) => ({
+					...d,
+					poolInstance: zfiSdk.wildPool,
+					poolMetadata: POOL_METADATA.WILD_POOL,
+				}));
 
-		const lpDeposits = data
-			.slice(2, 4)
-			.flat()
-			.map((d) => convertDeposit(d as Deposit | Reward))
-			.map((d) => ({
-				...d,
-				poolInstance: zfiSdk.liquidityPool,
-				poolMetadata: POOL_METADATA.LP_POOL,
-			}));
+			const lpDeposits = data
+				.slice(2, 4)
+				.flat()
+				.map((d) => convertDeposit(d as Deposit | Reward))
+				.map((d) => ({
+					...d,
+					poolInstance: zfiSdk.liquidityPool,
+					poolMetadata: POOL_METADATA.LP_POOL,
+				}));
 
-		const deposits = [...wildDeposits, ...lpDeposits];
+			const deposits = [...wildDeposits, ...lpDeposits];
 
-		const totalStaked = data.slice(4, 6).reduce((a, b) => {
-			const pool = b as UserValue;
-			return a + pool.userValueLockedUsd + pool.userValueUnlockedUsd;
-		}, 0);
+			const totalStaked = data.slice(4, 6).reduce((a, b) => {
+				const pool = b as UserValue;
+				return a + pool.userValueLockedUsd + pool.userValueUnlockedUsd;
+			}, 0);
 
-		return {
-			deposits,
-			numPools: [wildDeposits, lpDeposits].filter((a) => a.length !== 0).length,
-			totalStaked,
-		};
-	});
+			return {
+				deposits,
+				numPools: [wildDeposits, lpDeposits].filter((a) => a.length !== 0)
+					.length,
+				totalStaked,
+			};
+		},
+		{
+			enabled: Boolean(account),
+			refetchOnWindowFocus: false,
+		},
+	);
 };
-
-export default useAllDeposits;

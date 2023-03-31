@@ -4,7 +4,7 @@ import { createContext, FC, ReactNode, useMemo } from 'react';
 import * as zfi from '@zero-tech/zfi-sdk';
 
 import { Network, NETWORK_CONFIGS } from '../constants/networks';
-import useWeb3 from '../hooks/useWeb3';
+import { useWeb3 } from '../hooks/useWeb3';
 
 interface ZFiSdkProviderProps {
 	provider?: providers.Web3Provider;

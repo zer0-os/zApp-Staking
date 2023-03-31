@@ -1,8 +1,8 @@
 import { useQuery } from 'react-query';
-import useZnsSdk from './useZnsSdk';
+import { useZnsSdk } from './useZnsSdk';
 import { PoolInstance } from '@zero-tech/zfi-sdk';
 
-const useUserPoolTokenBalance = (
+export const useUserPoolTokenBalance = (
 	account: string,
 	poolInstance: PoolInstance,
 ) => {
@@ -17,7 +17,9 @@ const useUserPoolTokenBalance = (
 				tokenAddress,
 			);
 		},
+		{
+			enabled: Boolean(account),
+			refetchOnWindowFocus: false,
+		},
 	);
 };
-
-export default useUserPoolTokenBalance;

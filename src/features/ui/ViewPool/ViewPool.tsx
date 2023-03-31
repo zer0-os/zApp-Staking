@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import useWeb3 from '../../../lib/hooks/useWeb3';
-import usePoolData from '../../../lib/hooks/usePoolData';
-import useUserPoolData from '../../../lib/hooks/useUserPoolData';
+import { useWeb3 } from '../../../lib/hooks/useWeb3';
+import { usePoolData } from '../../../lib/hooks/usePoolData';
+import { useUserPoolData } from '../../../lib/hooks/useUserPoolData';
 import { formatPercentage, formatWei } from '../../../lib/util/format';
 import { PoolInfo } from '../../../lib/types/pool';
 

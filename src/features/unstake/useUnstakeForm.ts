@@ -1,14 +1,9 @@
-/**
- * @TODO: tests
- */
-
 import { useState } from 'react';
-import useWeb3 from '../../lib/hooks/useWeb3';
-import { Deposit, PoolInstance } from '@zero-tech/zfi-sdk';
+
 import { BigNumber } from 'ethers';
-import useDeposit from '../../lib/hooks/useDeposit';
-import { StakeFormStep } from '../stake/useStakeForm';
-import { useStake } from '../stake/useStake';
+import { Deposit, PoolInstance } from '@zero-tech/zfi-sdk';
+import { useWeb3 } from '../../lib/hooks/useWeb3';
+import { useDeposit } from '../../lib/hooks/useDeposit';
 import { useUnstake } from './useUnstake';
 
 export enum UnstakeFormStep {
