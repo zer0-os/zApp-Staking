@@ -20,10 +20,10 @@ export const useClaimForm = (poolInstance: PoolInstance) => {
 	const { provider, account } = useWeb3();
 	const { executeTransaction } = useTransaction();
 
-	const { data, isLoading, isRefetching } = useUserPoolData(
-		poolInstance,
+	const { data, isLoading, isRefetching } = useUserPoolData({
+		poolAddress: poolInstance.address,
 		account,
-	);
+	});
 
 	const [error, setError] = useState<string | undefined>();
 	const [step, setStep] = useState<ClaimFormStep>(ClaimFormStep.AMOUNT);

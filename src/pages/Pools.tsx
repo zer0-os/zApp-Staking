@@ -1,35 +1,23 @@
-import { POOL_METADATA } from '../lib/constants/pools';
-import { useZfiSdk } from '../lib/hooks/useZfiSdk';
+import React from 'react';
 
 import { Card } from '@zero-tech/zui/components/Card';
 import { PoolTable } from '../features/view-pools';
 
-import styles from './Pools.module.scss';
 import { usePoolData } from '../lib/hooks/usePoolData';
 import { formatFiat } from '../lib/util/format';
+import { usePools } from '../lib/hooks/usePools';
+
+import styles from './Pools.module.scss';
 
 export const Pools = () => {
-	const zfiSdk = useZfiSdk();
+	const { wildPool, liquidityPool, numPools } = usePools();
 
-	const data = [
-		{
-			address: zfiSdk.wildPool.address,
-			instance: zfiSdk.wildPool,
-			metadata: POOL_METADATA.WILD_POOL,
-		},
-		{
-			address: zfiSdk.liquidityPool.address,
-			instance: zfiSdk.liquidityPool,
-			metadata: POOL_METADATA.LP_POOL,
-		},
-	];
-
-	const { data: wildPoolData, isLoading: isLoadingWildPoolData } = usePoolData(
-		data[0].instance,
-	);
-	const { data: lpPoolData, isLoading: isLoadingLpPoolData } = usePoolData(
-		data[1].instance,
-	);
+	const { data: wildPoolData, isLoading: isLoadingWildPoolData } = usePoolData({
+		poolAddress: wildPool.address,
+	});
+	const { data: lpPoolData, isLoading: isLoadingLpPoolData } = usePoolData({
+		poolAddress: liquidityPool.address,
+	});
 
 	const tvlString =
 		wildPoolData && lpPoolData
@@ -50,9 +38,9 @@ export const Pools = () => {
 						text: tvlString,
 					}}
 				/>
-				<Card label="# Of Pools" primaryText={data.length.toString()} />
+				<Card label="# Of Pools" primaryText={numPools.toString()} />
 			</div>
-			<PoolTable data={data} />
+			<PoolTable />
 		</>
 	);
 };

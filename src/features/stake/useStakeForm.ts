@@ -26,7 +26,7 @@ export const useStakeForm = (poolInstance: PoolInstance) => {
 	const {
 		data: userPoolTokenBalance,
 		isLoading: isLoadingUserPoolTokenBalance,
-	} = useUserPoolTokenBalance(account, poolInstance);
+	} = useUserPoolTokenBalance({ account, poolAddress: poolInstance.address });
 
 	const [amountWei, setAmountWei] = useState<BigNumber | undefined>();
 	const [error, setError] = useState<string | undefined>();

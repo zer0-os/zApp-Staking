@@ -1,21 +1,29 @@
-import { PoolInstance } from '@zero-tech/zfi-sdk';
 import { useQuery } from 'react-query';
+import { usePoolData } from './usePoolData';
+import { usePoolByAddress } from './usePoolByAddress';
 
-export const useUserPoolData = (
-	poolInstance: PoolInstance,
-	account: string,
-) => {
+interface UseUserPoolDataParams {
+	poolAddress: string;
+	account: string;
+}
+
+export const useUserPoolData = ({
+	poolAddress,
+	account,
+}: UseUserPoolDataParams) => {
+	const { pool } = usePoolByAddress({ poolAddress });
+
 	return useQuery(
-		['user', { account, poolAddress: poolInstance.address }],
+		['user', { account, poolAddress }],
 		async () => {
 			const [deposits, rewards] = await Promise.all([
-				poolInstance.getAllDeposits(account),
-				poolInstance.pendingYieldRewards(account),
+				pool.instance.getAllDeposits(account),
+				pool.instance.pendingYieldRewards(account),
 			]);
 			return { deposits, rewards };
 		},
 		{
-			enabled: Boolean(account),
+			enabled: Boolean(account) && Boolean(pool),
 			refetchOnWindowFocus: false,
 		},
 	);

@@ -16,12 +16,12 @@ export interface ViewPoolProps extends PoolInfo {}
 export const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
 	const { account } = useWeb3();
 
-	const { data: poolQueryData, isLoading: isLoadingPoolData } =
-		usePoolData(poolInstance);
+	const { data: poolQueryData, isLoading: isLoadingPoolData } = usePoolData({
+		poolAddress: poolInstance.address,
+	});
 
 	const { data: userQueryData, isLoading: isLoadingUserData } = useUserPoolData(
-		poolInstance,
-		account,
+		{ poolAddress: poolInstance.address, account },
 	);
 
 	const aprAsString =

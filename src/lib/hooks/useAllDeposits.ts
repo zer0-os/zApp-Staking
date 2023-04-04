@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import { POOL_METADATA, PoolMetadata } from '../constants/pools';
 import { useZfiSdk } from './useZfiSdk';
 import { Deposit, PoolInstance, Reward, UserValue } from '@zero-tech/zfi-sdk';
+import { useWeb3 } from './useWeb3';
 
 export interface DepositData {
 	key: string;
@@ -52,11 +53,16 @@ const convertDeposit = (data: Reward | Deposit) => {
 	} as DepositData;
 };
 
-export const useAllDeposits = (account: string) => {
+interface UseAllDepositsParams {
+	account: string;
+}
+
+export const useAllDeposits = ({ account }: UseAllDepositsParams) => {
 	const zfiSdk = useZfiSdk();
+	const { chainId } = useWeb3();
 
 	return useQuery(
-		['user', 'deposits', { account }],
+		['user', 'deposits', { account, chainId }],
 		async () => {
 			const data = await Promise.all([
 				zfiSdk.wildPool.getAllDeposits(account),

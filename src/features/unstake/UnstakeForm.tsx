@@ -51,7 +51,7 @@ const UnstakeForm: FC<UnstakeFormProps> = ({
 					balances={[
 						{
 							label: `Amount Staked in This Deposit (${poolMetadata.tokenTicker})`,
-							value: deposit ? BigNumber.from(deposit.tokenAmount) : undefined,
+							value: deposit ? BigNumber.from(deposit.amount) : undefined,
 							isLoading,
 						},
 					]}

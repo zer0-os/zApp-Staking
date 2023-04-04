@@ -30,11 +30,13 @@ export const useUnstakeForm = ({
 	const [error, setError] = useState<string | undefined>();
 	const [step, setStep] = useState<UnstakeFormStep>(UnstakeFormStep.AMOUNT);
 
-	const { data: deposit, isLoading: isLoadingDeposit } = useDeposit(
+	const { data: deposit, isLoading: isLoadingDeposit } = useDeposit({
 		account,
-		poolInstance,
+		poolAddress: poolInstance.address,
 		depositId,
-	);
+	});
+
+	console.log('deposit', deposit);
 
 	const { unstake } = useUnstake({
 		onStart: () => {

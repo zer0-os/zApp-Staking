@@ -1,24 +1,30 @@
 import { useQuery } from 'react-query';
 import { useZnsSdk } from './useZnsSdk';
-import { PoolInstance } from '@zero-tech/zfi-sdk';
+import { usePoolByAddress } from './usePoolByAddress';
 
-export const useUserPoolTokenBalance = (
-	account: string,
-	poolInstance: PoolInstance,
-) => {
+interface UseUserPoolTokenBalanceParams {
+	poolAddress: string;
+	account: string;
+}
+
+export const useUserPoolTokenBalance = ({
+	account,
+	poolAddress,
+}: UseUserPoolTokenBalanceParams) => {
 	const znsSdk = useZnsSdk();
+	const { pool } = usePoolByAddress({ poolAddress });
 
 	return useQuery(
-		['user', 'balance', { account, poolAddress: poolInstance.address }],
+		['user', 'balance', { account, poolAddress }],
 		async () => {
-			const tokenAddress = await poolInstance.getPoolToken();
+			const tokenAddress = await pool.instance.getPoolToken();
 			return await znsSdk.zauction.getUserBalanceForPaymentToken(
 				account,
 				tokenAddress,
 			);
 		},
 		{
-			enabled: Boolean(account),
+			enabled: Boolean(account) && Boolean(pool),
 			refetchOnWindowFocus: false,
 		},
 	);
