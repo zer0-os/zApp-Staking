@@ -23,6 +23,7 @@ const UnstakeForm: FC<UnstakeFormProps> = ({
 }) => {
 	const {
 		amountWei,
+		amountWeiReward,
 		deposit,
 		isLoading,
 		error,
@@ -82,6 +83,7 @@ const UnstakeForm: FC<UnstakeFormProps> = ({
 			content = (
 				<ConfirmUnstake
 					amountWei={amountWei}
+					amountWeiReward={amountWeiReward}
 					tokenTicker={poolMetadata.tokenTicker}
 					onConfirm={onStartTransaction}
 				/>
