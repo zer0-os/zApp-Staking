@@ -45,7 +45,7 @@ export const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
 
 				{/* Rewards Claimable card */}
 				<Card
-					label={`Your Pool Rewards Claimable (${poolMetadata.tokenTicker})`}
+					label={`Your Pool Rewards Claimable (WILD)`}
 					primaryText={{
 						text: rewardsClaimableAsString,
 						isLoading: isLoadingUserData,
