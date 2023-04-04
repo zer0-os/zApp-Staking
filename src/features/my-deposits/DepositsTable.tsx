@@ -28,7 +28,7 @@ export interface DepositsTableProps {
 }
 
 export const DepositsTable: FC<DepositsTableProps> = ({ account }) => {
-	const { data: queryData, isLoading } = useAllDeposits(account);
+	const { data: queryData, isLoading } = useAllDeposits({ account });
 
 	return (
 		<>

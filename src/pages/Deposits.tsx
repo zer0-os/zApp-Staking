@@ -10,7 +10,7 @@ import poolStyles from './Pools.module.scss';
 
 export const Deposits = () => {
 	const { account } = useWeb3();
-	const { data: queryData, isLoading } = useAllDeposits(account);
+	const { data: queryData, isLoading } = useAllDeposits({ account });
 
 	return (
 		<>
