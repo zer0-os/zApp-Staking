@@ -51,7 +51,9 @@ const StakeForm: FC<StakeFormProps> = (props) => {
 							? {
 									text: `Successfully staked ${commify(
 										formatEther(amountWei),
-									)} ${props.poolMetadata.tokenTicker}`,
+									)} ${
+										props.poolMetadata.tokenTicker
+									}. This may take a few minutes to reflect in My Deposits, and may require a page refresh.`,
 							  }
 							: error && { text: error, isError: true }
 					}

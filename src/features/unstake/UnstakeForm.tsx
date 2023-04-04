@@ -101,7 +101,10 @@ const UnstakeForm: FC<UnstakeFormProps> = ({
 								</b>
 								!
 							</p>
-							<p>This may take a few minutes to reflect in My Deposits.</p>
+							<p>
+								This may take a few minutes to reflect in My Deposits, and may
+								require a page refresh.
+							</p>
 						</>
 					}
 					isPrimaryButtonActive={true}
