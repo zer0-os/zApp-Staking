@@ -19,9 +19,9 @@ export const Deposits = () => {
 					label={'Your Total Stake'}
 					primaryText={{
 						isLoading,
-						text:
-							queryData?.totalStaked &&
-							'$' + formatFiat(queryData?.totalStaked ?? 0),
+						text: queryData?.totalStaked
+							? '$' + formatFiat(queryData?.totalStaked ?? 0)
+							: '$0',
 						errorText: '-',
 					}}
 				/>
