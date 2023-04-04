@@ -19,7 +19,10 @@ export const Deposits = () => {
 					label={'Your Total Stake'}
 					primaryText={{
 						isLoading,
-						text: '$' + formatFiat(queryData?.totalStaked ?? 0),
+						text:
+							queryData?.totalStaked &&
+							'$' + formatFiat(queryData?.totalStaked ?? 0),
+						errorText: '-',
 					}}
 				/>
 				<Card
@@ -27,6 +30,7 @@ export const Deposits = () => {
 					primaryText={{
 						isLoading,
 						text: queryData?.numPools.toLocaleString(),
+						errorText: '-',
 					}}
 				/>
 			</div>
