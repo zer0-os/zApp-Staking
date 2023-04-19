@@ -4,8 +4,8 @@ import { PoolInstance } from '@zero-tech/zfi-sdk';
 import { BigNumber } from 'ethers';
 
 import Segments from './segments';
-import usePoolSpendingAllowance from './usePoolSpendingAllowance';
-import useWeb3 from '../../../lib/hooks/useWeb3';
+import { usePoolSpendingAllowance } from './usePoolSpendingAllowance';
+import { useWeb3 } from '../../../lib/hooks/useWeb3';
 import { useTransaction } from '../../../lib/useTransaction';
 
 enum Step {

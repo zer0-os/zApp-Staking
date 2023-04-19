@@ -6,20 +6,23 @@ import { commify, formatEther } from 'ethers/lib/utils';
 
 interface ConfirmUnstakeProps {
 	amountWei: BigNumber;
+	amountWeiReward: BigNumber;
 	tokenTicker: string;
 	onConfirm: () => void;
 }
 
 const ConfirmUnstake: FC<ConfirmUnstakeProps> = ({
 	amountWei,
+	amountWeiReward,
 	tokenTicker,
 	onConfirm,
 }) => {
 	const convertedAmount = commify(formatEther(amountWei));
+	const convertedAmountReward = commify(formatEther(amountWeiReward));
 	return (
 		<Wizard.Confirmation
 			message={
-				<>
+				<div>
 					<p>
 						When you unstake this deposit, you will also claim your{' '}
 						{tokenTicker} rewards from this pool. These rewards will be staked
@@ -29,7 +32,7 @@ const ConfirmUnstake: FC<ConfirmUnstakeProps> = ({
 					<p>
 						Are you sure you want to claim{' '}
 						<b>
-							{convertedAmount} {tokenTicker}
+							{convertedAmountReward} {tokenTicker}
 						</b>{' '}
 						in pool rewards and unstake{' '}
 						<b>
@@ -37,7 +40,7 @@ const ConfirmUnstake: FC<ConfirmUnstakeProps> = ({
 						</b>
 						? This will happen in one transaction.
 					</p>
-				</>
+				</div>
 			}
 			onClickPrimaryButton={onConfirm}
 			primaryButtonText={'Confirm Unstake'}

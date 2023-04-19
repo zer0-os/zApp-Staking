@@ -1,22 +1,25 @@
-import { FC } from 'react';
+import React from 'react';
 
 import PoolRow from './PoolRow';
-import { COLUMNS, PoolTableData } from './Pools.helpers';
+import { COLUMNS } from './Pools.helpers';
 
 import { AsyncTable } from '@zero-tech/zui/components/AsyncTable';
+import { usePools } from '../../lib/hooks/usePools';
 
-export interface PoolTableProps {
-	data: PoolTableData[];
-}
+export const PoolTable = () => {
+	const { wildPool, liquidityPool } = usePools();
 
-export const PoolTable: FC<PoolTableProps> = ({ data }) => (
-	<AsyncTable
-		data={data}
-		itemKey="address"
-		columns={COLUMNS}
-		rowComponent={(data) => <PoolRow rowData={data} />}
-		gridComponent={() => <>UNHANDLED</>}
-		isGridViewByDefault={false}
-		showControls={false}
-	/>
-);
+	const tableData = [wildPool, liquidityPool];
+
+	return (
+		<AsyncTable
+			data={tableData}
+			itemKey="address"
+			columns={COLUMNS}
+			rowComponent={(data) => <PoolRow poolAddress={data.address} />}
+			gridComponent={() => <>UNHANDLED</>}
+			isGridViewByDefault={false}
+			showControls={false}
+		/>
+	);
+};

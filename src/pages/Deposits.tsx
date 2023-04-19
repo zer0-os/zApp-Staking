@@ -1,6 +1,6 @@
-import useWeb3 from '../lib/hooks/useWeb3';
+import { useWeb3 } from '../lib/hooks/useWeb3';
 import { formatFiat } from '../lib/util/format';
-import useAllDeposits from '../lib/hooks/useAllDeposits';
+import { useAllDeposits } from '../lib/hooks/useAllDeposits';
 
 import { Card } from '@zero-tech/zui/components/Card';
 import { DepositsTable } from '../features/my-deposits';
@@ -10,7 +10,7 @@ import poolStyles from './Pools.module.scss';
 
 export const Deposits = () => {
 	const { account } = useWeb3();
-	const { data: queryData, isLoading } = useAllDeposits(account);
+	const { data: queryData, isLoading } = useAllDeposits({ account });
 
 	return (
 		<>
@@ -19,7 +19,10 @@ export const Deposits = () => {
 					label={'Your Total Stake'}
 					primaryText={{
 						isLoading,
-						text: '$' + formatFiat(queryData?.totalStaked ?? 0),
+						text: queryData?.totalStaked
+							? '$' + formatFiat(queryData?.totalStaked ?? 0)
+							: '$0',
+						errorText: '-',
 					}}
 				/>
 				<Card
@@ -27,6 +30,7 @@ export const Deposits = () => {
 					primaryText={{
 						isLoading,
 						text: queryData?.numPools.toLocaleString(),
+						errorText: '-',
 					}}
 				/>
 			</div>

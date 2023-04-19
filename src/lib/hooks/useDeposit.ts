@@ -1,19 +1,49 @@
 import { useQuery } from 'react-query';
-import { PoolInstance } from '@zero-tech/zfi-sdk';
 import { Deposit } from '@zero-tech/zfi-sdk';
+import { useWeb3 } from './useWeb3';
+import { useAllDeposits } from './useAllDeposits';
 
-const useDeposit = (
-	account: string,
-	poolInstance: PoolInstance,
-	depositId: Deposit['depositId'],
-) => {
-	return useQuery(
-		`deposit-${account}-${poolInstance.address}-${depositId}`,
+interface UseDepositParams {
+	account: string;
+	poolAddress: string;
+	depositId: Deposit['depositId'];
+}
+
+export const useDeposit = ({
+	account,
+	poolAddress,
+	depositId,
+}: UseDepositParams) => {
+	const { chainId } = useWeb3();
+	const { data: deposits, isLoading: isLoadingDeposits } = useAllDeposits({
+		account,
+	});
+
+	const query = useQuery(
+		['staking', 'deposits', { chainId, account }],
 		async () => {
-			const deposits = await poolInstance.getAllDeposits(account);
-			return deposits.filter((d) => d.depositId === depositId)[0];
+			console.log('finding', poolAddress, depositId, deposits);
+			console.log(
+				'found',
+				deposits.deposits.find(
+					(d) =>
+						d.poolInstance.address === poolAddress && d.depositId === depositId,
+				),
+			);
+			return deposits.deposits.find(
+				(d) =>
+					d.poolInstance.address === poolAddress && d.depositId === depositId,
+			);
+		},
+
+		{
+			enabled: Boolean(account) && Boolean(deposits),
+			refetchOnWindowFocus: false,
 		},
 	);
-};
 
-export default useDeposit;
+	return {
+		...query,
+		isLoading: query.isLoading || isLoadingDeposits,
+	};
+};

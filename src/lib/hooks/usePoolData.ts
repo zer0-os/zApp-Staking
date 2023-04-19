@@ -1,11 +1,22 @@
-import { PoolInstance } from '@zero-tech/zfi-sdk';
 import { useQuery } from 'react-query';
 import { getPoolData } from '../util/pool';
+import { usePoolByAddress } from './usePoolByAddress';
 
-const usePoolData = (poolInstance: PoolInstance) => {
-	return useQuery(`pool-${poolInstance.address}`, async () =>
-		getPoolData(poolInstance),
+interface UsePoolDataParams {
+	poolAddress: string;
+}
+
+export const usePoolData = ({ poolAddress }: UsePoolDataParams) => {
+	const { pool } = usePoolByAddress({ poolAddress });
+
+	return useQuery(
+		['staking', 'pool', { poolAddress }],
+		async () => {
+			return await getPoolData(pool.instance);
+		},
+		{
+			refetchOnWindowFocus: false,
+			enabled: Boolean(pool),
+		},
 	);
 };
-
-export default usePoolData;

@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
-import useWeb3 from '../../../lib/hooks/useWeb3';
-import usePoolData from '../../../lib/hooks/usePoolData';
-import useUserPoolData from '../../../lib/hooks/useUserPoolData';
+import { useWeb3 } from '../../../lib/hooks/useWeb3';
+import { usePoolData } from '../../../lib/hooks/usePoolData';
+import { useUserPoolData } from '../../../lib/hooks/useUserPoolData';
 import { formatPercentage, formatWei } from '../../../lib/util/format';
 import { PoolInfo } from '../../../lib/types/pool';
 
@@ -16,12 +16,12 @@ export interface ViewPoolProps extends PoolInfo {}
 export const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
 	const { account } = useWeb3();
 
-	const { data: poolQueryData, isLoading: isLoadingPoolData } =
-		usePoolData(poolInstance);
+	const { data: poolQueryData, isLoading: isLoadingPoolData } = usePoolData({
+		poolAddress: poolInstance.address,
+	});
 
 	const { data: userQueryData, isLoading: isLoadingUserData } = useUserPoolData(
-		poolInstance,
-		account,
+		{ poolAddress: poolInstance.address, account },
 	);
 
 	const aprAsString =
@@ -45,7 +45,7 @@ export const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
 
 				{/* Rewards Claimable card */}
 				<Card
-					label={`Your Pool Rewards Claimable (${poolMetadata.tokenTicker})`}
+					label={`Your Pool Rewards Claimable (WILD)`}
 					primaryText={{
 						text: rewardsClaimableAsString,
 						isLoading: isLoadingUserData,

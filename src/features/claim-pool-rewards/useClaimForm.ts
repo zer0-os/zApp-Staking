@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import useWeb3 from '../../lib/hooks/useWeb3';
-import useUserPoolData from '../../lib/hooks/useUserPoolData';
+import { useWeb3 } from '../../lib/hooks/useWeb3';
+import { useUserPoolData } from '../../lib/hooks/useUserPoolData';
 import { PoolInstance } from '@zero-tech/zfi-sdk';
 import { useTransaction } from '../../lib/useTransaction';
 
@@ -16,14 +16,14 @@ export enum ClaimFormStep {
 /**
  * Drives the logic behind the claim form.
  */
-const useClaimForm = (poolInstance: PoolInstance) => {
+export const useClaimForm = (poolInstance: PoolInstance) => {
 	const { provider, account } = useWeb3();
 	const { executeTransaction } = useTransaction();
 
-	const { data, isLoading, isRefetching } = useUserPoolData(
-		poolInstance,
+	const { data, isLoading, isRefetching } = useUserPoolData({
+		poolAddress: poolInstance.address,
 		account,
-	);
+	});
 
 	const [error, setError] = useState<string | undefined>();
 	const [step, setStep] = useState<ClaimFormStep>(ClaimFormStep.AMOUNT);
@@ -66,5 +66,3 @@ const useClaimForm = (poolInstance: PoolInstance) => {
 		claim,
 	};
 };
-
-export default useClaimForm;

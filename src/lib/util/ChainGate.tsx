@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 
 import { Network } from '../constants/networks';
-import useWeb3 from '../hooks/useWeb3';
+import { useWeb3 } from '../hooks/useWeb3';
 
 interface ChainGateProps {
 	children: ReactNode;
@@ -14,7 +14,8 @@ interface ChainGateProps {
 const ChainGate: FC<ChainGateProps> = ({ children }) => {
 	const { chainId } = useWeb3();
 
-	const isSupportedNetwork = Object.values(Network).includes(chainId);
+	const isSupportedNetwork =
+		!Boolean(chainId) || Object.values(Network).includes(chainId);
 
 	if (!isSupportedNetwork) {
 		return (

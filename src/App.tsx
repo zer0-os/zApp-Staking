@@ -20,17 +20,18 @@ import {
 	AppLayout,
 } from '@zer0-os/zos-component-library';
 
+const getTabs = (baseUrl: string) => {
+	return [
+		{ text: 'Pools', to: baseUrl + '/pools' },
+		{ text: 'Deposits', to: baseUrl + '/deposits' },
+	];
+};
+
 export const App = () => {
 	const { pathname } = useLocation();
 	let { url: baseUrl } = useRouteMatch();
 
-	const TABS = useMemo(
-		() => [
-			{ text: 'Pools', to: baseUrl + '/pools' },
-			{ text: 'Deposits', to: baseUrl + '/deposits' },
-		],
-		[baseUrl],
-	);
+	const TABS = useMemo(() => getTabs(baseUrl), [baseUrl]);
 
 	return (
 		<AppLayout>

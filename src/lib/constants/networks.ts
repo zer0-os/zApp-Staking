@@ -1,6 +1,7 @@
 export enum Network {
 	MAINNET = 1,
 	RINKEBY = 4,
+	GOERLI = 5,
 }
 
 export const DEFAULT_NETWORK = Network.MAINNET;
@@ -30,5 +31,13 @@ export const NETWORK_CONFIGS: { [network in Network]: NetworkConfig } = {
 		wildStakingPool: '0xE0Bb298Afc5dC12918d02732c824DA44e7D61E2a',
 		lpToken: '0x123c1B5A87E4E11663F2604f3EbCAf4ba86e25E1',
 		lpStakingPool: '0xe7BEeedAf11eE695C4aE64A01b24F3F7eA294aB6',
+	},
+	[Network.GOERLI]: {
+		rpcUrl: 'https://goerli.infura.io/v3/fa959ead3761429bafa6995a4b25397e',
+		subgraphUrl: 'https://api.thegraph.com/subgraphs/name/zer0-os/zfi-rinkeby',
+		stakeFactory: '0xAeEaC5F790dD98FD7166bBD50d9938Bf542AFeEf',
+		wildStakingPool: '0x376030f58c76ECC288a4fce8F88273905544bC07',
+		lpToken: '0x3Fa5ae3F31D38bCc2cf1dA2394c938dA8a1C9f69',
+		lpStakingPool: '0xCa0F071fcf5b36436F75E422b5Bd23666015b9f9',
 	},
 };

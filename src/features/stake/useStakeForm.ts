@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { BigNumber } from 'ethers';
 import { PoolInstance } from '@zero-tech/zfi-sdk';
-import useWeb3 from '../../lib/hooks/useWeb3';
+import { useWeb3 } from '../../lib/hooks/useWeb3';
 import { useStake } from './useStake';
-import useUserPoolTokenBalance from '../../lib/hooks/useUserPoolTokenBalance';
+import { useUserPoolTokenBalance } from '../../lib/hooks/useUserPoolTokenBalance';
 
 export enum StakeFormStep {
 	CONNECT_WALLET,
@@ -17,7 +17,7 @@ export enum StakeFormStep {
 /**
  * Drives the stake form UI.
  */
-const useStakeForm = (poolInstance: PoolInstance) => {
+export const useStakeForm = (poolInstance: PoolInstance) => {
 	const { provider, account } = useWeb3();
 
 	const initialStep =
@@ -26,7 +26,7 @@ const useStakeForm = (poolInstance: PoolInstance) => {
 	const {
 		data: userPoolTokenBalance,
 		isLoading: isLoadingUserPoolTokenBalance,
-	} = useUserPoolTokenBalance(account, poolInstance);
+	} = useUserPoolTokenBalance({ account, poolAddress: poolInstance.address });
 
 	const [amountWei, setAmountWei] = useState<BigNumber | undefined>();
 	const [error, setError] = useState<string | undefined>();
@@ -83,5 +83,3 @@ const useStakeForm = (poolInstance: PoolInstance) => {
 		onStartTransaction,
 	};
 };
-
-export default useStakeForm;

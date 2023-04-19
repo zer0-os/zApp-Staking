@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { PoolInfo } from '../../lib/types/pool';
-import useClaimForm, { ClaimFormStep as Step } from './useClaimForm';
+import { useClaimForm, ClaimFormStep as Step } from './useClaimForm';
 
 import { Wizard } from '@zero-tech/zui/components/Wizard';
 

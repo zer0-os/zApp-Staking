@@ -23,6 +23,7 @@ const UnstakeForm: FC<UnstakeFormProps> = ({
 }) => {
 	const {
 		amountWei,
+		amountWeiReward,
 		deposit,
 		isLoading,
 		error,
@@ -51,7 +52,7 @@ const UnstakeForm: FC<UnstakeFormProps> = ({
 					balances={[
 						{
 							label: `Amount Staked in This Deposit (${poolMetadata.tokenTicker})`,
-							value: deposit ? BigNumber.from(deposit.tokenAmount) : undefined,
+							value: deposit ? BigNumber.from(deposit.amount) : undefined,
 							isLoading,
 						},
 					]}
@@ -82,6 +83,7 @@ const UnstakeForm: FC<UnstakeFormProps> = ({
 			content = (
 				<ConfirmUnstake
 					amountWei={amountWei}
+					amountWeiReward={amountWeiReward}
 					tokenTicker={poolMetadata.tokenTicker}
 					onConfirm={onStartTransaction}
 				/>
@@ -99,7 +101,10 @@ const UnstakeForm: FC<UnstakeFormProps> = ({
 								</b>
 								!
 							</p>
-							<p>This may take a few minutes to reflect in My Deposits.</p>
+							<p>
+								This may take a few minutes to reflect in My Deposits, and may
+								require a page refresh.
+							</p>
 						</>
 					}
 					isPrimaryButtonActive={true}

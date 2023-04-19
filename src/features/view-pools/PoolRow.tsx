@@ -1,24 +1,24 @@
 import { FC, useState } from 'react';
-import { Skeleton } from '@zero-tech/zui/components/Skeleton';
 
-import styles from './PoolRow.module.scss';
-
-import { PoolTableData } from './Pools.helpers';
-import { PoolDetail } from '../ui/PoolDetail';
 import { PoolData } from '../../lib/types/pool';
-import usePoolData from '../../lib/hooks/usePoolData';
+import { usePoolData } from '../../lib/hooks/usePoolData';
 import { StakeModal } from '../stake';
 import { formatPercentage, millifyNumber } from '../../lib/util/format';
-import { Button } from '@zero-tech/zui/components/Button';
 
+import { Button, Skeleton } from '@zero-tech/zui/components';
 import { TableData } from '@zero-tech/zui/components/AsyncTable';
+import { PoolDetail } from '../ui/PoolDetail';
+
+import styles from './PoolRow.module.scss';
+import { usePoolByAddress } from '../../lib/hooks/usePoolByAddress';
 
 interface PoolRowProps {
-	rowData: PoolTableData;
+	poolAddress: string;
 }
 
-const PoolRow: FC<PoolRowProps> = ({ rowData }) => {
-	const { data: queryData, isLoading, isError } = usePoolData(rowData.instance);
+const PoolRow: FC<PoolRowProps> = ({ poolAddress }) => {
+	const { pool } = usePoolByAddress({ poolAddress });
+	const { data: queryData, isLoading, isError } = usePoolData({ poolAddress });
 
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -46,17 +46,14 @@ const PoolRow: FC<PoolRowProps> = ({ rowData }) => {
 	return (
 		<>
 			<StakeModal
-				poolInstance={rowData.instance}
-				poolMetadata={rowData.metadata}
+				poolInstance={pool.instance}
+				poolMetadata={pool.metadata}
 				open={isModalOpen}
 				onOpenChange={(isOpen) => setIsModalOpen(isOpen)}
 			/>
 			<tr className={styles.Container} onClick={onClickRow}>
 				<TableData alignment={'left'} className={styles.Pool}>
-					<PoolDetail
-						imageUrl={rowData.metadata.icon}
-						name={rowData.metadata.name}
-					/>
+					<PoolDetail imageUrl={pool.metadata.icon} name={pool.metadata.name} />
 				</TableData>
 				<TableData alignment={'right'}>{getAsyncColumn('apr')}</TableData>
 				<TableData alignment={'right'}>{getAsyncColumn('tvl')}</TableData>

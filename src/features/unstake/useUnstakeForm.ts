@@ -1,15 +1,11 @@
-/**
- * @TODO: tests
- */
-
 import { useState } from 'react';
-import useWeb3 from '../../lib/hooks/useWeb3';
-import { Deposit, PoolInstance } from '@zero-tech/zfi-sdk';
+
 import { BigNumber } from 'ethers';
-import useDeposit from '../../lib/hooks/useDeposit';
-import { StakeFormStep } from '../stake/useStakeForm';
-import { useStake } from '../stake/useStake';
+import { Deposit, PoolInstance } from '@zero-tech/zfi-sdk';
+import { useWeb3 } from '../../lib/hooks/useWeb3';
+import { useDeposit } from '../../lib/hooks/useDeposit';
 import { useUnstake } from './useUnstake';
+import { useUserPoolData } from '../../lib/hooks/useUserPoolData';
 
 export enum UnstakeFormStep {
 	AMOUNT,
@@ -35,11 +31,17 @@ export const useUnstakeForm = ({
 	const [error, setError] = useState<string | undefined>();
 	const [step, setStep] = useState<UnstakeFormStep>(UnstakeFormStep.AMOUNT);
 
-	const { data: deposit, isLoading: isLoadingDeposit } = useDeposit(
+	const { data: deposit, isLoading: isLoadingDeposit } = useDeposit({
 		account,
-		poolInstance,
+		poolAddress: poolInstance.address,
 		depositId,
-	);
+	});
+
+	const { data: poolUserData, isLoading: isLoadingPoolUserData } =
+		useUserPoolData({
+			poolAddress: poolInstance.address,
+			account,
+		});
 
 	const { unstake } = useUnstake({
 		onStart: () => {
@@ -91,12 +93,13 @@ export const useUnstakeForm = ({
 
 	return {
 		amountWei,
+		amountWeiReward: poolUserData?.rewards,
 		step,
 		error,
 		onConfirmAmount,
 		onStartTransaction,
 		deposit: deposit,
-		isLoading: isLoadingDeposit,
+		isLoading: isLoadingDeposit || isLoadingPoolUserData,
 		handleOnBack,
 		handleOnApproved,
 	};
