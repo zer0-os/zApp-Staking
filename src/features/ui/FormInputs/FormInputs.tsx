@@ -66,7 +66,6 @@ export const FormInputs: FC<FormInputsProps> = ({
 		<div className={styles.Container}>
 			{message && <MessageBanner {...message} />}
 			<ViewPool poolMetadata={poolMetadata} poolInstance={poolInstance} />
-			<div></div>
 			{action !== 'claim' && (
 				<NumberInput
 					value={amountString}
