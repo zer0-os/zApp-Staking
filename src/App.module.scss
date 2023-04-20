@@ -1,31 +1,4 @@
-.DummyContext {
-	display: flex;
-	flex-direction: column;
-	gap: 0.5rem;
-	padding: 0;
-
-	margin: 0;
-	list-style: none;
-
-	li {
-		position: relative;
-		padding: 0.625rem 1.25rem; // 10px 20px
-
-		&:first-child {
-			background: var(--actionable-active-background);
-
-			&::after {
-				position: absolute;
-				content: ' ';
-				width: 0.2rem;
-				left: 0;
-				top: 0;
-				bottom: 0;
-				background-color: var(--accent-color);
-			}
-		}
-	}
-}
+@import './styles/breakpoints';
 
 .Main {
 	margin: 100px auto 0 auto;
@@ -34,5 +7,17 @@
 
 	> *:first-child {
 		margin-bottom: 1rem;
+
+		[class*='Tabs'] {
+			font-size: 1.125rem;
+			line-height: 1.361rem;
+		}
+
+		@include container-breakpoint(500) {
+			[class*='Tabs'] {
+				font-size: 1.5rem;
+				line-height: 1.1.816rem;
+			}
+		}
 	}
 }
