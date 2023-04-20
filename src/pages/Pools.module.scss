@@ -1,12 +1,3 @@
-// .Stats {
-// 	display: flex;
-// 	gap: 1rem;
-
-// 	> * {
-// 		flex: 1;
-// 	}
-// }
-
 @import '../styles/breakpoints';
 
 .Stats {
@@ -19,9 +10,9 @@
 
 	@include container-breakpoint(500) {
 		flex-direction: row;
-	}
 
-	> * {
-		flex: 1;
+		> * {
+			flex: 1;
+		}
 	}
 }

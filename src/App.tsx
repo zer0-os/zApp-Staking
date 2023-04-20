@@ -35,28 +35,19 @@ export const App = () => {
 	const TABS = useMemo(() => getTabs(baseUrl), [baseUrl]);
 
 	return (
-		<AppLayout>
-			<AppContextPanel>
-				<ul className={styles.DummyContext}>
-					<li># Everything</li>
-				</ul>
-			</AppContextPanel>
-			<AppContent>
-				<DynamicSizeWrapper>
-					<ZAppContent>
-						<main className={styles.Main}>
-							<TabsNav tabs={TABS} location={pathname} />
-							<Switch>
-								<Route path={baseUrl + '/pools'} component={PoolsPage} />
-								<Route path={baseUrl + '/deposits'} component={DepositsPage} />
-								<Route path={baseUrl} exact>
-									<Redirect to={baseUrl + '/pools'} />
-								</Route>
-							</Switch>
-						</main>
-					</ZAppContent>
-				</DynamicSizeWrapper>
-			</AppContent>
-		</AppLayout>
+		<DynamicSizeWrapper>
+			<ZAppContent>
+				<main className={styles.Main}>
+					<TabsNav tabs={TABS} location={pathname} />
+					<Switch>
+						<Route path={baseUrl + '/pools'} component={PoolsPage} />
+						<Route path={baseUrl + '/deposits'} component={DepositsPage} />
+						<Route path={baseUrl} exact>
+							<Redirect to={baseUrl + '/pools'} />
+						</Route>
+					</Switch>
+				</main>
+			</ZAppContent>
+		</DynamicSizeWrapper>
 	);
 };
