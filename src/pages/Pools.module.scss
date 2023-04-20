@@ -1,6 +1,25 @@
+// .Stats {
+// 	display: flex;
+// 	gap: 1rem;
+
+// 	> * {
+// 		flex: 1;
+// 	}
+// }
+
+@import '../styles/breakpoints';
+
 .Stats {
 	display: flex;
+	margin: 0.5rem 0 1rem 0;
+	flex-direction: column;
+	padding: 0;
 	gap: 1rem;
+	list-style: none;
+
+	@include container-breakpoint(500) {
+		flex-direction: row;
+	}
 
 	> * {
 		flex: 1;
