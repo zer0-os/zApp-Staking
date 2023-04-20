@@ -17,7 +17,6 @@ import {
 
 import styles from './DepositsTable.module.scss';
 import { DepositCard } from './DepositCard';
-import { isError } from 'react-query';
 
 export interface DepositsTableProps {
 	/*
@@ -28,7 +27,7 @@ export interface DepositsTableProps {
 }
 
 export const DepositsTable: FC<DepositsTableProps> = ({ account }) => {
-	const { data: queryData, isLoading, isError } = useAllDeposits({ account });
+	const { data: queryData, isLoading } = useAllDeposits({ account });
 
 	return (
 		<DepositsView
