@@ -7,18 +7,19 @@ import {
 	useLocation,
 } from 'react-router-dom';
 
-import { ZAppContent } from '@zero-tech/zapp-utils/components';
-import { TabsNav } from '@zero-tech/zui/components';
+import { DynamicSizeWrapper } from '@zero-tech/zapp-utils/components';
 
 import { Pools as PoolsPage } from './pages/Pools';
 import { Deposits as DepositsPage } from './pages/Deposits';
-
-import styles from './App.module.scss';
+import { ZAppContent } from '@zero-tech/zapp-utils/components';
+import { TabsNav } from '@zero-tech/zui/components';
 import {
 	AppContent,
 	AppContextPanel,
 	AppLayout,
 } from '@zer0-os/zos-component-library';
+
+import styles from './App.module.scss';
 
 const getTabs = (baseUrl: string) => {
 	return [
@@ -41,18 +42,20 @@ export const App = () => {
 				</ul>
 			</AppContextPanel>
 			<AppContent>
-				<ZAppContent>
-					<main className={styles.Main}>
-						<TabsNav tabs={TABS} location={pathname} />
-						<Switch>
-							<Route path={baseUrl + '/pools'} component={PoolsPage} />
-							<Route path={baseUrl + '/deposits'} component={DepositsPage} />
-							<Route path={baseUrl} exact>
-								<Redirect to={baseUrl + '/pools'} />
-							</Route>
-						</Switch>
-					</main>
-				</ZAppContent>
+				<DynamicSizeWrapper>
+					<ZAppContent>
+						<main className={styles.Main}>
+							<TabsNav tabs={TABS} location={pathname} />
+							<Switch>
+								<Route path={baseUrl + '/pools'} component={PoolsPage} />
+								<Route path={baseUrl + '/deposits'} component={DepositsPage} />
+								<Route path={baseUrl} exact>
+									<Redirect to={baseUrl + '/pools'} />
+								</Route>
+							</Switch>
+						</main>
+					</ZAppContent>
+				</DynamicSizeWrapper>
 			</AppContent>
 		</AppLayout>
 	);
