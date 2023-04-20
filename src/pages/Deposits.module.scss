@@ -1,12 +1,4 @@
-.Connect {
-	text-align: center;
-
-	p {
-		padding: 1rem;
-	}
-
-	> * {
-		margin-left: auto;
-		margin-right: auto;
-	}
+.ConnectWalletWrapper {
+	display: flex;
+	justify-content: center;
 }

@@ -40,6 +40,7 @@ export const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
 					primaryText={{
 						text: aprAsString,
 						isLoading: isLoadingPoolData,
+						errorText: '-',
 					}}
 				/>
 
@@ -49,6 +50,7 @@ export const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
 					primaryText={{
 						text: rewardsClaimableAsString,
 						isLoading: isLoadingUserData,
+						errorText: '-',
 					}}
 				/>
 			</div>

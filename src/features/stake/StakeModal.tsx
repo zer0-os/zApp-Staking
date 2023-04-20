@@ -21,7 +21,7 @@ export const StakeModal: FC<StakeModalProps> = ({
 	poolMetadata,
 	...modalProps
 }) => (
-	<Modal {...modalProps} className={styles.Container}>
+	<Modal {...modalProps} className={styles.StakeModal}>
 		<StakeForm poolInstance={poolInstance} poolMetadata={poolMetadata} />
 	</Modal>
 );
