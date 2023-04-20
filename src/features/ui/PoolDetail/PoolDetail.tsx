@@ -10,7 +10,7 @@ export interface PoolDetailProps {
 
 export const PoolDetail: FC<PoolDetailProps> = ({ name, imageUrl }) => {
 	return (
-		<div className={styles.Container}>
+		<div className={styles.PoolDetail}>
 			{/* Appending location.origin as all images are local */}
 			<Image
 				className={styles.Thumbnail}
