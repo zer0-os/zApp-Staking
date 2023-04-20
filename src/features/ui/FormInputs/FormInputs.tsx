@@ -100,7 +100,9 @@ export const FormInputs: FC<FormInputsProps> = ({
  *****************/
 
 const MessageBanner = ({ text, isError }: Message) => (
-	<Alert variant={isError ? 'error' : 'success'}>{text}</Alert>
+	<Alert className={styles.Alert} variant={isError ? 'error' : 'success'}>
+		{text}
+	</Alert>
 );
 
 const Balances = ({ balances }: { balances: Balance[] }) => (
@@ -115,7 +117,7 @@ const BalanceItem = ({ label, value, isLoading }: Balance) => (
 	<div className={styles.Balance}>
 		<span>{label}</span>
 		<b>
-			{isLoading ? <Skeleton width={150} /> : value ? formatWei(value) : 'ERR'}
+			{isLoading ? <Skeleton width={150} /> : value ? formatWei(value) : '-'}
 		</b>
 	</div>
 );

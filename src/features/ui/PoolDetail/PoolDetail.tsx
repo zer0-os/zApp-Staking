@@ -1,7 +1,8 @@
 import { FC } from 'react';
-import styles from './PoolDetail.module.scss';
 
 import { Image } from '@zero-tech/zui/components';
+
+import styles from './PoolDetail.module.scss';
 
 export interface PoolDetailProps {
 	name: string;
@@ -10,14 +11,16 @@ export interface PoolDetailProps {
 
 export const PoolDetail: FC<PoolDetailProps> = ({ name, imageUrl }) => {
 	return (
-		<div className={styles.Container}>
+		<div className={styles.PoolDetail}>
 			{/* Appending location.origin as all images are local */}
 			<Image
 				className={styles.Thumbnail}
 				alt={name + ' icon'}
 				src={location.origin + imageUrl}
 			/>{' '}
-			{name}
+			<span id="text" className={styles.PoolName}>
+				{name}
+			</span>
 		</div>
 	);
 };

@@ -1,27 +1,22 @@
 import { FC, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
-import { useAllDeposits, DepositData } from '../../lib/hooks/useAllDeposits';
+import { COLUMNS } from './Deposits.helpers';
 import { ROUTE_NAMES, ROUTES } from '../../lib/constants/routes';
+import { useAllDeposits, DepositData } from '../../lib/hooks/useAllDeposits';
 
-import { AsyncTable, Column } from '@zero-tech/zui/components/AsyncTable';
 import { DepositRow } from './DepositRow';
 
+import {
+	Body,
+	Grid,
+	Header,
+	HeaderGroup,
+	Table,
+} from '@zero-tech/zui/components/Table';
+
 import styles from './DepositsTable.module.scss';
-
-////////////////////
-// Deposits Table //
-////////////////////
-
-/**
- * Columns to render in the DepositsTable
- */
-export const COLUMNS: Column[] = [
-	{ id: 'pool', header: 'Pool', alignment: 'left' },
-	{ id: 'claimed', header: 'Date Claimable', alignment: 'right' },
-	{ id: 'amount', header: 'Amount', alignment: 'right' },
-	{ id: 'action', header: '', alignment: 'right' },
-];
+import { DepositCard } from './DepositCard';
 
 export interface DepositsTableProps {
 	/*
@@ -34,23 +29,55 @@ export interface DepositsTableProps {
 export const DepositsTable: FC<DepositsTableProps> = ({ account }) => {
 	const { data: queryData, isLoading } = useAllDeposits({ account });
 
-	// If loading, or there are already deposits loaded, render the table
-	if (isLoading || Boolean(queryData?.deposits?.length)) {
+	return (
+		<DepositsView
+			depositsCollection={queryData?.deposits}
+			isLoading={isLoading}
+		/>
+	);
+};
+
+/************************
+ * DepositsView Row/Card  *
+ ***********************/
+interface DepositsViewProps {
+	depositsCollection: DepositData[];
+	isLoading: boolean;
+}
+
+const DepositsView = ({ depositsCollection, isLoading }: DepositsViewProps) => {
+	//  If loading, or there are already deposits loaded, render the table
+	if (isLoading || Boolean(depositsCollection?.length)) {
 		return (
-			<AsyncTable
-				data={queryData?.deposits}
-				itemKey="key"
-				columns={COLUMNS}
-				rowComponent={(data: DepositData) => <DepositRow rowData={data} />}
-				isLoading={isLoading}
-				showControls={false}
-				isGridViewByDefault={false}
-			/>
+			<div className={styles.DepositsView}>
+				<Grid className={styles.Grid}>
+					{depositsCollection?.map((deposit) => (
+						<DepositCard deposit={deposit} isLoading={isLoading} />
+					))}
+				</Grid>
+
+				<div className={styles.Table}>
+					<Table>
+						<HeaderGroup>
+							{COLUMNS.map((column) => (
+								<Header key={column.id} alignment={column.alignment}>
+									{column.header}
+								</Header>
+							))}
+						</HeaderGroup>
+						<Body>
+							{depositsCollection?.map((deposit) => (
+								<DepositRow deposit={deposit} />
+							))}
+						</Body>
+					</Table>
+				</div>
+			</div>
 		);
 	}
 
 	// If loaded, and there are no deposits, render a message
-	if (queryData?.deposits?.length === 0) {
+	if (depositsCollection?.length === 0) {
 		return (
 			<Message>
 				You have not staked in any pools. Get started on the{' '}
@@ -72,7 +99,6 @@ export const DepositsTable: FC<DepositsTableProps> = ({ account }) => {
 /////////////
 // Message //
 /////////////
-
 interface MessageProps {
 	children: ReactNode;
 }

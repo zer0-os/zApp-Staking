@@ -16,7 +16,7 @@ interface PoolRowProps {
 	poolAddress: string;
 }
 
-const PoolRow: FC<PoolRowProps> = ({ poolAddress }) => {
+export const PoolRow: FC<PoolRowProps> = ({ poolAddress }) => {
 	const { pool } = usePoolByAddress({ poolAddress });
 	const { data: queryData, isLoading, isError } = usePoolData({ poolAddress });
 
@@ -51,8 +51,8 @@ const PoolRow: FC<PoolRowProps> = ({ poolAddress }) => {
 				open={isModalOpen}
 				onOpenChange={(isOpen) => setIsModalOpen(isOpen)}
 			/>
-			<tr className={styles.Container} onClick={onClickRow}>
-				<TableData alignment={'left'} className={styles.Pool}>
+			<tr className={styles.PoolRow} onClick={onClickRow}>
+				<TableData alignment={'left'}>
 					<PoolDetail imageUrl={pool.metadata.icon} name={pool.metadata.name} />
 				</TableData>
 				<TableData alignment={'right'}>{getAsyncColumn('apr')}</TableData>
@@ -66,5 +66,3 @@ const PoolRow: FC<PoolRowProps> = ({ poolAddress }) => {
 		</>
 	);
 };
-
-export default PoolRow;

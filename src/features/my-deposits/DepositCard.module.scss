@@ -1,0 +1,37 @@
+@import '../../../node_modules/@zero-tech/zui/styles/_colors.scss';
+@import '../../../node_modules/@zero-tech/zui/styles/_typography.scss';
+
+.PoolDetailWrapper {
+	display: flex;
+	justify-content: space-between;
+}
+
+.CardBody {
+	display: flex;
+	border-top: 1px solid rgba($white, 0.1);
+	background: var(--color-primary-2);
+
+	ul {
+		display: flex;
+		flex-direction: column;
+		gap: 1.25rem;
+		padding: 0.5rem 1rem;
+		width: 100%;
+
+		li {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			label,
+			span {
+				display: block;
+			}
+
+			label {
+				font-size: $size-tiny;
+				color: $grey-lighter-2;
+			}
+		}
+	}
+}

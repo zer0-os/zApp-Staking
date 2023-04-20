@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Card } from '@zero-tech/zui/components/Card';
 import { PoolTable } from '../features/view-pools';
+import { Card } from '@zero-tech/zui/components';
 
 import { usePoolData } from '../lib/hooks/usePoolData';
 import { formatFiat } from '../lib/util/format';
@@ -36,6 +36,7 @@ export const Pools = () => {
 					primaryText={{
 						isLoading: isLoadingWildPoolData || isLoadingLpPoolData,
 						text: tvlString,
+						errorText: '-',
 					}}
 				/>
 				<Card label="# Of Pools" primaryText={numPools.toString()} />

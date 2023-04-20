@@ -7,6 +7,7 @@ import { DepositsTable } from '../features/my-deposits';
 import { ConnectWallet } from '../features/ui/ConnectWallet';
 
 import poolStyles from './Pools.module.scss';
+import depositsStyles from './Deposits.module.scss';
 
 export const Deposits = () => {
 	const { account } = useWeb3();
@@ -37,9 +38,11 @@ export const Deposits = () => {
 			{account ? (
 				<DepositsTable account={account} />
 			) : (
-				<ConnectWallet
-					message={'Connect a Web3 wallet to see your Staking data.'}
-				/>
+				<div className={depositsStyles.ConnectWalletWrapper}>
+					<ConnectWallet
+						message={'Connect a Web3 wallet to see your Staking data.'}
+					/>
+				</div>
 			)}
 		</>
 	);

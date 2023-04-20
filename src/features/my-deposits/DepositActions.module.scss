@@ -1,0 +1,17 @@
+.DropdownMenu {
+	outline: none;
+}
+
+.Trigger {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 32px;
+	width: 32px;
+
+	border-radius: 0.5rem;
+
+	&:hover {
+		background: var(--color-primary-transparency-2);
+	}
+}

@@ -1,3 +1,8 @@
-.Container {
-	width: 640px;
+@import '../../styles/breakpoints';
+@import './variables';
+
+.ClaimModal {
+	margin: auto;
+
+	@include modal-breakpoint($modal-width);
 }
