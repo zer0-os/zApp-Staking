@@ -2,14 +2,14 @@ import { FC, useState } from 'react';
 
 import { DepositData } from '../../lib/hooks/useAllDeposits';
 
-import { DropdownMenu } from '@zero-tech/zui/components/DropdownMenu';
-import { IconDotsHorizontal } from '@zero-tech/zui/icons';
-
-import styles from './DepositRow.module.scss';
-
 import { StakeModal } from '../stake';
 import { UnstakeModal } from '../unstake';
 import { ClaimModal } from '../claim-pool-rewards';
+
+import { IconDotsHorizontal } from '@zero-tech/zui/icons';
+import { DropdownMenu } from '@zero-tech/zui/components/DropdownMenu';
+
+import styles from './DepositActions.module.scss';
 
 interface DepositActionProps {
 	rowData: DepositData;
@@ -95,6 +95,7 @@ export const DepositActions: FC<DepositActionProps> = ({ rowData }) => {
 				}}
 			/>
 			<DropdownMenu
+				className={styles.DropdownMenu}
 				trigger={
 					<div className={styles.Trigger}>
 						<IconDotsHorizontal />

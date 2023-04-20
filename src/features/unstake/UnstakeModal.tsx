@@ -23,7 +23,7 @@ export const UnstakeModal: FC<UnstakeModalProps> = ({
 		onOpenChange={onOpenChange}
 		trigger={trigger}
 		open={open}
-		className={styles.Container}
+		className={styles.UnstakeModal}
 	>
 		<UnstakeForm {...rest} />
 	</Modal>

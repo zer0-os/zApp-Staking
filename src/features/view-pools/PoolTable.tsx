@@ -21,9 +21,11 @@ export const PoolTable: FC = () => {
 	const tableData = [wildPool, liquidityPool];
 
 	return (
-		<div className={styles.Container}>
-			<PoolView poolAddressCollection={tableData.map((pool) => pool.address)} />
-		</div>
+		<PoolView
+			poolAddressCollection={tableData.map(
+				(poolAddressCollection) => poolAddressCollection.address,
+			)}
+		/>
 	);
 };
 
@@ -40,7 +42,7 @@ const PoolView = ({ poolAddressCollection }: PoolViewProps) => {
 	}
 
 	return (
-		<div className={styles.PoolTable}>
+		<div className={styles.PoolView}>
 			<Grid className={styles.Grid}>
 				{poolAddressCollection?.map((poolAddress) => (
 					<PoolCard poolAddress={poolAddress} />

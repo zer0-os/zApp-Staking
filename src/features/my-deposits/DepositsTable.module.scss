@@ -1,4 +1,26 @@
-.Empty {
-	padding: 1rem;
-	text-align: center;
+@import '../../styles/breakpoints';
+
+.DepositsView {
+	display: flex;
+	flex-direction: column;
+	gap: 1.625rem;
+	position: relative;
+
+	.Grid {
+		grid-template-columns: 1fr;
+	}
+
+	.Table {
+		display: none;
+	}
+
+	@include container-breakpoint(500) {
+		.Grid {
+			display: none;
+		}
+
+		.Table {
+			display: contents;
+		}
+	}
 }

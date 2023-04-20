@@ -11,30 +11,30 @@ import { DepositActions } from './DepositActions';
 import styles from './DepositRow.module.scss';
 
 interface DepositRowProps {
-	rowData: DepositData;
+	deposit: DepositData;
 }
 
-export const DepositRow: FC<DepositRowProps> = ({ rowData }) => (
+export const DepositRow: FC<DepositRowProps> = ({ deposit }) => (
 	<tr>
 		<TableData alignment="left">
 			<PoolDetail
-				imageUrl={rowData.poolMetadata.icon}
-				name={rowData.poolMetadata.name}
+				imageUrl={deposit.poolMetadata.icon}
+				name={deposit.poolMetadata.name}
 			/>
 		</TableData>
 		<TableData alignment="right" className={styles.Claimable}>
 			<span>
-				{rowData.lockedFrom
-					? formatTimestamp(rowData.lockedUntil + '000')
+				{deposit.lockedFrom
+					? formatTimestamp(deposit.lockedUntil + '000')
 					: '-'}
 			</span>
-			{rowData.isReward && <span>Staked Rewards</span>}
+			{deposit.isReward && <span>Staked Rewards</span>}
 		</TableData>
 		<TableData alignment="right">
-			{formatWei(rowData.amount)} {rowData.poolMetadata.tokenTicker}
+			{formatWei(deposit.amount)} {deposit.poolMetadata.tokenTicker}
 		</TableData>
 		<TableData alignment="right">
-			<DepositActions rowData={rowData} />
+			<DepositActions rowData={deposit} />
 		</TableData>
 	</tr>
 );

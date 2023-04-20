@@ -18,7 +18,7 @@ export const ClaimModal: FC<ClaimModalProps> = ({
 	poolMetadata,
 	...modalProps
 }) => (
-	<Modal {...modalProps} className={styles.Container}>
+	<Modal {...modalProps} className={styles.ClaimModal}>
 		<ClaimForm poolInstance={poolInstance} poolMetadata={poolMetadata} />
 	</Modal>
 );
