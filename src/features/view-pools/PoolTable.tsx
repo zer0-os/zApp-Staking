@@ -45,7 +45,7 @@ const PoolView = ({ poolAddressCollection }: PoolViewProps) => {
 		<div className={styles.PoolView}>
 			<Grid className={styles.Grid}>
 				{poolAddressCollection?.map((poolAddress) => (
-					<PoolCard poolAddress={poolAddress} />
+					<PoolCard key={`pool-${poolAddress}`} poolAddress={poolAddress} />
 				))}
 			</Grid>
 
@@ -60,7 +60,7 @@ const PoolView = ({ poolAddressCollection }: PoolViewProps) => {
 					</HeaderGroup>
 					<Body>
 						{poolAddressCollection?.map((poolAddress) => (
-							<PoolRow poolAddress={poolAddress} />
+							<PoolRow key={`pool-${poolAddress}`} poolAddress={poolAddress} />
 						))}
 					</Body>
 				</Table>
