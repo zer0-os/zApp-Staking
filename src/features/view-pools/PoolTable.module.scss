@@ -1,5 +1,14 @@
 @import '../../styles/breakpoints';
 
+.Toggle {
+	display: none;
+
+	// @note: this has to match GRID_WIDTH_TOGGLE in SubdomainTable.tsx
+	@include container-breakpoint(600) {
+		display: flex;
+	}
+}
+
 .PoolView {
 	display: flex;
 	flex-direction: column;
@@ -8,19 +17,5 @@
 
 	.Grid {
 		grid-template-columns: 1fr;
-	}
-
-	.Table {
-		display: none;
-	}
-
-	@include container-breakpoint(500) {
-		.Grid {
-			display: none;
-		}
-
-		.Table {
-			display: contents;
-		}
 	}
 }
