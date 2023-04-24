@@ -9,18 +9,4 @@
 	.Grid {
 		grid-template-columns: 1fr;
 	}
-
-	.Table {
-		display: none;
-	}
-
-	@include container-breakpoint(500) {
-		.Grid {
-			display: none;
-		}
-
-		.Table {
-			display: contents;
-		}
-	}
 }
