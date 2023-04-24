@@ -18,7 +18,7 @@ import {
 
 import styles from './PoolTable.module.scss';
 
-// @note: this value is being used in SubdomainTable.module.scss - change in both places
+// @note: this value is being used in PoolTable.module.scss - change in both places
 const GRID_WIDTH_TOGGLE = 600;
 
 export const PoolTable: FC = () => {

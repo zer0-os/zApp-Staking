@@ -3,7 +3,7 @@
 .Toggle {
 	display: none;
 
-	// @note: this has to match GRID_WIDTH_TOGGLE in SubdomainTable.tsx
+	// @note: this has to match GRID_WIDTH_TOGGLE in PoolTable.tsx
 	@include container-breakpoint(600) {
 		display: flex;
 	}
