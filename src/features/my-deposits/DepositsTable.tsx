@@ -7,21 +7,20 @@ import { useAllDeposits, DepositData } from '../../lib/hooks/useAllDeposits';
 
 import { DepositRow } from './DepositRow';
 import { DepositCard } from './DepositCard';
+import { TableControls } from '../ui/TableControls';
 
 import {
 	Body,
-	Controls,
 	Grid,
 	Header,
 	HeaderGroup,
 	Table,
 	View,
-	ViewToggle,
 } from '@zero-tech/zui/components/Table';
 
 import styles from './DepositsTable.module.scss';
 
-// @note: this value is being used in DepositsTable.module.scss - change in both places
+// @note: this value is being used in TableControls.module.scss - change in both places
 const GRID_WIDTH_TOGGLE = 600;
 
 export interface DepositsTableProps {
@@ -52,7 +51,7 @@ export const DepositsTable: FC<DepositsTableProps> = ({ account }) => {
 
 	return (
 		<div ref={containerRef}>
-			<DepositsTableControls view={view} onChangeView={setView} />
+			<TableControls view={view} onChangeView={setView} />
 			<DepositsView
 				depositsCollection={queryData?.deposits}
 				isLoading={isLoading}
@@ -141,28 +140,4 @@ interface MessageProps {
 
 const Message = ({ children }: MessageProps) => {
 	return <p className={styles.Empty}>{children}</p>;
-};
-
-/**********************
- * Controls
- *********************/
-
-interface DepositsTableControlsProps {
-	view: View;
-	onChangeView: (view: View) => void;
-}
-
-const DepositsTableControls = ({
-	view,
-	onChangeView,
-}: DepositsTableControlsProps): JSX.Element => {
-	return (
-		<Controls>
-			<ViewToggle
-				className={styles.Toggle}
-				view={view}
-				onChange={onChangeView}
-			/>
-		</Controls>
-	);
 };

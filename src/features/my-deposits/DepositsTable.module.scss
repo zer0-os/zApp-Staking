@@ -1,14 +1,5 @@
 @import '../../styles/breakpoints';
 
-.Toggle {
-	display: none;
-
-	// @note: this has to match GRID_WIDTH_TOGGLE in DepositsTable.tsx
-	@include container-breakpoint(600) {
-		display: flex;
-	}
-}
-
 .DepositsView {
 	display: flex;
 	flex-direction: column;

@@ -5,20 +5,19 @@ import { usePools } from '../../lib/hooks/usePools';
 
 import { PoolRow } from './PoolRow';
 import { PoolCard } from './PoolCard';
+import { TableControls } from '../ui/TableControls';
 import {
 	Body,
-	Controls,
 	Grid,
 	Header,
 	HeaderGroup,
 	Table,
 	View,
-	ViewToggle,
 } from '@zero-tech/zui/components/Table';
 
 import styles from './PoolTable.module.scss';
 
-// @note: this value is being used in PoolTable.module.scss - change in both places
+// @note: this value is being used in TableControls.module.scss - change in both places
 const GRID_WIDTH_TOGGLE = 600;
 
 export const PoolTable: FC = () => {
@@ -41,7 +40,7 @@ export const PoolTable: FC = () => {
 
 	return (
 		<div ref={containerRef}>
-			<PoolTableControls view={view} onChangeView={setView} />
+			<TableControls view={view} onChangeView={setView} />
 			<PoolView
 				isGridView={view === View.GRID}
 				poolAddressCollection={tableData.map(
@@ -99,28 +98,4 @@ const PoolView = ({ isGridView, poolAddressCollection }: PoolViewProps) => {
 			</div>
 		);
 	}
-};
-
-/**********************
- * Controls
- *********************/
-
-interface PoolTableControlsProps {
-	view: View;
-	onChangeView: (view: View) => void;
-}
-
-const PoolTableControls = ({
-	view,
-	onChangeView,
-}: PoolTableControlsProps): JSX.Element => {
-	return (
-		<Controls>
-			<ViewToggle
-				className={styles.Toggle}
-				view={view}
-				onChange={onChangeView}
-			/>
-		</Controls>
-	);
 };
