@@ -39,7 +39,7 @@ export const PoolTable: FC = () => {
 	}, [containerRef]);
 
 	return (
-		<div ref={containerRef}>
+		<div className={styles.PoolTable} ref={containerRef}>
 			<TableControls view={view} onChangeView={setView} />
 			<PoolView
 				isGridView={view === View.GRID}
