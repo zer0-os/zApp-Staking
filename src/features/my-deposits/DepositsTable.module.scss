@@ -1,12 +1,16 @@
 @import '../../styles/breakpoints';
 
-.DepositsView {
-	display: flex;
-	flex-direction: column;
-	gap: 1.625rem;
-	position: relative;
+.DepositsTable {
+	margin-top: 1rem;
 
-	.Grid {
-		grid-template-columns: 1fr;
+	.DepositsView {
+		display: flex;
+		flex-direction: column;
+		gap: 1.625rem;
+		position: relative;
+
+		.Grid {
+			grid-template-columns: 1fr;
+		}
 	}
 }

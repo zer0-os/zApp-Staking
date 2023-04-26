@@ -50,7 +50,7 @@ export const DepositsTable: FC<DepositsTableProps> = ({ account }) => {
 	}, [containerRef]);
 
 	return (
-		<div ref={containerRef}>
+		<div className={styles.DepositsTable} ref={containerRef}>
 			<TableControls view={view} onChangeView={setView} />
 			<DepositsView
 				depositsCollection={queryData?.deposits}
