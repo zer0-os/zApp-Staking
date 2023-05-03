@@ -123,6 +123,7 @@ const DepositsView = ({
 				>
 					Pools Page
 				</Link>
+				.
 			</Message>
 		);
 	}
