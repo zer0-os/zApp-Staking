@@ -13,4 +13,13 @@
 			grid-template-columns: 1fr;
 		}
 	}
+
+	.Empty {
+		padding: 1rem;
+		text-align: center;
+
+		a {
+			color: var(--color-secondary-11);
+		}
+	}
 }
