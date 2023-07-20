@@ -1,4 +1,5 @@
 @import '../../../styles/breakpoints';
+@import '../../../../node_modules/@zero-tech/zui/styles/_theme.scss';
 
 .Cards {
 	display: flex;
@@ -8,5 +9,6 @@
 	> * {
 		flex: 1;
 		width: 0;
+		background: $color-primary-3;
 	}
 }
