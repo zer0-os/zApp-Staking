@@ -33,3 +33,19 @@ export const millifyNumber = (num: number) => {
 	}
 	return millify(num, { precision: 2 });
 };
+
+export function formatWeiAmount(num: string, decimalPlaces?: number): string {
+	const stringValue = num.padStart(19, '0');
+	const whole = stringValue.slice(0, -18);
+	const decimal = stringValue.slice(-18).slice(0, 4).replace(/0+$/, '');
+	const decimalString = decimal.length > 0 ? `.${decimal}` : '';
+
+	const asString = whole + decimalString;
+	const asNum = Number(asString);
+
+	if (asNum > 100000 || asNum <= -100000) {
+		return millify(asNum, { precision: decimalPlaces ?? 2 });
+	}
+
+	return asNum.toLocaleString('en-US', { maximumFractionDigits: 2 });
+}

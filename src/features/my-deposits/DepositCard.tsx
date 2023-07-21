@@ -1,4 +1,4 @@
-import { FC, useState } from 'react';
+import { FC } from 'react';
 
 import { DepositData } from '../../lib/hooks/useAllDeposits';
 import { formatTimestamp, formatWei } from '../../lib/util/format';
@@ -20,7 +20,9 @@ export const DepositCard: FC<DepositCardProps> = ({ deposit, isLoading }) => {
 		: '-';
 
 	const depositAmount = deposit?.amount
-		? `${formatWei(deposit.amount)} ${deposit.poolMetadata.tokenTicker}`
+		? `${formatWei(deposit.amount)} ${
+				deposit.isReward ? 'WILD' : deposit.poolMetadata.tokenTicker
+		  }`
 		: '-';
 
 	return (
