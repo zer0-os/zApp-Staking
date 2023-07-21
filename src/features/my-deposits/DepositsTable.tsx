@@ -82,7 +82,11 @@ const DepositsView = ({
 				<div className={styles.DepositsView}>
 					<Grid className={styles.Grid}>
 						{depositsCollection?.map((deposit) => (
-							<DepositCard deposit={deposit} isLoading={isLoading} />
+							<DepositCard
+								deposit={deposit}
+								isLoading={isLoading}
+								key={deposit.key}
+							/>
 						))}
 					</Grid>
 				</div>
@@ -101,7 +105,7 @@ const DepositsView = ({
 							</HeaderGroup>
 							<Body>
 								{depositsCollection?.map((deposit) => (
-									<DepositRow deposit={deposit} />
+									<DepositRow deposit={deposit} key={deposit.key} />
 								))}
 							</Body>
 						</Table>

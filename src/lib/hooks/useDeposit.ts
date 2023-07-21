@@ -22,14 +22,6 @@ export const useDeposit = ({
 	const query = useQuery(
 		['staking', 'deposits', { chainId, account }],
 		async () => {
-			console.log('finding', poolAddress, depositId, deposits);
-			console.log(
-				'found',
-				deposits.deposits.find(
-					(d) =>
-						d.poolInstance.address === poolAddress && d.depositId === depositId,
-				),
-			);
 			return deposits.deposits.find(
 				(d) =>
 					d.poolInstance.address === poolAddress && d.depositId === depositId,

@@ -8,10 +8,14 @@ import { ConnectWallet } from '../features/ui/ConnectWallet';
 
 import poolStyles from './Pools.module.scss';
 import depositsStyles from './Deposits.module.scss';
+import { useUserValueStaked } from '../lib/hooks/useUserValueStaked';
 
 export const Deposits = () => {
 	const { account } = useWeb3();
 	const { data: queryData, isLoading } = useAllDeposits({ account });
+	const { data: userValue, isLoading: isLoadingUserValue } = useUserValueStaked(
+		{ account },
+	);
 
 	return (
 		<>
@@ -19,9 +23,9 @@ export const Deposits = () => {
 				<Card
 					label={'Your Total Stake'}
 					primaryText={{
-						isLoading,
-						text: queryData?.totalStaked
-							? '$' + formatFiat(queryData?.totalStaked ?? 0)
+						isLoading: isLoadingUserValue,
+						text: userValue?.userValueStakedUsd
+							? '$' + formatFiat(userValue.userValueStakedUsd ?? 0)
 							: '$0',
 						errorText: '-',
 					}}

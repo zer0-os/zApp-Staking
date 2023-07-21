@@ -16,11 +16,8 @@ export const useUserPoolData = ({
 	return useQuery(
 		['user', { account, poolAddress }],
 		async () => {
-			const [deposits, rewards] = await Promise.all([
-				pool.instance.getAllDeposits(account),
-				pool.instance.pendingYieldRewards(account),
-			]);
-			return { deposits, rewards };
+			const rewards = await pool.instance.pendingYieldRewards(account);
+			return { rewards };
 		},
 		{
 			enabled: Boolean(account) && Boolean(pool),
