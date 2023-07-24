@@ -1,15 +1,17 @@
 import { useQuery } from 'react-query';
 import { useZfiSdk } from './useZfiSdk';
+import { useWeb3 } from './useWeb3';
 
 interface UseUserValueStakedParams {
 	account: string;
 }
 
 export const useUserValueStaked = ({ account }: UseUserValueStakedParams) => {
+	const { chainId } = useWeb3();
 	const { wildPool, liquidityPool } = useZfiSdk();
 
 	return useQuery(
-		['user', 'staked', { account }],
+		['user', 'staked', { account, chainId }],
 		async () => {
 			const [wild, lp] = await Promise.all([
 				wildPool.userValueStaked(account),
