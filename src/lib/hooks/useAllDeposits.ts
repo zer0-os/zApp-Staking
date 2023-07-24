@@ -128,6 +128,7 @@ const convertRewardData = (
 	poolInstance: PoolInstance,
 ): DepositData => {
 	return {
+		depositId: reward.depositId.toString(),
 		lockedFrom: reward.lockedFrom?.toString(),
 		lockedUntil: reward.lockedUntil?.toString(),
 		isReward: true,
