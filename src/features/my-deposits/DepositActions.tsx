@@ -46,10 +46,11 @@ export const DepositActions: FC<DepositActionProps> = ({ rowData }) => {
 	 * "Unstake" should only be an option for:
 	 * 1) Non-reward deposits, i.e. deposits the user staked
 	 * 2) Deposits (reward or non-reward) which have passed their unlock date.
+	 * note: `lockedUntil` is in seconds, so we need to multiply by 1000
 	 */
 	if (
 		!isReward ||
-		(lockedUntil && Number(lockedUntil) > new Date().getTime())
+		(lockedUntil && !isNaN(Number(lockedUntil)) && Number(lockedUntil) * 1000 < new Date().getTime())
 	) {
 		actions.unshift({
 			id: 'unstake',
