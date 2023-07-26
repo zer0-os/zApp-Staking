@@ -6,10 +6,9 @@ import { FC } from 'react';
 
 import { BasicModalProps } from '../../lib/types/ui';
 
-import { Modal } from '@zero-tech/zui/components/Modal';
 import UnstakeForm, { UnstakeFormProps } from './UnstakeForm';
 
-import styles from './UnstakeModal.module.scss';
+import { PoolModal } from '../ui/PoolModal/PoolModal';
 
 export interface UnstakeModalProps extends UnstakeFormProps, BasicModalProps {}
 
@@ -19,12 +18,7 @@ export const UnstakeModal: FC<UnstakeModalProps> = ({
 	onOpenChange,
 	...rest
 }) => (
-	<Modal
-		onOpenChange={onOpenChange}
-		trigger={trigger}
-		open={open}
-		className={styles.UnstakeModal}
-	>
+	<PoolModal open={open} trigger={trigger} onOpenChange={onOpenChange}>
 		<UnstakeForm {...rest} />
-	</Modal>
+	</PoolModal>
 );

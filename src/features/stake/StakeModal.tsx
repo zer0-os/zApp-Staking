@@ -10,9 +10,7 @@ import { BasicModalProps } from '../../lib/types/ui';
 import { PoolInfo } from '../../lib/types/pool';
 
 import StakeForm from './StakeForm';
-import { Modal } from '@zero-tech/zui/components/Modal';
-
-import styles from './StakeModal.module.scss';
+import { PoolModal } from '../ui/PoolModal/PoolModal';
 
 export interface StakeModalProps extends PoolInfo, BasicModalProps {}
 
@@ -21,7 +19,7 @@ export const StakeModal: FC<StakeModalProps> = ({
 	poolMetadata,
 	...modalProps
 }) => (
-	<Modal {...modalProps} className={styles.StakeModal}>
+	<PoolModal {...modalProps}>
 		<StakeForm poolInstance={poolInstance} poolMetadata={poolMetadata} />
-	</Modal>
+	</PoolModal>
 );

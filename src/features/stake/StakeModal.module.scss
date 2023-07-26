@@ -1,8 +1,0 @@
-@import '../../styles/breakpoints';
-@import './variables';
-
-.StakeModal {
-	margin: auto;
-
-	@include modal-breakpoint($modal-width);
-}

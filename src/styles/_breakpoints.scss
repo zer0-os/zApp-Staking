@@ -21,11 +21,24 @@ $breakpoint-modal-padding: 1rem;
 				margin: 0;
 			}
 		}
+
+		.CloseButton {
+			position: absolute;
+			top: $breakpoint-modal-padding;
+			right: $breakpoint-modal-padding;
+		}
 	}
 
 	@media (min-width: $modal-width) {
 		padding: $modal-padding;
 		width: $modal-width;
 		min-height: unset;
+
+
+		.CloseButton {
+			position: absolute;
+			top: $modal-padding;
+			right: $modal-padding;
+		}
 	}
 }
