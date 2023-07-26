@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import { useMemo } from 'react';
 import {
 	Switch,
 	Route,
@@ -13,11 +13,6 @@ import { Pools as PoolsPage } from './pages/Pools';
 import { Deposits as DepositsPage } from './pages/Deposits';
 import { ZAppContent } from '@zero-tech/zapp-utils/components';
 import { TabsNav } from '@zero-tech/zui/components';
-import {
-	AppContent,
-	AppContextPanel,
-	AppLayout,
-} from '@zer0-os/zos-component-library';
 
 import styles from './App.module.scss';
 
@@ -30,7 +25,7 @@ const getTabs = (baseUrl: string) => {
 
 export const App = () => {
 	const { pathname } = useLocation();
-	let { url: baseUrl } = useRouteMatch();
+	const { url: baseUrl } = useRouteMatch();
 
 	const TABS = useMemo(() => getTabs(baseUrl), [baseUrl]);
 

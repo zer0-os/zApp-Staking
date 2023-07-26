@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { BigNumber } from 'ethers';
 import { PoolInstance } from '@zero-tech/zfi-sdk';
-import { useWeb3 } from '../../lib/hooks/useWeb3';
+import { useWeb3 } from '@/lib/hooks/useWeb3';
 import { useStake } from './useStake';
-import { useUserPoolTokenBalance } from '../../lib/hooks/useUserPoolTokenBalance';
+import { useUserPoolTokenBalance } from '@/lib/hooks/useUserPoolTokenBalance';
 
 export enum StakeFormStep {
 	CONNECT_WALLET,

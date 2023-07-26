@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
 import { BigNumber } from 'ethers';
 import { PoolInstance } from '@zero-tech/zfi-sdk';
-import { useWeb3 } from '../../../lib/hooks/useWeb3';
+import { useWeb3 } from '@/lib/hooks/useWeb3';
 
 /**
  * Checks if a given user (provider) has approved

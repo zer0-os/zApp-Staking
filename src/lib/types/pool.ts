@@ -1,5 +1,5 @@
 import { PoolInstance, TotalValueLocked } from '@zero-tech/zfi-sdk';
-import { POOL_METADATA, PoolMetadata } from '../constants/pools';
+import { PoolMetadata } from '../constants/pools';
 
 export interface PoolInfo {
 	poolInstance: PoolInstance;

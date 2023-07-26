@@ -1,11 +1,11 @@
 import { FC, useEffect, useRef, useState } from 'react';
 
 import { COLUMNS } from './Pools.helpers';
-import { usePools } from '../../lib/hooks/usePools';
+import { usePools } from '@/lib/hooks/usePools';
 
 import { PoolRow } from './PoolRow';
 import { PoolCard } from './PoolCard';
-import { TableControls } from '../ui/TableControls';
+import { TableControls } from '@/components/TableControls';
 import {
 	Body,
 	Grid,

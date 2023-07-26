@@ -1,6 +1,6 @@
 import { FC, ReactNode } from 'react';
 
-import { BasicModalProps } from '../../../lib/types/ui';
+import { BasicModalProps } from '@/lib/types/ui';
 
 import { CloseButton, Modal } from '@zero-tech/zui/components/Modal';
 

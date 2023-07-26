@@ -2,12 +2,12 @@ import { FC, ReactNode, useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import { COLUMNS } from './Deposits.helpers';
-import { ROUTE_NAMES, ROUTES } from '../../lib/constants/routes';
-import { useAllDeposits, DepositData } from '../../lib/hooks/useAllDeposits';
+import { ROUTE_NAMES, ROUTES } from '@/lib/constants/routes';
+import { useAllDeposits, DepositData } from '@/lib/hooks/useAllDeposits';
 
 import { DepositRow } from './DepositRow';
 import { DepositCard } from './DepositCard';
-import { TableControls } from '../ui/TableControls';
+import { TableControls } from '@/components/TableControls';
 
 import {
 	Body,

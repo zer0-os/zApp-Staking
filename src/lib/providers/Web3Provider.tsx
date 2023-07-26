@@ -1,5 +1,6 @@
-import { providers } from 'ethers';
 import { FC, createContext, ReactNode } from 'react';
+
+import { providers } from 'ethers';
 
 export interface Web3ProviderProps {
 	account?: string;

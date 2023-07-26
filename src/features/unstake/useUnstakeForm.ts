@@ -2,10 +2,10 @@ import { useState } from 'react';
 
 import { BigNumber } from 'ethers';
 import { Deposit, PoolInstance } from '@zero-tech/zfi-sdk';
-import { useWeb3 } from '../../lib/hooks/useWeb3';
-import { useDeposit } from '../../lib/hooks/useDeposit';
+import { useWeb3 } from '@/lib/hooks/useWeb3';
+import { useDeposit } from '@/lib/hooks/useDeposit';
 import { useUnstake } from './useUnstake';
-import { useUserPoolData } from '../../lib/hooks/useUserPoolData';
+import { useUserPoolData } from '@/lib/hooks/useUserPoolData';
 
 export enum UnstakeFormStep {
 	AMOUNT,

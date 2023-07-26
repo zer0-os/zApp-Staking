@@ -4,11 +4,11 @@
 
 import { FC } from 'react';
 
-import { BasicModalProps } from '../../lib/types/ui';
+import { BasicModalProps } from '@/lib/types/ui';
 
 import UnstakeForm, { UnstakeFormProps } from './UnstakeForm';
 
-import { PoolModal } from '../ui/PoolModal/PoolModal';
+import { PoolModal } from '@/components/PoolModal';
 
 export interface UnstakeModalProps extends UnstakeFormProps, BasicModalProps {}
 

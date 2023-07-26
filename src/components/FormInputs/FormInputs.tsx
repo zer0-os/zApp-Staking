@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
 import { BigNumber } from 'ethers';
-import { formatWei } from '../../../lib/util/format';
-import { PoolInfo } from '../../../lib/types/pool';
+import { formatWei } from '@/lib/util/format';
+import { PoolInfo } from '@/lib/types/pool';
 
 import { useFormInputs } from './useFormInputs';
 

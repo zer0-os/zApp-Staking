@@ -1,16 +1,16 @@
 import { FC, useState } from 'react';
 
-import { PoolData } from '../../lib/types/pool';
-import { usePoolData } from '../../lib/hooks/usePoolData';
+import { PoolData } from '@/lib/types/pool';
+import { usePoolData } from '@/lib/hooks/usePoolData';
 import { StakeModal } from '../stake';
-import { formatPercentage, millifyNumber } from '../../lib/util/format';
+import { formatPercentage, millifyNumber } from '@/lib/util/format';
 
 import { Button, Skeleton } from '@zero-tech/zui/components';
 import { TableData } from '@zero-tech/zui/components/AsyncTable';
-import { PoolDetail } from '../ui/PoolDetail';
+import { PoolDetail } from '@/components/PoolDetail';
 
 import styles from './PoolRow.module.scss';
-import { usePoolByAddress } from '../../lib/hooks/usePoolByAddress';
+import { usePoolByAddress } from '@/lib/hooks/usePoolByAddress';
 
 interface PoolRowProps {
 	poolAddress: string;

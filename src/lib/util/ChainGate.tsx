@@ -15,7 +15,7 @@ const ChainGate: FC<ChainGateProps> = ({ children }) => {
 	const { chainId } = useWeb3();
 
 	const isSupportedNetwork =
-		!Boolean(chainId) || Object.values(Network).includes(chainId);
+		!chainId || Object.values(Network).includes(chainId);
 
 	if (!isSupportedNetwork) {
 		return (
