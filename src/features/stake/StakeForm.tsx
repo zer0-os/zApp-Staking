@@ -5,7 +5,7 @@ import { PoolInfo } from '@/lib/types/pool';
 
 import { FormInputs } from '@/components/FormInputs';
 import { ApprovePoolSpendingForm } from '@/components/ApprovePoolSpendingForm';
-import { ConnectWallet } from '@/components//ConnectWallet';
+import { ConnectWallet } from '@/components/ConnectWallet';
 import { Wizard } from '@zero-tech/zui/components/Wizard';
 import { commify, formatEther } from 'ethers/lib/utils';
 
