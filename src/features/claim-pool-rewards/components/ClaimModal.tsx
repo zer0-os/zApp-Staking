@@ -4,11 +4,11 @@
 
 import { FC } from 'react';
 
-import { PoolInfo } from '../../lib/types/pool';
-import { BasicModalProps } from '../../lib/types/ui';
+import { PoolInfo } from '@/lib/types/pool';
+import { BasicModalProps } from '@/lib/types/ui';
 
 import { ClaimForm } from './ClaimForm';
-import { PoolModal } from '../ui/PoolModal/PoolModal';
+import { PoolModal } from '@/components/PoolModal';
 
 export interface ClaimModalProps extends PoolInfo, BasicModalProps {}
 

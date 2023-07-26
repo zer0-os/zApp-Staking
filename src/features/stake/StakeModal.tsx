@@ -6,11 +6,11 @@
 
 import { FC } from 'react';
 
-import { BasicModalProps } from '../../lib/types/ui';
-import { PoolInfo } from '../../lib/types/pool';
+import { BasicModalProps } from '@/lib/types/ui';
+import { PoolInfo } from '@/lib/types/pool';
 
 import StakeForm from './StakeForm';
-import { PoolModal } from '../ui/PoolModal/PoolModal';
+import { PoolModal } from '@/components/PoolModal/PoolModal';
 
 export interface StakeModalProps extends PoolInfo, BasicModalProps {}
 

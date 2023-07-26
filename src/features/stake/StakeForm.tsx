@@ -1,17 +1,11 @@
-/**
- * @TODO: clean up hooks
- */
-
 import { FC } from 'react';
 
 import { useStakeForm, StakeFormStep as Step } from './useStakeForm';
-import { useUserPoolTokenBalance } from '../../lib/hooks/useUserPoolTokenBalance';
-import { useWeb3 } from '../../lib/hooks/useWeb3';
-import { PoolInfo } from '../../lib/types/pool';
+import { PoolInfo } from '@/lib/types/pool';
 
-import { FormInputs } from '../ui/FormInputs';
-import { ApprovePoolSpendingForm } from '../ui/ApprovePoolSpendingForm';
-import { ConnectWallet } from '../ui/ConnectWallet';
+import { FormInputs } from '@/components/FormInputs';
+import { ApprovePoolSpendingForm } from '@/components/ApprovePoolSpendingForm';
+import { ConnectWallet } from '@/components//ConnectWallet';
 import { Wizard } from '@zero-tech/zui/components/Wizard';
 import { commify, formatEther } from 'ethers/lib/utils';
 

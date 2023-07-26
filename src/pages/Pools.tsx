@@ -1,11 +1,11 @@
 import React from 'react';
 
-import { PoolTable } from '../features/view-pools';
+import { PoolTable } from '@/features/view-pools';
 import { Card } from '@zero-tech/zui/components';
 
-import { usePoolData } from '../lib/hooks/usePoolData';
-import { formatFiat } from '../lib/util/format';
-import { usePools } from '../lib/hooks/usePools';
+import { usePoolData } from '@/lib/hooks/usePoolData';
+import { formatFiat } from '@/lib/util/format';
+import { usePools } from '@/lib/hooks/usePools';
 
 import styles from './Pools.module.scss';
 
@@ -21,11 +21,10 @@ export const Pools = () => {
 
 	const tvlString =
 		wildPoolData && lpPoolData
-			? '$' +
-			  formatFiat(
+			? `$${formatFiat(
 					(wildPoolData.tvl.valueOfTokensUSD ?? 0) +
 						(lpPoolData.tvl.valueOfTokensUSD ?? 0),
-			  )
+			  )}`
 			: undefined;
 
 	return (

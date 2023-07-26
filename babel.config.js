@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
 	presets: [
 		'@babel/typescript',
@@ -13,6 +15,15 @@ module.exports = {
 		],
 	],
 	plugins: [
+		[
+			require.resolve('babel-plugin-module-resolver'),
+			{
+				root: [path.resolve('./src')],
+				alias: {
+					'@': './src',
+				},
+			},
+		],
 		[
 			'transform-rename-import',
 			{ original: '^(.+?)\\.scss$', replacement: '$1.css' },

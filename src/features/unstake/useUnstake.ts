@@ -1,8 +1,8 @@
 import { BigNumber } from 'ethers';
 import { Deposit, PoolInstance } from '@zero-tech/zfi-sdk';
 
-import { useWeb3 } from '../../lib/hooks/useWeb3';
-import { TransactionOptions, useTransaction } from '../../lib/useTransaction';
+import { useWeb3 } from '@/lib/hooks/useWeb3';
+import { TransactionOptions, useTransaction } from '@/lib/useTransaction';
 
 export const useUnstake = ({ ...callbacks }: TransactionOptions) => {
 	const { executeTransaction } = useTransaction();

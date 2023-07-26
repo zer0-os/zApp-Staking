@@ -1,9 +1,9 @@
 import { FC } from 'react';
 
-import { DepositData } from '../../lib/hooks/useAllDeposits';
-import { formatTimestamp, formatWei } from '../../lib/util/format';
+import { DepositData } from '@/lib/hooks/useAllDeposits';
+import { formatTimestamp, formatWei } from '@/lib/util/format';
 
-import { PoolDetail } from '../ui/PoolDetail';
+import { PoolDetail } from '@/components/PoolDetail';
 import { DepositActions } from './DepositActions';
 import { Skeleton } from '@zero-tech/zui/components';
 

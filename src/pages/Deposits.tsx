@@ -1,11 +1,13 @@
-import { useWeb3 } from '../lib/hooks/useWeb3';
-import { formatFiat } from '../lib/util/format';
-import { useAllDeposits } from '../lib/hooks/useAllDeposits';
-import { useUserValueStaked } from '../lib/hooks/useUserValueStaked';
+import React from 'react';
+
+import { useWeb3 } from '@/lib/hooks/useWeb3';
+import { formatFiat } from '@/lib/util/format';
+import { useAllDeposits } from '@/lib/hooks/useAllDeposits';
+import { useUserValueStaked } from '@/lib/hooks/useUserValueStaked';
 
 import { Card } from '@zero-tech/zui/components/Card';
-import { DepositsTable } from '../features/my-deposits';
-import { ConnectWallet } from '../features/ui/ConnectWallet';
+import { DepositsTable } from '@/features/my-deposits';
+import { ConnectWallet } from '@/components/ConnectWallet';
 
 import poolStyles from './Pools.module.scss';
 import depositsStyles from './Deposits.module.scss';
@@ -24,7 +26,9 @@ export const Deposits = () => {
 					label={'Your Total Stake'}
 					primaryText={{
 						isLoading: isLoadingUserValue,
-						text: userValue?.userValueStakedUsd && '$' + formatFiat(userValue.userValueStakedUsd ?? 0),
+						text:
+							userValue?.userValueStakedUsd &&
+							'$' + formatFiat(userValue.userValueStakedUsd ?? 0),
 						errorText: '-',
 					}}
 				/>

@@ -1,4 +1,3 @@
-import { ethers } from 'ethers';
 import { Column } from '@zero-tech/zui/components/AsyncTable';
 
 /**

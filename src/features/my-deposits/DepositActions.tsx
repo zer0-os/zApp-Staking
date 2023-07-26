@@ -1,6 +1,6 @@
 import { FC, useState } from 'react';
 
-import { DepositData } from '../../lib/hooks/useAllDeposits';
+import { DepositData } from '@/lib/hooks/useAllDeposits';
 
 import { StakeModal } from '../stake';
 import { UnstakeModal } from '../unstake';
@@ -50,7 +50,9 @@ export const DepositActions: FC<DepositActionProps> = ({ rowData }) => {
 	 */
 	if (
 		!isReward ||
-		(lockedUntil && !isNaN(Number(lockedUntil)) && Number(lockedUntil) * 1000 < new Date().getTime())
+		(lockedUntil &&
+			!isNaN(Number(lockedUntil)) &&
+			Number(lockedUntil) * 1000 < new Date().getTime())
 	) {
 		actions.unshift({
 			id: 'unstake',

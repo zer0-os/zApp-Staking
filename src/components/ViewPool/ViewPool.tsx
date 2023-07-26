@@ -1,10 +1,10 @@
 import { FC } from 'react';
 
-import { useWeb3 } from '../../../lib/hooks/useWeb3';
-import { usePoolData } from '../../../lib/hooks/usePoolData';
-import { useUserPoolData } from '../../../lib/hooks/useUserPoolData';
-import { formatPercentage, formatWei } from '../../../lib/util/format';
-import { PoolInfo } from '../../../lib/types/pool';
+import { useWeb3 } from '@/lib/hooks/useWeb3';
+import { usePoolData } from '@/lib/hooks/usePoolData';
+import { useUserPoolData } from '@/lib/hooks/useUserPoolData';
+import { formatPercentage, formatWei } from '@/lib/util/format';
+import { PoolInfo } from '@/lib/types/pool';
 
 import { PoolDetail } from '../PoolDetail';
 import { Card } from '@zero-tech/zui/components/Card';
@@ -46,7 +46,7 @@ export const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
 
 				{/* Rewards Claimable card */}
 				<Card
-					label={`Your Pool Rewards Claimable (WILD)`}
+					label={'Your Pool Rewards Claimable (WILD)'}
 					primaryText={{
 						text: rewardsClaimableAsString,
 						isLoading: isLoadingUserData,

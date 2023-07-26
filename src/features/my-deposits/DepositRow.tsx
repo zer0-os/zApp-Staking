@@ -1,19 +1,14 @@
 import { FC } from 'react';
 
-import { DepositData } from '../../lib/hooks/useAllDeposits';
-import {
-	formatTimestamp,
-	formatWei,
-	formatWeiAmount,
-} from '../../lib/util/format';
+import { DepositData } from '@/lib/hooks/useAllDeposits';
+import { formatTimestamp, formatWeiAmount } from '@/lib/util/format';
 
 import { TableData } from '@zero-tech/zui/components/AsyncTable';
 
-import { PoolDetail } from '../ui/PoolDetail';
+import { PoolDetail } from '@/components/PoolDetail';
 import { DepositActions } from './DepositActions';
 
 import styles from './DepositRow.module.scss';
-import millify from 'millify';
 
 interface DepositRowProps {
 	deposit: DepositData;

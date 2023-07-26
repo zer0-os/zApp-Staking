@@ -10,6 +10,7 @@ export interface TransactionOptions {
 	invalidationKeys?: QueryKey[];
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type TransactionFunction = (...args: any) => Promise<ContractTransaction>;
 
 export const useTransaction = () => {
@@ -42,7 +43,9 @@ export const useTransaction = () => {
 				await invalidateQueries(options?.invalidationKeys);
 			}
 			options?.onSuccess?.(receipt);
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		} catch (e: any) {
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			options?.onError?.(new Error(getReadableEthersError(e)));
 			console.error('Failed to execute transaction!', {
 				transactionFunction,

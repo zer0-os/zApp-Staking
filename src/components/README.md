@@ -1,4 +1,4 @@
-# `features/ui`
+# `components`
 
 This is a place to put pieces of UI which are shared across multiple features.
 

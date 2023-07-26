@@ -1,1 +1,1 @@
-export * from './ClaimModal';
+export * from './components/ClaimModal';

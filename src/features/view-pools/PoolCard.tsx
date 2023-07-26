@@ -1,12 +1,12 @@
 import { FC, useState } from 'react';
 
-import { PoolData } from '../../lib/types/pool';
-import { usePoolData } from '../../lib/hooks/usePoolData';
-import { usePoolByAddress } from '../../lib/hooks/usePoolByAddress';
-import { formatPercentage, millifyNumber } from '../../lib/util/format';
+import { PoolData } from '@/lib/types/pool';
+import { usePoolData } from '@/lib/hooks/usePoolData';
+import { usePoolByAddress } from '@/lib/hooks/usePoolByAddress';
+import { formatPercentage, millifyNumber } from '@/lib/util/format';
 
 import { StakeModal } from '../stake';
-import { PoolDetail } from '../ui/PoolDetail';
+import { PoolDetail } from '@/components/PoolDetail';
 import { Skeleton } from '@zero-tech/zui/components';
 import { IconLinkExternal1 } from '@zero-tech/zui/icons';
 

@@ -1,5 +1,4 @@
 import { useQuery } from 'react-query';
-import { usePoolData } from './usePoolData';
 import { usePoolByAddress } from './usePoolByAddress';
 
 interface UseUserPoolDataParams {

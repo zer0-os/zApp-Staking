@@ -37,6 +37,7 @@ export const CUSTOM_ERROR_MESSAGES: { [error in CustomErrors]: string } = {
 		ETHERS_ERROR_MESSAGES[errors.ACTION_REJECTED],
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getReadableEthersError = (error: any) => {
 	const errorCode = getParsedEthersError(error).errorCode;
 	return (

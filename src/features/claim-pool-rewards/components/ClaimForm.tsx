@@ -1,12 +1,12 @@
 import { FC } from 'react';
 
-import { PoolInfo } from '../../lib/types/pool';
-import { useClaimForm, ClaimFormStep as Step } from './useClaimForm';
+import { PoolInfo } from '@/lib/types/pool';
+import { useClaimForm, ClaimFormStep as Step } from '../lib/useClaimForm';
 
 import { Wizard } from '@zero-tech/zui/components/Wizard';
 
 import { Confirm, Processing, WaitingForWallet } from './ClaimFormSteps';
-import { FormInputs } from '../ui/FormInputs';
+import { FormInputs } from '@/components/FormInputs';
 
 export const ClaimForm: FC<PoolInfo> = (props) => {
 	const { amountWei, error, step, onConfirmClaimAmount, claim } = useClaimForm(

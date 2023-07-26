@@ -1,13 +1,13 @@
 import { FC } from 'react';
 import { UnstakeFormStep as Step, useUnstakeForm } from './useUnstakeForm';
-import { PoolInfo } from '../../lib/types/pool';
+import { PoolInfo } from '@/lib/types/pool';
 import { Deposit } from '@zero-tech/zfi-sdk';
 import { BigNumber } from 'ethers';
 
 import ConfirmUnstake from './ConfirmUnstake';
-import { FormInputs } from '../ui/FormInputs';
+import { FormInputs } from '@/components/FormInputs';
 import { Wizard } from '@zero-tech/zui/components';
-import { ApprovePoolSpendingForm } from '../ui/ApprovePoolSpendingForm';
+import { ApprovePoolSpendingForm } from '@/components/ApprovePoolSpendingForm';
 import { commify, formatEther } from 'ethers/lib/utils';
 
 export interface UnstakeFormProps extends PoolInfo {
