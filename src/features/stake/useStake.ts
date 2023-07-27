@@ -5,7 +5,7 @@ import { useWeb3 } from '@/lib/hooks/useWeb3';
 import { TransactionOptions, useTransaction } from '@/lib/useTransaction';
 
 // Default lock time for now, until dynamic locking is implemented
-const lockedUntil = BigNumber.from(0);
+const LOCKED_UNTIL = BigNumber.from(0);
 
 export const useStake = ({ ...callbacks }: TransactionOptions) => {
 	const { executeTransaction } = useTransaction();
@@ -15,7 +15,7 @@ export const useStake = ({ ...callbacks }: TransactionOptions) => {
 		(async () => {
 			await executeTransaction(
 				poolInstance.stake,
-				[amountWei.toString(), lockedUntil, provider.getSigner()],
+				[amountWei.toString(), LOCKED_UNTIL, provider.getSigner()],
 				{
 					...callbacks,
 					invalidationKeys: [

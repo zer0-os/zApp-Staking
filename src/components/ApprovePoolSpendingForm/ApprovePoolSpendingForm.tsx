@@ -9,6 +9,7 @@ import { useWeb3 } from '@/lib/hooks/useWeb3';
 import { useTransaction } from '@/lib/useTransaction';
 
 enum Step {
+	CHECKING,
 	NEEDS_APPROVAL,
 	WAITING_FOR_WALLET,
 	APPROVING,
@@ -35,10 +36,15 @@ export const ApprovePoolSpendingForm: FC<ApprovePoolSpendingFormProps> = ({
 	 * Checks whether or not a user needs to approve a greater
 	 * allowance to spend the amount they are attempting to spend.
 	 */
-	const { data: needsApproval, isLoading: isCheckingAllowance } =
-		usePoolSpendingAllowance(amountToApprove, poolInstance);
+	usePoolSpendingAllowance(amountToApprove, poolInstance, (needsApproval) => {
+		if (needsApproval) {
+			setStep(Step.NEEDS_APPROVAL);
+		} else {
+			onComplete();
+		}
+	});
 
-	const [step, setStep] = useState<Step>(Step.NEEDS_APPROVAL);
+	const [step, setStep] = useState<Step>(Step.CHECKING);
 	const [error, setError] = useState<string | undefined>();
 
 	const approvePoolSpending = () => {
@@ -56,30 +62,11 @@ export const ApprovePoolSpendingForm: FC<ApprovePoolSpendingFormProps> = ({
 		});
 	};
 
-	/**
-	 * If the user has sufficient allowance, call
-	 * onComplete
-	 */
-	if (
-		!isCheckingAllowance &&
-		needsApproval === false &&
-		step !== Step.APPROVED
-	) {
-		onComplete();
-		setStep(Step.APPROVED);
-	}
-
-	if (isCheckingAllowance) {
-		return (
-			<>
-				<Segments.Header isApproving={false} />
-				<Segments.Checking />
-			</>
-		);
-	}
-
 	let content;
 	switch (step) {
+		case Step.CHECKING:
+			content = <Segments.Checking />;
+			break;
 		case Step.WAITING_FOR_WALLET:
 			content = <Segments.WaitingForWallet />;
 			break;
