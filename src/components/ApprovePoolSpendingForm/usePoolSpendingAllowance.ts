@@ -8,10 +8,12 @@ import { useWeb3 } from '@/lib/hooks/useWeb3';
  * pool spending over the specified amount.
  * @param amountToApprove number of tokens to check allowance against
  * @param poolInstance pool to check approval for
+ * @param onSuccess callback to run when the query succeeds
  */
 export const usePoolSpendingAllowance = (
 	amountToApprove: BigNumber,
 	poolInstance: PoolInstance,
+	onSuccess: (needsApproval: boolean) => void,
 ) => {
 	const { account, provider } = useWeb3();
 
@@ -22,7 +24,11 @@ export const usePoolSpendingAllowance = (
 			const allowance = await poolInstance.allowance(provider.getSigner());
 			return allowance.lte(amountToApprove);
 		},
-		{ refetchOnWindowFocus: false, enabled: provider && account !== undefined },
+		{
+			refetchOnWindowFocus: false,
+			enabled: provider && account !== undefined,
+			onSuccess,
+		},
 	);
 };
 
