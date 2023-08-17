@@ -9,8 +9,12 @@
 	width: 100%;
 
 	.Balances {
+		display: flex;
+		flex-direction: column;
+
 		list-style: none;
 		padding: 0;
+		gap: 1rem;
 
 		.Balance {
 			display: flex;

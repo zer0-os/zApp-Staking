@@ -3,6 +3,8 @@
  * stuff is worked out.
  */
 
+import { ReactNode } from 'react';
+
 import wildPoolIcon from '../../assets/wild-pool.png';
 import lpPoolIcon from '../../assets/lp-pool.png';
 
@@ -13,6 +15,8 @@ export interface PoolMetadata {
 	tokenTicker: string;
 	tokenPurchaseUrl: string;
 	tokenDecimals: number;
+
+	additionalInfo?: ReactNode;
 }
 
 export const POOL_METADATA = {
@@ -29,5 +33,24 @@ export const POOL_METADATA = {
 		tokenTicker: 'LP',
 		tokenPurchaseUrl: 'https://zer0.io/', // @TODO: get real token purchase URL
 		tokenDecimals: 18,
+		additionalInfo: (
+			<>
+				Stake{' '}
+				<a
+					style={{
+						color: 'inherit',
+						textDecoration: 'underline',
+					}}
+					href={
+						'https://app.uniswap.org/#/add/v2/ETH/0x2a3bFF78B79A009976EeA096a51A948a3dC00e34'
+					}
+					target={'_blank'}
+					rel="noreferrer"
+				>
+					WILD - WETH LP
+				</a>{' '}
+				to earn WILD!
+			</>
+		),
 	},
 };

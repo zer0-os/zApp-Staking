@@ -14,7 +14,7 @@ import styles from './FormInputs.module.scss';
 
 export interface Balance {
 	label: string;
-	value?: BigNumber;
+	value?: BigNumber | number;
 	isLoading: boolean;
 }
 
@@ -49,7 +49,7 @@ export const FormInputs: FC<FormInputsProps> = ({
 		isValidAmount,
 		isReadyForInput,
 	} = useFormInputs({
-		maxAmount: balances?.[0]?.value,
+		maxAmount: balances?.[0]?.value as BigNumber,
 		tokenDecimalPlaces: poolMetadata.tokenDecimals,
 		onSubmit,
 	});
@@ -117,7 +117,17 @@ const BalanceItem = ({ label, value, isLoading }: Balance) => (
 	<div className={styles.Balance}>
 		<span>{label}</span>
 		<b>
-			{isLoading ? <Skeleton width={150} /> : value ? formatWei(value) : '-'}
+			{isLoading ? (
+				<Skeleton width={150} />
+			) : value ? (
+				typeof value === 'object' ? (
+					formatWei(value)
+				) : (
+					value
+				)
+			) : (
+				'-'
+			)}
 		</b>
 	</div>
 );

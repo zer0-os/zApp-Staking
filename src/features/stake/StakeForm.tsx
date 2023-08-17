@@ -20,6 +20,8 @@ const StakeForm: FC<StakeFormProps> = (props) => {
 		error,
 		userPoolTokenBalance,
 		isLoadingUserPoolTokenBalance,
+		isLoadingUserRewards,
+		userRewardsClaimable,
 	} = useStakeForm(props.poolInstance);
 
 	const onCancel = () => {
@@ -58,6 +60,11 @@ const StakeForm: FC<StakeFormProps> = (props) => {
 							label: `Your Balance (${props.poolMetadata.tokenTicker})`,
 							isLoading: isLoadingUserPoolTokenBalance,
 							value: userPoolTokenBalance,
+						},
+						{
+							label: `Your Claimable Rewards (${props.poolMetadata.tokenTicker})`,
+							isLoading: isLoadingUserRewards,
+							value: userRewardsClaimable,
 						},
 					]}
 				/>

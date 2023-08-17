@@ -4,6 +4,7 @@ import { PoolInstance } from '@zero-tech/zfi-sdk';
 import { useWeb3 } from '@/lib/hooks/useWeb3';
 import { useStake } from './useStake';
 import { useUserPoolTokenBalance } from '@/lib/hooks/useUserPoolTokenBalance';
+import { useUserPoolData } from '@/lib/hooks/useUserPoolData';
 
 export enum StakeFormStep {
 	CONNECT_WALLET,
@@ -27,6 +28,10 @@ export const useStakeForm = (poolInstance: PoolInstance) => {
 		data: userPoolTokenBalance,
 		isLoading: isLoadingUserPoolTokenBalance,
 	} = useUserPoolTokenBalance({ account, poolAddress: poolInstance.address });
+
+	const { data: userQueryData, isLoading: isLoadingUserData } = useUserPoolData(
+		{ poolAddress: poolInstance.address, account },
+	);
 
 	const [amountWei, setAmountWei] = useState<BigNumber | undefined>();
 	const [error, setError] = useState<string | undefined>();
@@ -76,6 +81,8 @@ export const useStakeForm = (poolInstance: PoolInstance) => {
 	return {
 		amountWei,
 		userPoolTokenBalance,
+		userRewardsClaimable: userQueryData?.rewards,
+		isLoadingUserRewards: isLoadingUserData,
 		isLoadingUserPoolTokenBalance,
 		step,
 		error,
