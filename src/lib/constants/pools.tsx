@@ -42,7 +42,7 @@ export const POOL_METADATA = {
 						textDecoration: 'underline',
 					}}
 					href={
-						'https://app.uniswap.org/#/add/v2/ETH/0x2a3bFF78B79A009976EeA096a51A948a3dC00e34'
+						'https://app.uniswap.org/#/add/v2/0x2a3bFF78B79A009976EeA096a51A948a3dC00e34/0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2?chain=mainnet'
 					}
 					target={'_blank'}
 					rel="noreferrer"
