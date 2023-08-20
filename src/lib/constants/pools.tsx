@@ -35,7 +35,7 @@ export const POOL_METADATA = {
 		tokenDecimals: 18,
 		additionalInfo: (
 			<>
-				Stake{' '}
+				How do I get LP?{' '}
 				<a
 					style={{
 						color: 'inherit',
@@ -47,9 +47,8 @@ export const POOL_METADATA = {
 					target={'_blank'}
 					rel="noreferrer"
 				>
-					WILD - WETH LP
-				</a>{' '}
-				to earn WILD!
+					Add to liquidity pool
+				</a>
 			</>
 		),
 	},
