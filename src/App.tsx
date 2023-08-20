@@ -42,7 +42,7 @@ export const App = () => {
 		<DynamicSizeWrapper>
 			<ZAppContent>
 				<main className={styles.Main}>
-					<Alert variant={'info'}>
+					<Alert variant={'info'} className={styles.Message}>
 						For more information, visit the{' '}
 						<a
 							href={
