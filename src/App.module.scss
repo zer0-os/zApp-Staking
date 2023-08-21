@@ -1,23 +1,29 @@
 @import './styles/breakpoints';
 
 .Main {
+	$gap: 1rem;
+
 	margin: 100px auto 0 auto;
 	max-width: 46rem; // 46 rem = 736px
 	padding: 0 1rem 3.5rem;
 
-	> *:first-child {
-		margin-bottom: 1rem;
+	display: flex;
+	flex-direction: column;
+	gap: $gap;
 
+	[class*='Tabs'] {
+		font-size: 1.125rem;
+		line-height: 1.361rem;
+	}
+
+	@include container-breakpoint(500) {
 		[class*='Tabs'] {
-			font-size: 1.125rem;
-			line-height: 1.361rem;
+			font-size: 1.5rem;
+			line-height: 1.1816rem;
 		}
+	}
 
-		@include container-breakpoint(500) {
-			[class*='Tabs'] {
-				font-size: 1.5rem;
-				line-height: 1.1816rem;
-			}
-		}
+	.Message {
+		margin-bottom: 1.5rem - $gap;
 	}
 }

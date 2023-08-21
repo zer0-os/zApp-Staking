@@ -6,6 +6,7 @@ export const getPoolData = async (
 ): Promise<PoolData | undefined> => {
 	const promises = [pool.poolApr(), pool.poolTvl()];
 	const [apr, tvl] = await Promise.all(promises);
+
 	return {
 		apr: apr as number,
 		tvl: tvl as TotalValueLocked,

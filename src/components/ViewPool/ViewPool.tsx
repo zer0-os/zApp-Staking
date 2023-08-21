@@ -1,38 +1,35 @@
 import { FC } from 'react';
 
-import { useWeb3 } from '@/lib/hooks/useWeb3';
 import { usePoolData } from '@/lib/hooks/usePoolData';
-import { useUserPoolData } from '@/lib/hooks/useUserPoolData';
-import { formatPercentage, formatWei } from '@/lib/util/format';
+import { formatFiat, formatPercentage } from '@/lib/util/format';
 import { PoolInfo } from '@/lib/types/pool';
+import { usePoolTokenPrice } from '@/lib/hooks/usePoolTokenPrice';
 
 import { PoolDetail } from '../PoolDetail';
 import { Card } from '@zero-tech/zui/components/Card';
 
 import styles from './ViewPool.module.scss';
+import { Alert } from '@zero-tech/zui/components';
 
 export interface ViewPoolProps extends PoolInfo {}
 
 export const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
-	const { account } = useWeb3();
-
 	const { data: poolQueryData, isLoading: isLoadingPoolData } = usePoolData({
 		poolAddress: poolInstance.address,
 	});
 
-	const { data: userQueryData, isLoading: isLoadingUserData } = useUserPoolData(
-		{ poolAddress: poolInstance.address, account },
-	);
+	const { data: poolTokenPriceData, isLoading: isLoadingPoolTokenPriceData } =
+		usePoolTokenPrice({ poolAddress: poolInstance.address });
 
 	const aprAsString =
 		poolQueryData?.apr && formatPercentage(poolQueryData?.apr);
 
-	const rewardsClaimableAsString =
-		userQueryData?.rewards && formatWei(userQueryData?.rewards);
-
 	return (
 		<>
 			<PoolDetail name={poolMetadata.name} imageUrl={poolMetadata.icon} />
+			{poolMetadata?.additionalInfo && (
+				<Alert variant={'info'}>{poolMetadata.additionalInfo}</Alert>
+			)}
 			<div className={styles.Cards}>
 				{/* APR card */}
 				<Card
@@ -44,12 +41,14 @@ export const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
 					}}
 				/>
 
-				{/* Rewards Claimable card */}
+				{/* Pool Token Price card */}
 				<Card
-					label={'Your Pool Rewards Claimable (WILD)'}
+					label={`${poolMetadata.tokenTicker} Token Price`}
 					primaryText={{
-						text: rewardsClaimableAsString,
-						isLoading: isLoadingUserData,
+						text: poolTokenPriceData
+							? `$${formatFiat(poolTokenPriceData)}`
+							: '-',
+						isLoading: isLoadingPoolTokenPriceData,
 						errorText: '-',
 					}}
 				/>
