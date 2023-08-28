@@ -9,9 +9,14 @@ import { Confirm, Processing, WaitingForWallet } from './ClaimFormSteps';
 import { FormInputs } from '@/components/FormInputs';
 
 export const ClaimForm: FC<PoolInfo> = (props) => {
-	const { amountWei, error, step, onConfirmClaimAmount, claim } = useClaimForm(
-		props.poolInstance,
-	);
+	const {
+		amountWei,
+		claim,
+		error,
+		isLoadingUserData,
+		onConfirmClaimAmount,
+		step,
+	} = useClaimForm(props.poolInstance);
 
 	const { tokenTicker } = props.poolMetadata;
 
@@ -45,6 +50,13 @@ export const ClaimForm: FC<PoolInfo> = (props) => {
 					action={'claim'}
 					{...props}
 					onSubmit={onConfirmClaimAmount}
+					balances={[
+						{
+							label: `Claimable Rewards (${props.poolMetadata.tokenTicker})`,
+							isLoading: isLoadingUserData,
+							value: amountWei,
+						},
+					]}
 				/>
 			);
 			break;
