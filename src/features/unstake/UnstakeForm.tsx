@@ -115,7 +115,7 @@ const UnstakeForm: FC<UnstakeFormProps> = ({
 	}
 
 	return (
-		<form>
+		<form data-testid={'zapp-staking-unstake-form'}>
 			<Wizard.Container header={shouldShowHeader && 'Unstake & Claim Rewards'}>
 				{content}
 			</Wizard.Container>

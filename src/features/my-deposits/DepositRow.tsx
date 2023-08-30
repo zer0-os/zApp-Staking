@@ -15,7 +15,11 @@ interface DepositRowProps {
 }
 
 export const DepositRow: FC<DepositRowProps> = ({ deposit }) => (
-	<tr>
+	<tr
+		data-testid={`zapp-staking-deposits-table-${
+			deposit.isReward ? 'reward' : 'deposit'
+		}`}
+	>
 		<TableData alignment="left">
 			<PoolDetail
 				imageUrl={deposit.poolMetadata.icon}
