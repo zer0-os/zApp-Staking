@@ -89,7 +89,7 @@ const StakeForm: FC<StakeFormProps> = (props) => {
 	}
 
 	return (
-		<form>
+		<form data-testid={'zapp-staking-stake-form'}>
 			<Wizard.Container>{content}</Wizard.Container>
 		</form>
 	);
