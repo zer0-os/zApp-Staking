@@ -20,7 +20,7 @@ export const DevControls = () => {
 	);
 
 	return (
-		<header
+		<footer
 			style={{
 				position: 'fixed',
 				bottom: 0,
@@ -35,9 +35,10 @@ export const DevControls = () => {
 				alignItems: 'center',
 				color: 'black',
 			}}
+			data-testid="zapp-dev-controls"
 		>
 			<b>zApp Staking {version}</b>
 			<span>{content}</span>
-		</header>
+		</footer>
 	);
 };
