@@ -19,10 +19,13 @@ test('can stake tokens', async ({ page }) => {
 	const controls = new Controls(page);
 	await controls.connectWallet();
 
-	await page.getByRole('button', { name: 'Stake' }).first().click();
+	await page.getByRole('button', { name: 'Stake' }).last().click();
 	await page.getByRole('textbox', { name: 'Amount' }).fill('5');
 	await page.getByRole('button', { name: /stake/ }).click();
-	await metamask.confirmTransaction();
+	await page.getByText('Approve Pool Spending');
+	await page.getByText('Continue').click();
+	await metamask.confirmPermissionToSpend(); // approve pool spending
+	await metamask.confirmTransaction(); // approve stake transaction
 	await expect(page.getByText(/Successfully staked 5/)).toBeVisible({
 		timeout: 60000,
 	});

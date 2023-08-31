@@ -3,15 +3,32 @@ import { initialSetup } from '@synthetixio/synpress/commands/metamask';
 import { setExpectInstance } from '@synthetixio/synpress/commands/playwright';
 import { resetState } from '@synthetixio/synpress/commands/synpress';
 import { prepareMetamask } from '@synthetixio/synpress/helpers';
+
+import { createDevNet } from './tenderly';
+
 import { config } from 'dotenv';
 
-require('dotenv').config({ path: './.env.test.local' });
-config();
+config({ path: '.env.test.local' });
+
+const {
+	TENDERLY_PROJECT,
+	TENDERLY_ACCESS_KEY,
+	TENDERLY_DEVNET_TEMPLATE,
+	TENDERLY_ACCOUNT_ID,
+} = process.env;
 
 export const test = base.extend<{
 	context: BrowserContext;
 }>({
+	// eslint-disable-next-line no-empty-pattern
 	context: async ({}, use) => {
+		const tenderlyForkRpcUrl = await createDevNet(
+			TENDERLY_PROJECT!,
+			TENDERLY_DEVNET_TEMPLATE!,
+			TENDERLY_ACCOUNT_ID!,
+			TENDERLY_ACCESS_KEY!,
+		);
+
 		// required for synpress as it shares same expect instance as playwright
 		await setExpectInstance(expect);
 
@@ -48,10 +65,10 @@ export const test = base.extend<{
 		await initialSetup(chromium, {
 			secretWordsOrPrivateKey: process.env.WALLET_PRIVATE_KEY,
 			network: {
-				name: process.env.NETWORK_NAME ?? 'mainnet',
-				chainId: process.env.CHAIN_ID ?? 1,
-				rpcUrl: process.env.RPC_URL,
-				symbol: process.env.SYMBOL ?? 'ETH',
+				name: 'mainnet',
+				chainId: 1,
+				rpcUrl: tenderlyForkRpcUrl,
+				symbol: 'ETH',
 			},
 			password: 'password',
 			enableAdvancedSettings: true,

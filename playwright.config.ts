@@ -3,8 +3,7 @@ import { config } from 'dotenv';
 
 const TEST_PORT = 5173;
 
-require('dotenv').config({ path: './.env.test.local' });
-config();
+config({ path: '.env.test.local' });
 
 /**
  * See https://playwright.dev/docs/test-configuration.
