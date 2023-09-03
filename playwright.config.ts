@@ -3,7 +3,11 @@ import { config } from 'dotenv';
 
 const TEST_PORT = 5173;
 
-config({ path: '.env.test.local' });
+if (process.env.CI) {
+	config();
+} else {
+	config({ path: '.env.test.local' });
+}
 
 /**
  * See https://playwright.dev/docs/test-configuration.
@@ -31,7 +35,7 @@ export default defineConfig({
 		},
 	],
 	webServer: {
-		command: 'npm run dev',
+		command: `npm run dev -- --port ${TEST_PORT}`,
 		url: `http://127.0.0.1:${TEST_PORT}`,
 		reuseExistingServer: !process.env.CI,
 	},
