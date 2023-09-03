@@ -56,11 +56,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Print node version
-        id: node
-        run: echo "version=$(node -v)" >> $GITHUB_OUTPUT
-        shell: bash
-
       - name: Cache node modules
         uses: actions/cache@v3
         with:
