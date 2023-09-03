@@ -1,0 +1,107 @@
+name: 'Run E2E Tests (local)'
+on:
+  pull_request:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      WALLET_PRIVATE_KEY: ${{secrets.WALLET_PRIVATE_KEY}}
+      TENDERLY_ACCESS_KEY: ${{secrets.TENDERLY_ACCESS_KEY}}
+      TENDERLY_ACCOUNT_ID: ${{secrets.TENDERLY_ACCOUNT_ID}}
+      TENDERLY_DEVNET_TEMPLATE: ${{secrets.TENDERLY_DEVNET_TEMPLATE}}
+      TENDERLY_PROJECT: ${{secrets.TENDERLY_PROJECT}}
+      METAMASK_VERSION: ${{secrets.METAMASK_VERSION}}
+      CI: true
+    steps:
+      - name: Check secrets
+        run: |
+          if [[ -z "${{ secrets.WALLET_PRIVATE_KEY }}" ]]; then
+            echo "WALLET_PRIVATE_KEY is not set"
+            exit 1
+          fi
+          if [[ -z "${{ secrets.TENDERLY_ACCESS_KEY }}" ]]; then
+            echo "TENDERLY_ACCESS_KEY is not set"
+            exit 1
+          fi
+          if [[ -z "${{ secrets.TENDERLY_ACCOUNT_ID }}" ]]; then
+            echo "TENDERLY_ACCOUNT_ID is not set"
+            exit 1
+          fi
+          if [[ -z "${{ secrets.TENDERLY_DEVNET_TEMPLATE }}" ]]; then
+            echo "TENDERLY_DEVNET_TEMPLATE is not set"
+            exit 1
+          fi
+          if [[ -z "${{ secrets.TENDERLY_PROJECT }}" ]]; then
+            echo "TENDERLY_PROJECT is not set"
+            exit 1
+          fi
+          echo "All secrets are set"
+        shell: bash
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Print node version
+        id: node
+        run: echo "version=$(node -v)" >> $GITHUB_OUTPUT
+        shell: bash
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install dependencies
+        if: steps.cache-node-modules.outputs.cache-hit != 'true'
+        run: |
+          echo '//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}' >> .npmrc
+          npm ci
+        shell: bash
+
+      - name: Get installed Playwright version
+        id: playwright-version
+        run: echo "::set-output name=version::$(yarn why --json @playwright/test | grep -h 'workspace:.' | jq --raw-output '.children[].locator' | sed -e 's/@playwright\/test@.*://')"
+
+      - uses: actions/cache@v3
+        id: playwright-cache
+        with:
+          path: '~/.cache/ms-playwright'
+          key: '${{ runner.os }}-playwright-${{ steps.playwright-version.outputs.version }}'
+          restore-keys: |
+            ${{ runner.os }}-playwright-
+
+      - name: Install Playwright's dependencies
+        if: steps.playwright-cache.outputs.cache-hit != 'true'
+        run: npx playwright install --with-deps
+
+      - name: Install Tenderly
+        run: curl <https://raw.githubusercontent.com/Tenderly/tenderly-cli/master/scripts/install-linux.sh> | sudo sh
+        shell: bash
+
+      - name: E2e Tests
+        run: npm run test:e2e:headless
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 30
