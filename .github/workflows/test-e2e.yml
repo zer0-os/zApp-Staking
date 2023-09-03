@@ -94,7 +94,7 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: Install Tenderly
-        run: curl <https://raw.githubusercontent.com/Tenderly/tenderly-cli/master/scripts/install-linux.sh> | sudo sh
+        run: curl https://raw.githubusercontent.com/Tenderly/tenderly-cli/master/scripts/install-linux.sh | sudo sh
         shell: bash
 
       - name: E2e Tests
