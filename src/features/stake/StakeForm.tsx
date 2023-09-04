@@ -62,7 +62,7 @@ const StakeForm: FC<StakeFormProps> = (props) => {
 							value: userPoolTokenBalance,
 						},
 						{
-							label: `Your Claimable Rewards (${props.poolMetadata.tokenTicker})`,
+							label: 'Your Claimable Rewards (WILD)',
 							isLoading: isLoadingUserRewards,
 							value: userRewardsClaimable,
 						},

@@ -30,10 +30,7 @@ const ConfirmUnstake: FC<ConfirmUnstakeProps> = ({
 						vesting period.
 					</p>
 					<p>
-						Are you sure you want to claim{' '}
-						<b>
-							{convertedAmountReward} {tokenTicker}
-						</b>{' '}
+						Are you sure you want to claim <b>{convertedAmountReward} WILD</b>{' '}
 						in pool rewards and unstake{' '}
 						<b>
 							{convertedAmount} {tokenTicker}

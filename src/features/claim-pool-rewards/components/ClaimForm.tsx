@@ -18,25 +18,15 @@ export const ClaimForm: FC<PoolInfo> = (props) => {
 		step,
 	} = useClaimForm(props.poolInstance);
 
-	const { tokenTicker } = props.poolMetadata;
-
 	const isHeaderHidden = step === Step.COMPLETE || step == Step.AMOUNT;
 
 	let content;
 	switch (step) {
 		case Step.CONFIRM:
-			content = (
-				<Confirm
-					onConfirm={claim}
-					amountWei={amountWei}
-					tokenTicker={tokenTicker}
-				/>
-			);
+			content = <Confirm onConfirm={claim} amountWei={amountWei} />;
 			break;
 		case Step.WAITING_FOR_WALLET:
-			content = (
-				<WaitingForWallet amountWei={amountWei} tokenTicker={tokenTicker} />
-			);
+			content = <WaitingForWallet amountWei={amountWei} />;
 			break;
 		case Step.COMPLETE:
 		case Step.AMOUNT:
@@ -52,7 +42,7 @@ export const ClaimForm: FC<PoolInfo> = (props) => {
 					onSubmit={onConfirmClaimAmount}
 					balances={[
 						{
-							label: `Claimable Rewards (${props.poolMetadata.tokenTicker})`,
+							label: 'Claimable Rewards (WILD)',
 							isLoading: isLoadingUserData,
 							value: amountWei,
 						},

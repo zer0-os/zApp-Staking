@@ -5,10 +5,9 @@ import { BigNumber } from 'ethers';
 
 interface ClaimTextProps {
 	amountWei: BigNumber;
-	tokenTicker: string;
 }
 
-export const ClaimText: FC<ClaimTextProps> = ({ amountWei, tokenTicker }) => (
+export const ClaimText: FC<ClaimTextProps> = ({ amountWei }) => (
 	<div>
 		<p>
 			When you claim pool rewards, they are staked in the WILD pool and can be
@@ -16,10 +15,7 @@ export const ClaimText: FC<ClaimTextProps> = ({ amountWei, tokenTicker }) => (
 		</p>
 		<p>
 			Are you sure you want to claim{' '}
-			<b>
-				{commify(formatEther(amountWei))} {tokenTicker}
-			</b>{' '}
-			in pool rewards?
+			<b>{commify(formatEther(amountWei))} WILD</b> in pool rewards?
 		</p>
 	</div>
 );
