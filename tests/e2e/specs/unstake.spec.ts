@@ -1,14 +1,18 @@
-import { test, expect } from '../../../fixtures';
+import { test } from '../../../fixtures';
 import { Controls } from '../controls/controls';
 import { DepositsPage } from '../pages/deposits';
+import { PoolsPage } from '../pages/pools';
 import * as metamask from '@synthetixio/synpress/commands/metamask';
 
 test.beforeEach(async ({ page }) => {
-	const pools = new DepositsPage(page);
+	const pools = new PoolsPage(page);
 	await pools.goto();
 
 	const controls = new Controls(page);
 	await controls.connectWallet();
+
+	const deposits = new DepositsPage(page);
+	await deposits.goto();
 });
 
 test('can unstake tokens from a deposit', async ({ page }) => {
