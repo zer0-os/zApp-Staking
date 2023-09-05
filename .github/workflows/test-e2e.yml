@@ -1,4 +1,4 @@
-name: 'Run E2E Tests (local)'
+name: 'E2E Tests (local deployment)'
 on:
   pull_request:
     branches:
@@ -12,43 +12,28 @@ jobs:
   test:
     runs-on: ubuntu-latest
     env:
-      WALLET_PRIVATE_KEY: ${{secrets.WALLET_PRIVATE_KEY}}
-      TENDERLY_ACCESS_KEY: ${{secrets.TENDERLY_ACCESS_KEY}}
-      TENDERLY_ACCOUNT_ID: ${{secrets.TENDERLY_ACCOUNT_ID}}
-      TENDERLY_DEVNET_TEMPLATE: ${{secrets.TENDERLY_DEVNET_TEMPLATE}}
-      TENDERLY_PROJECT: ${{secrets.TENDERLY_PROJECT}}
-      METAMASK_VERSION: ${{secrets.METAMASK_VERSION}}
+      WALLET_PRIVATE_KEY: ${{ secrets.WALLET_PRIVATE_KEY }}
+      TENDERLY_ACCESS_KEY: ${{ secrets.TENDERLY_ACCESS_KEY }}
+      TENDERLY_ACCOUNT_ID: ${{ secrets.TENDERLY_ACCOUNT_ID }}
+      TENDERLY_DEVNET_TEMPLATE: ${{ secrets.TENDERLY_DEVNET_TEMPLATE }}
+      TENDERLY_PROJECT: ${{ secrets.TENDERLY_PROJECT }}
+      METAMASK_VERSION: ${{ secrets.METAMASK_VERSION }}
       CI: true
     steps:
       - name: Check secrets
         run: |
-          if [[ -z "${{ secrets.WALLET_PRIVATE_KEY }}" ]]; then
-            echo "WALLET_PRIVATE_KEY is not set"
-            exit 1
-          fi
-          if [[ -z "${{ secrets.TENDERLY_ACCESS_KEY }}" ]]; then
-            echo "TENDERLY_ACCESS_KEY is not set"
-            exit 1
-          fi
-          if [[ -z "${{ secrets.TENDERLY_ACCOUNT_ID }}" ]]; then
-            echo "TENDERLY_ACCOUNT_ID is not set"
-            exit 1
-          fi
-          if [[ -z "${{ secrets.TENDERLY_DEVNET_TEMPLATE }}" ]]; then
-            echo "TENDERLY_DEVNET_TEMPLATE is not set"
-            exit 1
-          fi
-          if [[ -z "${{ secrets.TENDERLY_PROJECT }}" ]]; then
-            echo "TENDERLY_PROJECT is not set"
-            exit 1
-          fi
+          if [[ -z "${{ secrets.WALLET_PRIVATE_KEY }}" ]]; then echo "WALLET_PRIVATE_KEY is not set"; exit 1; fi
+          if [[ -z "${{ secrets.TENDERLY_ACCESS_KEY }}" ]]; then echo "TENDERLY_ACCESS_KEY is not set"; exit 1; fi
+          if [[ -z "${{ secrets.TENDERLY_ACCOUNT_ID }}" ]]; then echo "TENDERLY_ACCOUNT_ID is not set"; exit 1; fi
+          if [[ -z "${{ secrets.TENDERLY_DEVNET_TEMPLATE }}" ]]; then echo "TENDERLY_DEVNET_TEMPLATE is not set"; exit 1; fi
+          if [[ -z "${{ secrets.TENDERLY_PROJECT }}" ]]; then echo "TENDERLY_PROJECT is not set"; exit 1; fi
           echo "All secrets are set"
         shell: bash
 
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Get Node.js version
         run: echo "NODE_VERSION=$(cat .nvmrc)" >> $GITHUB_ENV
 
       - name: Use Node.js ${{ env.NODE_VERSION }}
