@@ -1,4 +1,4 @@
-name: 'E2E Tests (local deployment)'
+name: 'E2E Tests (headful, local deployment)'
 on:
   pull_request:
     branches:
@@ -77,8 +77,8 @@ jobs:
         run: curl https://raw.githubusercontent.com/Tenderly/tenderly-cli/master/scripts/install-linux.sh | sudo sh
         shell: bash
 
-      - name: E2e Tests
-        run: npm run test:e2e:headless
+      - name: Run E2e Tests (headful)
+        run: npm run test:e2e # headless is not working in CI (https://github.com/Synthetixio/synpress/tree/dev#-important-notes)
 
       - uses: actions/upload-artifact@v3
         if: always()
