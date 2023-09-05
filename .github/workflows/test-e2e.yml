@@ -71,14 +71,14 @@ jobs:
 
       - name: Install Playwright's dependencies
         if: steps.playwright-cache.outputs.cache-hit != 'true'
-        run: npx playwright install --with-deps
+        run: npx playwright install --with-deps chromium # only chromium for now
 
       - name: Install Tenderly
         run: curl https://raw.githubusercontent.com/Tenderly/tenderly-cli/master/scripts/install-linux.sh | sudo sh
         shell: bash
 
       - name: Run E2e Tests (headful)
-        run: npm run test:e2e # headless is not working in CI (https://github.com/Synthetixio/synpress/tree/dev#-important-notes)
+        run: xvfb-run --auto-servernum -- npm run test:e2e # headless is not working in CI (https://github.com/Synthetixio/synpress/tree/dev#-important-notes)
 
       - uses: actions/upload-artifact@v3
         if: always()
