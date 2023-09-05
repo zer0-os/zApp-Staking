@@ -8,6 +8,6 @@ export class PoolsPage {
 	}
 
 	async goto() {
-		await this.page.goto('/wilder/pools');
+		await this.page.goto('/wilder/staking/pools');
 	}
 }
