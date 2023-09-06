@@ -56,6 +56,12 @@ jobs:
           npm ci
         shell: bash
 
+      - name: Install linux dependencies
+        run: |
+          sudo apt-get install --no-install-recommends -y \
+          fluxbox \
+          xvfb
+
       - name: Get installed Playwright version
         id: playwright-version
         run: echo "::set-output name=version::$(yarn why --json @playwright/test | grep -h 'workspace:.' | jq --raw-output '.children[].locator' | sed -e 's/@playwright\/test@.*://')"
@@ -77,8 +83,11 @@ jobs:
         run: curl https://raw.githubusercontent.com/Tenderly/tenderly-cli/master/scripts/install-linux.sh | sudo sh
         shell: bash
 
-      - name: Run E2e Tests (headful)
-        run: xvfb-run --auto-servernum -- npm run test:e2e # headless is not working in CI (https://github.com/Synthetixio/synpress/tree/dev#-important-notes)
+      - name: Run E2e Tests (headful) # headless is not working in CI (https://github.com/Synthetixio/synpress/tree/dev#-important-notes)
+        run: |
+          Xvfb :0 -screen 0 1024x768x24 -listen tcp -ac &
+          fluxbox &
+          npm run test:e2e
 
       - uses: actions/upload-artifact@v3
         if: always()
