@@ -11,7 +11,7 @@ import { DevControls } from './DevControls';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const RPC_URL = import.meta.env.VITE_RPC_URL_1;
+const RPC_URL = import.meta.env.VITE_RPC_URL_1 ?? process.env.VITE_RPC_URL_1;
 
 export const DevApp = () => {
 	const { address } = useAccount();
@@ -20,12 +20,6 @@ export const DevApp = () => {
 	});
 
 	const provider = useEthersProvider({ chainId: 1 });
-
-	if (!RPC_URL) {
-		throw new Error(
-			'Fill out .env.development.local before running dev environment',
-		);
-	}
 
 	return (
 		<>
