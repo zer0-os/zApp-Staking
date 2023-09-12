@@ -3,7 +3,7 @@ import './vite-setup';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Route, Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 import { createConfig, mainnet, WagmiConfig } from 'wagmi';
