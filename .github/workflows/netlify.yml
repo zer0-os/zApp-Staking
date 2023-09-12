@@ -28,7 +28,10 @@ jobs:
         run: npm ci
 
       - name: Build preview
-        run: npm run build:preview
+        run: npm run build:preview --prod
+        env:
+          VITE_RPC_URL_1: ${{ secrets.VITE_RPC_URL_1 }}
+          VITE_TIMESTAMP_OVERRIDE: ${{ secrets.VITE_TIMESTAMP_OVERRIDE }}
 
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
