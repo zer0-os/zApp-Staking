@@ -28,7 +28,7 @@ jobs:
         run: npm ci
 
       - name: Build preview
-        run: npm run build:preview --prod
+        run: npm run build:preview
         env:
           VITE_RPC_URL_1: ${{ secrets.VITE_RPC_URL_1 }}
           VITE_TIMESTAMP_OVERRIDE: ${{ secrets.VITE_TIMESTAMP_OVERRIDE }}
@@ -40,4 +40,4 @@ jobs:
         env:
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-        run: netlify deploy --dir=dev-environment/dist
+        run: netlify deploy --dir=dev-environment/dist --prod
