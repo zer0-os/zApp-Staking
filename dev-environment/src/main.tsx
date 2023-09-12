@@ -17,6 +17,18 @@ import './main.css';
 
 const history = createBrowserHistory();
 
+// @ts-ignore
+const { VITE_TIMESTAMP_OVERRIDE } = import.meta.env;
+
+if (VITE_TIMESTAMP_OVERRIDE) {
+	Date.now = function () {
+		return VITE_TIMESTAMP_OVERRIDE;
+	};
+	Date.prototype.getTime = function () {
+		return VITE_TIMESTAMP_OVERRIDE;
+	};
+}
+
 const config = createConfig({
 	autoConnect: true,
 	publicClient: createPublicClient({
