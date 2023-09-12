@@ -3,7 +3,7 @@ import './vite-setup';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import { Route, Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import { createBrowserHistory } from 'history';
 
 import { createConfig, mainnet, WagmiConfig } from 'wagmi';
@@ -16,6 +16,18 @@ import { DevApp } from './components/DevApp';
 import './main.css';
 
 const history = createBrowserHistory();
+
+// @ts-ignore
+const { VITE_TIMESTAMP_OVERRIDE } = import.meta.env;
+
+if (VITE_TIMESTAMP_OVERRIDE) {
+	Date.now = function () {
+		return VITE_TIMESTAMP_OVERRIDE;
+	};
+	Date.prototype.getTime = function () {
+		return VITE_TIMESTAMP_OVERRIDE;
+	};
+}
 
 const config = createConfig({
 	autoConnect: true,
@@ -30,7 +42,7 @@ ReactDOM.render(
 		<Router history={history}>
 			<WagmiConfig config={config}>
 				<ThemeEngine theme={Themes.Dark} />
-				<Route path="/:znsRoute/:app" component={DevApp} />
+				<DevApp />
 			</WagmiConfig>
 		</Router>
 	</React.StrictMode>,

@@ -1,0 +1,43 @@
+name: 'Netlify Preview'
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    name: 'Deploy'
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+          cache: 'npm'
+
+      - run: echo '//npm.pkg.github.com/:_authToken=${{secrets.GITHUB_TOKEN}}' >> .npmrc
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build preview
+        run: npm run build:preview
+        env:
+          VITE_RPC_URL_1: ${{ secrets.VITE_RPC_URL_1 }}
+          VITE_TIMESTAMP_OVERRIDE: ${{ secrets.VITE_TIMESTAMP_OVERRIDE }}
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
+      - name: Deploy to Netlify
+        env:
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+        run: netlify deploy --dir=dev-environment/dist --prod
