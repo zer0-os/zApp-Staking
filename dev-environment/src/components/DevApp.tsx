@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 import { StakingZApp } from '@/index';
 
@@ -30,15 +31,27 @@ export const DevApp = () => {
 	return (
 		<>
 			<DevControls />
-			<StakingZApp
-				provider={provider ?? new ethers.providers.JsonRpcProvider(RPC_URL)}
-				route={'wilder'}
-				web3={{
-					chainId: provider?.network.chainId ?? 1,
-					address: address,
-					connectWallet: connect,
-				}}
-			/>
+			<Switch>
+				<Route
+					path="/:znsRoute/:app"
+					component={() => (
+						<StakingZApp
+							provider={
+								provider ?? new ethers.providers.JsonRpcProvider(RPC_URL)
+							}
+							route={'wilder'}
+							web3={{
+								chainId: provider?.network.chainId ?? 1,
+								address: address,
+								connectWallet: connect,
+							}}
+						/>
+					)}
+				/>
+				<Route>
+					<Redirect to={'/0.wilder/staking/pools'} />
+				</Route>
+			</Switch>
 		</>
 	);
 };

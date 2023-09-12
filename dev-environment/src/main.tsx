@@ -42,7 +42,7 @@ ReactDOM.render(
 		<Router history={history}>
 			<WagmiConfig config={config}>
 				<ThemeEngine theme={Themes.Dark} />
-				<Route path="/:znsRoute/:app" component={DevApp} />
+				<DevApp />
 			</WagmiConfig>
 		</Router>
 	</React.StrictMode>,
