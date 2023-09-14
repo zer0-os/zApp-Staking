@@ -8,12 +8,14 @@ import {
 } from 'react-router-dom';
 
 import { useQueryClient } from 'react-query';
-import { DynamicSizeWrapper } from '@zero-tech/zapp-utils/components';
+import {
+	DynamicSizeWrapper,
+	ZAppContent,
+} from '@zero-tech/zapp-utils/components';
 
 import { Pools as PoolsPage } from './pages/Pools';
 import { Deposits as DepositsPage } from './pages/Deposits';
-import { ZAppContent } from '@zero-tech/zapp-utils/components';
-import { Alert, TabsNav } from '@zero-tech/zui/components';
+import { TabsNav } from '@zero-tech/zui/components';
 
 import styles from './App.module.scss';
 
@@ -42,22 +44,16 @@ export const App = () => {
 		<DynamicSizeWrapper>
 			<ZAppContent>
 				<main className={styles.Main}>
-					<Alert variant={'info'} className={styles.Message}>
-						For more information, visit the{' '}
-						<a
-							href={
-								'https://wiki.wilderworld.com/tokens-and-wallets/wilder-world-staking-site'
-							}
-							style={{
-								color: 'inherit',
-								textDecoration: 'underline',
-							}}
-							target={'_blank'}
-							rel={'noreferrer'}
-						>
-							Wilder World Staking Wiki
-						</a>
-					</Alert>
+					<a
+						href={
+							'https://wiki.wilderworld.com/tokens-and-wallets/wilder-world-staking-site'
+						}
+						className={styles.Banner}
+						target={'_blank'}
+						rel="noreferrer"
+					>
+						Learn more about staking in the <b>Wilder World Wiki</b>
+					</a>
 					<TabsNav tabs={TABS} location={pathname} />
 					<Switch>
 						<Route path={baseUrl + '/pools'} component={PoolsPage} />
