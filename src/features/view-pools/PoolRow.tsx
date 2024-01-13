@@ -11,6 +11,7 @@ import { PoolDetail } from '@/components/PoolDetail';
 
 import styles from './PoolRow.module.scss';
 import { usePoolByAddress } from '@/lib/hooks/usePoolByAddress';
+import { useLpTvl, useWildTvl } from '@/features/global-tvl';
 
 interface PoolRowProps {
 	poolAddress: string;
@@ -19,6 +20,7 @@ interface PoolRowProps {
 export const PoolRow: FC<PoolRowProps> = ({ poolAddress }) => {
 	const { pool } = usePoolByAddress({ poolAddress });
 	const { data: queryData, isLoading, isError } = usePoolData({ poolAddress });
+	const { tvl, isLoading: isLoadingTvl } = useTvl(poolAddress);
 
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -34,7 +36,7 @@ export const PoolRow: FC<PoolRowProps> = ({ poolAddress }) => {
 				return formatPercentage(queryData.apr);
 			}
 			if (key === 'tvl') {
-				return '$' + millifyNumber(queryData.tvl.valueOfTokensUSD);
+				return '$' + millifyNumber(tvl);
 			}
 		}
 	};
@@ -65,4 +67,18 @@ export const PoolRow: FC<PoolRowProps> = ({ poolAddress }) => {
 			</tr>
 		</>
 	);
+};
+
+const useTvl = (poolAddress: string) => {
+	const lp = useLpTvl();
+	const wild = useWildTvl();
+
+	if (
+		poolAddress.toLowerCase() ===
+		'0x3aC551725ac98C5DCdeA197cEaaE7cDb8a71a2B4'.toLowerCase()
+	) {
+		return wild;
+	} else {
+		return lp;
+	}
 };

@@ -1,46 +1,39 @@
 import { useQuery } from 'react-query';
 import { useZfiSdk } from './useZfiSdk';
 import { useWeb3 } from './useWeb3';
+import { useTokenPrices } from '@/lib/hooks/usePoolData';
+import { corePoolContract } from '@/lib/contracts/core-pool';
+import { ethers } from 'ethers';
 
 interface UseUserValueStakedParams {
 	account: string;
 }
 
 export const useUserValueStaked = ({ account }: UseUserValueStakedParams) => {
-	const { chainId } = useWeb3();
+	const { chainId, provider } = useWeb3();
 	const { wildPool, liquidityPool } = useZfiSdk();
+	const { wildPrice, lpPrice } = useTokenPrices();
 
 	return useQuery(
 		['user', 'staked', { account, chainId }],
 		async () => {
-			const [wild, lp] = await Promise.all([
-				wildPool.userValueStaked(account),
-				liquidityPool.userValueStaked(account),
-			]);
+			const wildPoolContract = corePoolContract(wildPool.address, provider);
+			const lpPoolContract = corePoolContract(liquidityPool.address, provider);
 
-			const userValueLocked = wild.userValueLocked.add(lp.userValueLocked);
-			const userValueUnlocked = wild.userValueUnlocked.add(
-				lp.userValueUnlocked,
-			);
-			const userValueLockedUsd =
-				wild.userValueLockedUsd + lp.userValueLockedUsd;
-			const userValueUnlockedUsd =
-				wild.userValueUnlockedUsd + lp.userValueUnlockedUsd;
+			const wildPoolBalance = await wildPoolContract.balanceOf(account);
+			const lpPoolBalance = await lpPoolContract.balanceOf(account);
 
-			const userValueStaked = userValueLocked.add(userValueUnlocked);
-			const userValueStakedUsd = userValueLockedUsd + userValueUnlockedUsd;
+			const wildPoolValue =
+				Number(ethers.utils.formatEther(wildPoolBalance.toString())) *
+				wildPrice;
+			const lpPoolValue =
+				Number(ethers.utils.formatEther(lpPoolBalance.toString())) * lpPrice;
 
-			return {
-				userValueLocked,
-				userValueUnlocked,
-				userValueLockedUsd,
-				userValueUnlockedUsd,
-				userValueStaked,
-				userValueStakedUsd,
-			};
+			return wildPoolValue + lpPoolValue;
 		},
 		{
-			enabled: Boolean(account),
+			enabled:
+				Boolean(account) && wildPrice !== undefined && lpPrice !== undefined,
 			refetchOnWindowFocus: false,
 		},
 	);
