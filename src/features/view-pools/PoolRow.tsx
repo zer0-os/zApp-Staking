@@ -69,7 +69,7 @@ export const PoolRow: FC<PoolRowProps> = ({ poolAddress }) => {
 	);
 };
 
-const useTvl = (poolAddress: string) => {
+export const useTvl = (poolAddress: string) => {
 	const lp = useLpTvl();
 	const wild = useWildTvl();
 

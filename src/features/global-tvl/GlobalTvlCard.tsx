@@ -55,7 +55,7 @@ const useTvl = () => {
 	};
 };
 
-interface TvlHookReturn {
+export interface TvlHookReturn {
 	isLoading: boolean;
 	tvl?: number;
 }
