@@ -70,12 +70,10 @@ export const useLpTvl = (): TvlHookReturn => {
 	const { lpPrice, isLoadingLpPrice } = useTokenPrices();
 
 	if (isLoadingLpPrice || isLoadingLpPoolData) {
-		console.log('lp loading');
 		return { isLoading: true, tvl: undefined };
 	}
 
 	if (!lpPoolData || lpPrice === undefined) {
-		console.log('lp undefined');
 		return { isLoading: false, tvl: undefined };
 	}
 
