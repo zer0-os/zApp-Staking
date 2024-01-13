@@ -15,9 +15,11 @@ import depositsStyles from './Deposits.module.scss';
 export const Deposits = () => {
 	const { account } = useWeb3();
 	const { data: queryData, isLoading } = useAllDeposits({ account });
-	const { data: userValue, isLoading: isLoadingUserValue } = useUserValueStaked(
-		{ account },
-	);
+	const {
+		data: userValue,
+		isLoading: isLoadingUserValue,
+		isIdle,
+	} = useUserValueStaked({ account });
 
 	return (
 		<>
@@ -25,10 +27,8 @@ export const Deposits = () => {
 				<Card
 					label={'Your Total Stake'}
 					primaryText={{
-						isLoading: isLoadingUserValue,
-						text:
-							userValue?.userValueStakedUsd &&
-							'$' + formatFiat(userValue.userValueStakedUsd ?? 0),
+						isLoading: isLoadingUserValue || isIdle,
+						text: userValue && '$' + formatFiat(userValue),
 						errorText: '-',
 					}}
 				/>

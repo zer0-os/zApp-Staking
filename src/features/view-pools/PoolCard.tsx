@@ -11,6 +11,7 @@ import { Skeleton } from '@zero-tech/zui/components';
 import { IconLinkExternal1 } from '@zero-tech/zui/icons';
 
 import styles from './PoolCard.module.scss';
+import { useTvl } from '@/features/view-pools/PoolRow';
 
 interface PoolCardProps {
 	poolAddress: string;
@@ -19,6 +20,7 @@ interface PoolCardProps {
 export const PoolCard: FC<PoolCardProps> = ({ poolAddress }) => {
 	const { pool } = usePoolByAddress({ poolAddress });
 	const { data: queryData, isLoading, isError } = usePoolData({ poolAddress });
+	const { tvl, isLoading: isLoadingTvl } = useTvl(poolAddress);
 
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
@@ -34,7 +36,7 @@ export const PoolCard: FC<PoolCardProps> = ({ poolAddress }) => {
 				return formatPercentage(queryData.apr);
 			}
 			if (key === 'tvl') {
-				return '$' + millifyNumber(queryData.tvl.valueOfTokensUSD);
+				return '$' + millifyNumber(tvl);
 			}
 		}
 	};

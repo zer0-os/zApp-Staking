@@ -1,6 +1,11 @@
 import { FC } from 'react';
 
-import { usePoolData } from '@/lib/hooks/usePoolData';
+import {
+	useLpPrice,
+	usePoolData,
+	useTokenPrices,
+	useWildPrice,
+} from '@/lib/hooks/usePoolData';
 import { formatFiat, formatPercentage } from '@/lib/util/format';
 import { PoolInfo } from '@/lib/types/pool';
 import { usePoolTokenPrice } from '@/lib/hooks/usePoolTokenPrice';
@@ -10,6 +15,8 @@ import { Card } from '@zero-tech/zui/components/Card';
 
 import styles from './ViewPool.module.scss';
 import { Alert } from '@zero-tech/zui/components';
+import { useLpTvl } from '@/features/global-tvl';
+import { usePools } from '@/lib/hooks/usePools';
 
 export interface ViewPoolProps extends PoolInfo {}
 
@@ -18,8 +25,9 @@ export const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
 		poolAddress: poolInstance.address,
 	});
 
-	const { data: poolTokenPriceData, isLoading: isLoadingPoolTokenPriceData } =
-		usePoolTokenPrice({ poolAddress: poolInstance.address });
+	const { data: price, isLoading: isLoadingPrice } = usePoolTokenPrice({
+		poolAddress: poolInstance.address,
+	});
 
 	const aprAsString =
 		poolQueryData?.apr && formatPercentage(poolQueryData?.apr);
@@ -45,10 +53,8 @@ export const ViewPool: FC<ViewPoolProps> = ({ poolInstance, poolMetadata }) => {
 				<Card
 					label={`${poolMetadata.tokenTicker} Token Price`}
 					primaryText={{
-						text: poolTokenPriceData
-							? `$${formatFiat(poolTokenPriceData)}`
-							: '-',
-						isLoading: isLoadingPoolTokenPriceData,
+						text: price ? `$${formatFiat(price)}` : '-',
+						isLoading: isLoadingPrice,
 						errorText: '-',
 					}}
 				/>

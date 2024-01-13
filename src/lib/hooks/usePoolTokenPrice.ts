@@ -1,20 +1,19 @@
-import { usePoolData } from '@/lib/hooks/usePoolData';
+import { useLpPrice, useWildPrice } from '@/lib/hooks/usePoolData';
+import { usePools } from '@/lib/hooks/usePools';
 
 interface UsePoolTokenPriceParams {
 	poolAddress: string;
 }
 
 export const usePoolTokenPrice = ({ poolAddress }: UsePoolTokenPriceParams) => {
-	const { data: poolData, ...rest } = usePoolData({ poolAddress });
+	const pools = usePools();
 
-	let tokenPrice: number | undefined;
+	const wildPrice = useWildPrice();
+	const lpPrice = useLpPrice();
 
-	if (poolData && poolData.tvl && poolData.tvl.numberOfTokens) {
-		tokenPrice = poolData.tvl.valueOfTokensUSD / poolData.tvl.numberOfTokens;
+	if (poolAddress === pools.wildPool.address) {
+		return wildPrice;
+	} else {
+		return lpPrice;
 	}
-
-	return {
-		data: tokenPrice,
-		...rest,
-	};
 };
