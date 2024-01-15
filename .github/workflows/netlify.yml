@@ -32,6 +32,7 @@ jobs:
         env:
           VITE_RPC_URL_1: ${{ secrets.VITE_RPC_URL_1 }}
           VITE_TIMESTAMP_OVERRIDE: ${{ secrets.VITE_TIMESTAMP_OVERRIDE }}
+          VITE_STAKING_SUPABASE_URL: ${{ secrets.VITE_STAKING_SUPABASE_URL }}
 
       - name: Install Netlify CLI
         run: npm install -g netlify-cli
