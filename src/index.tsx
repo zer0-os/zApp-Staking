@@ -55,7 +55,9 @@ export const StakingZApp = ({ provider, web3 }: AppProps) => {
  * we're moving fast and need a quick fix.
  */
 
-const SUPABASE_URL = import.meta.env.VITE_STAKING_SUPABASE_URL;
+const SUPABASE_URL =
+	import.meta.env.VITE_STAKING_SUPABASE_URL ??
+	process.env.REACT_APP_STAKING_SUPABASE_URL;
 
 if (!SUPABASE_URL) {
 	throw new Error(
