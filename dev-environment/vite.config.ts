@@ -13,4 +13,7 @@ export default defineConfig({
 			'react-router-dom': require.resolve('react-router-dom'),
 		},
 	},
+	define: {
+		VITE_STAKING_SUPABASE_URL: process.env.VITE_STAKING_SUPABASE_URL,
+	},
 });
