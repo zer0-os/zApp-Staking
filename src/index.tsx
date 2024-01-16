@@ -55,9 +55,7 @@ export const StakingZApp = ({ provider, web3 }: AppProps) => {
  * we're moving fast and need a quick fix.
  */
 
-const SUPABASE_URL =
-	import.meta.env.VITE_STAKING_SUPABASE_URL ??
-	process.env.REACT_APP_STAKING_SUPABASE_URL;
+const SUPABASE_URL = 'https://mrjliccblgblgtyqdbgz.supabase.co';
 
 if (!SUPABASE_URL) {
 	throw new Error(
@@ -69,15 +67,14 @@ const { fetch: originalFetch } = window;
 window.fetch = async (...args) => {
 	let [resource, config] = args;
 
-	const url = resource.toString();
+	const url = new URL(resource.toString());
 
-	if (url.startsWith('https://api.coingecko.com:443/')) {
-		resource = new URL(
-			url.replace(
-				'https://api.coingecko.com:443/',
-				SUPABASE_URL + '/functions/v1/price/',
-			),
-		);
+	if (
+		url.hostname === 'api.coingecko.com' &&
+		(url.pathname.includes('/coins/wilder-world') ||
+			url.pathname.includes('/coins/ethereum'))
+	) {
+		resource = new URL('/functions/v1/price' + url.pathname, SUPABASE_URL);
 	}
 
 	return await originalFetch(resource, config);
