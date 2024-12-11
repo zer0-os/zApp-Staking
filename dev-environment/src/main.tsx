@@ -42,13 +42,6 @@ ReactDOM.render(
 	<React.StrictMode>
 		<Router history={history}>
 			<WagmiConfig config={config}>
-				<button
-					onClick={() => {
-						throw new Error('This is your first error!');
-					}}
-				>
-					Break the world
-				</button>
 				<ThemeEngine theme={Themes.Dark} />
 				<DevApp />
 			</WagmiConfig>
