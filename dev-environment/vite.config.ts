@@ -11,7 +11,7 @@ export default defineConfig({
 		tsconfigPaths(),
 		nodePolyfills(),
 		sentryVitePlugin({
-			org: 'zero-mm',
+			org: 'factory-5k',
 			project: 'zapp-staking',
 		}),
 	],
