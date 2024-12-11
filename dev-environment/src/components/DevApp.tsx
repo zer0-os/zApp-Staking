@@ -8,7 +8,11 @@ import { useAccount, useConnect } from 'wagmi';
 import { useEthersProvider } from '../lib/useEthersProvider';
 import { injectedConnector } from '../lib/connectors';
 
+import * as Sentry from '@sentry/react';
+
 import { DevControls } from './DevControls';
+
+const SentryRoute = Sentry.withSentryRouting(Route);
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -32,7 +36,7 @@ export const DevApp = () => {
 		<>
 			<DevControls />
 			<Switch>
-				<Route
+				<SentryRoute
 					path="/:znsRoute/:app"
 					component={() => (
 						<StakingZApp
@@ -48,9 +52,9 @@ export const DevApp = () => {
 						/>
 					)}
 				/>
-				<Route>
+				<SentryRoute>
 					<Redirect to={'/0.wilder/staking/pools'} />
-				</Route>
+				</SentryRoute>
 			</Switch>
 		</>
 	);

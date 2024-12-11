@@ -1,3 +1,4 @@
+import { sentryVitePlugin } from '@sentry/vite-plugin';
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import tsconfigPaths from 'vite-tsconfig-paths';
@@ -5,7 +6,15 @@ import { nodePolyfills } from 'vite-plugin-node-polyfills';
 
 // https://vitejs.dev/config/
 export default defineConfig({
-	plugins: [react(), tsconfigPaths(), nodePolyfills()],
+	plugins: [
+		react(),
+		tsconfigPaths(),
+		nodePolyfills(),
+		sentryVitePlugin({
+			org: 'factory-5k',
+			project: 'zapp-staking',
+		}),
+	],
 	root: 'dev-environment',
 	resolve: {
 		alias: {
@@ -15,5 +24,8 @@ export default defineConfig({
 	},
 	define: {
 		VITE_STAKING_SUPABASE_URL: process.env.VITE_STAKING_SUPABASE_URL,
+	},
+	build: {
+		sourcemap: true,
 	},
 });

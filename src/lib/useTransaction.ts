@@ -1,3 +1,4 @@
+import * as Sentry from '@sentry/react';
 import { QueryKey, useQueryClient } from 'react-query';
 import { ContractReceipt, ContractTransaction } from 'ethers';
 import { getReadableEthersError } from './util/errors';
@@ -47,12 +48,15 @@ export const useTransaction = () => {
 		} catch (e: any) {
 			// eslint-disable-next-line @typescript-eslint/no-explicit-any
 			options?.onError?.(new Error(getReadableEthersError(e)));
-			console.error('Failed to execute transaction!', {
+			const err = {
+				message: getReadableEthersError(e),
 				transactionFunction,
 				parameters,
 				options,
 				e,
-			});
+			};
+			Sentry.captureException(err);
+			console.error('Failed to execute transaction!', err);
 		}
 	}
 
