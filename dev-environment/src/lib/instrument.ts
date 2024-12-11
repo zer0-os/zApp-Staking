@@ -9,8 +9,7 @@ Sentry.init({
 		Sentry.reactRouterV5BrowserTracingIntegration({ history }),
 		Sentry.replayIntegration(),
 	],
-	tracesSampleRate: 1.0, //  Capture 100% of the transactions
-	tracePropagationTargets: ['localhost', /^https:\/\/yourserver\.io\/api/],
+	tracesSampleRate: 1.0,
 	replaysSessionSampleRate: 0.1,
 	replaysOnErrorSampleRate: 1.0,
 });
