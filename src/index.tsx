@@ -3,6 +3,10 @@
  * - Wraps out App in necessary context providers
  * - Exports the root component
  */
+
+// Set up Sentry first!
+import './lib/sentry';
+
 import React from 'react';
 
 import { AppProps } from './lib/types/app';
