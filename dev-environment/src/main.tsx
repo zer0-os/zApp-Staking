@@ -1,4 +1,3 @@
-import './lib/instrument';
 import './vite-setup';
 
 import React from 'react';
