@@ -17,7 +17,7 @@ interface NetworkConfig {
 
 export const NETWORK_CONFIGS: { [network in Network]: NetworkConfig } = {
 	[Network.MAINNET]: {
-		rpcUrl: 'https://mainnet.infura.io/v3/77c3d733140f4c12a77699e24cb30c27',
+		rpcUrl: 'https://mainnet.infura.io/v3/431b9a830d8b40b8909bdc74492adb2a',
 		subgraphUrl: 'https://api.thegraph.com/subgraphs/name/zer0-os/zfi',
 		stakeFactory: '0xF133faFd49f4671ac63EE3a3aE7E7C4C9B84cE4a',
 		wildStakingPool: '0x3aC551725ac98C5DCdeA197cEaaE7cDb8a71a2B4',
