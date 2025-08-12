@@ -27,7 +27,9 @@ export const DepositRow: FC<DepositRowProps> = ({ deposit }) => (
 			/>
 		</TableData>
 		<TableData alignment="right" className={styles.Claimable}>
-			<span>
+			<span
+				title={new Date(Number(deposit.lockedUntil) * 1000).toLocaleString()}
+			>
 				{deposit.lockedFrom
 					? formatTimestamp(deposit.lockedUntil + '000')
 					: '-'}
